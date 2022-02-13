@@ -26,5 +26,8 @@ typedef struct s_data
 	std::string password;
 }t_data;
 
+/* parsing.cpp */
+bool	init_and_pars_data(t_data *data, char **av);
+
 
 #endif
