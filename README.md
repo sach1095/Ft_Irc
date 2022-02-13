@@ -10,6 +10,7 @@ par l’intermédiaire de canaux de discussion, mais peut aussi être utilisé p
 Les clients IRC se connectent à des serveurs IRC afin d’accéder à des canaux. Les
 serveurs IRC sont connectés entre eux afin de créer des réseaux.
 
-Souces utiliser pendat le sujet :
+Les sources utiles pendant le déroulement du projet. :
 
 - <a href="https://www.bogotobogo.com/cplusplus/sockets_server_client.php"> Bogotobogo </a>
+- <a href="https://datatracker.ietf.org/doc/html/rfc1459#section-1.1"> datatracker </a>
