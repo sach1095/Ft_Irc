@@ -12,4 +12,4 @@ serveurs IRC sont connectés entre eux afin de créer des réseaux.
 
 Souces utiliser pendat le sujet :
 
-- <p> Bogotobogo <link href="https://www.bogotobogo.com/cplusplus/sockets_server_client.php"> </p>
+- <a href="https://www.bogotobogo.com/cplusplus/sockets_server_client.php"> Bogotobogo </a>
