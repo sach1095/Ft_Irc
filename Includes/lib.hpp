@@ -43,7 +43,10 @@ typedef struct s_data
 bool	init_and_pars_data(t_data *data, char **av);
 
 /* ret_error.cpp */
-bool	ret_error(std::string str)
+bool	ret_error(std::string str);
+
+/* connect.cpp */
+bool	create_socket(t_data *data);
 
 
 #endif

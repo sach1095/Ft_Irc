@@ -32,4 +32,5 @@ bool	create_socket(t_data *data)
 		ret_error("Error listen return - Socket can't be in wait states");
 
 	/* to continue avec select, accepte et connect */
+	return (SUCCESS);
 }

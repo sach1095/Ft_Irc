@@ -1,9 +1,10 @@
 #include "../Includes/lib.hpp"
 
 /*
-/* Main.
+* Main.
 */
-int		main(int ac, char **av)
+
+int	main(int ac, char **av)
 {
 	if (ac != 3)
 		return (ret_error("Number of arguments incorrect.\nPlease follow the rules ./ircserv <port> <password>."));
