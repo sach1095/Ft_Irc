@@ -14,3 +14,5 @@ Les sources utiles pendant le déroulement du projet. :
 
 - <a href="https://www.bogotobogo.com/cplusplus/sockets_server_client.php"> Bogotobogo </a>
 - <a href="https://datatracker.ietf.org/doc/html/rfc1459#section-1.1"> datatracker </a>
+
+- <a href="https://web.maths.unsw.edu.au/~lafaye/CCM/sockets/sockfonc.htm"> CommentCaMarche.net - Les fonctions de l'API Socket</a>

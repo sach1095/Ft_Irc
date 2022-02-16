@@ -26,7 +26,10 @@ I = ./Includes/
 HEADER =	$(I)lib.hpp
 
 S = ./Srcs/
-SRCS =	$(S)main.cpp
+SRCS =	$(S)main.cpp \
+		$(S)parsing.cpp \
+		$(S)connect.cpp \
+		$(S)ret_error.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

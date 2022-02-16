@@ -13,9 +13,9 @@ bool	init_and_pars_data(t_data *data, char **av)
 			return (ret_error("Port incorrect.\nPlease check your port again."));
 		i++;
 	}
-	data->port = atoi(av[1]);
+	data->serv.port = atoi(av[1]);
 	if (av[2])
-		data->password.assign(av[2], strlen(av[2]));
+		data->serv.password.assign(av[2], strlen(av[2]));
 	else
 		return (ret_error("Password cant be NULL.\nPlease try again witch another password."));
 	return (SUCCESS);

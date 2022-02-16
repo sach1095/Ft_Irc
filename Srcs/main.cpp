@@ -1,17 +1,8 @@
 #include "../Includes/lib.hpp"
 
-/***************************************************************************************/
-/***** Fonction qui a sert à écrire le message d'erreur et à quitter le programme. *****/
-/***************************************************************************************/
-static bool	ret_error(std::string str)
-{
-	std::cerr << str << std::endl;
-	return 1;
-}
-
-/*****************/
-/***** Main. *****/
-/*****************/
+/*
+/* Main.
+*/
 int		main(int ac, char **av)
 {
 	if (ac != 3)
@@ -22,6 +13,8 @@ int		main(int ac, char **av)
 	if (init_and_pars_data(&data ,av))
 		return (FAIL);
 
-	std::cout << "parseur :\n\nport = " << data.port << "\npassword = " << data.password << std::endl;
+	std::cout << "parseur :\n\nport = " << data.serv.port << "\npassword = " << data.serv.password << std::endl;
+
+	create_socket(&data);
 	return (SUCCESS);
 }

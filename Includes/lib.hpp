@@ -20,14 +20,30 @@
 # include <cctype>
 # include <cstdlib>
 
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/select.h>
+#include <unistd.h>
+
+typedef struct s_serveur
+{
+	int					port;
+	int					primary_socket;
+	struct sockaddr_in	address;
+	fd_set				readfds;
+	std::string			password;
+}t_serveur;
+
 typedef struct s_data
 {
-	int port;
-	std::string password;
+	t_serveur serv;
 }t_data;
 
 /* parsing.cpp */
 bool	init_and_pars_data(t_data *data, char **av);
+
+/* ret_error.cpp */
+bool	ret_error(std::string str)
 
 
 #endif
