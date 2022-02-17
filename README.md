@@ -1,6 +1,6 @@
 # Ft_Irc
 
-<title>Création d'un serveur IRC (Internet Relay Chat)</title>
+Création d'un serveur IRC (Internet Relay Chat)
 
 Intro :
 
