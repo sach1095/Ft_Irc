@@ -18,6 +18,7 @@
 # include <cstdlib>
 # include <vector>
 
+# include "servException.hpp"
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <sys/select.h>
@@ -33,6 +34,7 @@ class user
 		std::string	_login;
 		std::string	_realName;
 		int			_sd;
+		bool		_access;
 		struct sockaddr_in	_address;
 		std::string	_buffer;
 		user();
@@ -57,6 +59,7 @@ class user
 		void		setBuffer(std::string buffer);
 		void		cleanBuffer();
 		void		setSd(int sd);
+		void		setAccept(bool integer);
 		void		setAddr(sockaddr_in address);
 };
 
@@ -97,6 +100,7 @@ class data
 			return (*this);
 		}
 };
+
 
 /* parsing.cpp */
 bool	init_and_pars_data(data<user *> &data, char **av);

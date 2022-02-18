@@ -1,5 +1,34 @@
 #include "../../Includes/lib.hpp"
 
+void	check_Password(data<user *> &data , user *cursor, std::string buf)
+{
+	std::string command = buf.substr(0, buf.find(' '));
+
+	if (command == "/pass")
+	{
+		command = "PASS";
+		buf = buf.substr(1, buf.length() - 1);
+	}
+
+	if (command == "PASS" || command == "/pass")
+	{
+		std::string pass = buf.substr(5, buf.length() - 6);
+		if (buf.find('\r') != buf.npos)
+			pass = buf.substr(5, buf.length() - 7);
+
+		if (pass == data.password)
+		{
+			cursor->setAccept("true");
+			return ;
+		}
+		else
+			throw servException::pass_mismatch();
+	}
+	else
+		throw servException::pass_param();
+
+}
+
 void	cmd_process(data<user *> &data)
 {
 	int sd;
@@ -21,7 +50,6 @@ void	cmd_process(data<user *> &data)
 				*/
 				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&data.address);
 				std::cout << "User disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
-				std::cout << "test buffer 0 : " << buffer << std::endl;
 				/*
 				* close the socket and set is as 0 in list.
 				*/
@@ -46,7 +74,27 @@ void	cmd_process(data<user *> &data)
 				else
 					cursor->setBuffer(cursor->getBuffer() + buffer);
 				std::cout << "===BUFFER===\n|" << cursor->getBuffer() << "|\n";
-				std::cout << "test buffer 1 : " << buffer << std::endl;
+				std::string command = cursor->getBuffer().substr(0, cursor->getBuffer().find(' '));
+				if (cursor->getAccept() == true)
+				{
+					// pars.parse(cursor->getBuffer(), cursor);
+					std::cout << "need do pars" << std::endl;
+				}
+				else
+				{
+					try
+					{
+						check_Password(data, cursor, cursor->getBuffer());
+					}
+					catch(const std::exception& e)
+					{
+						send(cursor->getSd(), e.what(), std::strlen(e.what()), 0);
+						close(sd);
+						sd = 0;
+						delete_user(data, cursor);
+						return ;
+					}
+				}
 				cursor->cleanBuffer();
 			}
 		}

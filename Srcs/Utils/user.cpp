@@ -1,6 +1,6 @@
  #include "../../Includes/lib.hpp"
 
-user::user(int sd, sockaddr_in address): _sd(sd), _address(address)
+user::user(int sd, sockaddr_in address): _sd(sd), _address(address), _access(false)
 {
 }
 
@@ -21,6 +21,16 @@ std::string	user::getLogin() const
 std::string	user::getRealName() const
 {
 	return _realName;
+}
+
+bool		user::getAccept() const
+{
+	return _access;
+}
+
+void	user::setAccept(bool integer)
+{
+	_access = integer;
 }
 
 std::string	user::getBuffer() const
