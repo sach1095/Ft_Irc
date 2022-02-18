@@ -26,10 +26,19 @@ I = ./Includes/
 HEADER =	$(I)lib.hpp
 
 S = ./Srcs/
+
+SC = ./Srcs/Cmd/
+SS = ./Srcs/Serv/
+SU = ./Srcs/Utils/
+
 SRCS =	$(S)main.cpp \
-		$(S)parsing.cpp \
-		$(S)connect.cpp \
-		$(S)ret_error.cpp
+		$(SC)delete.cpp \
+		$(SC)cmd_process.cpp \
+		$(SS)connect.cpp \
+		$(SS)create_socket.cpp \
+		$(SU)parsing.cpp \
+		$(SU)ret_error.cpp \
+		$(SU)user.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

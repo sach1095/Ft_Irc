@@ -1,4 +1,4 @@
-#include "../Includes/lib.hpp"
+#include "../../Includes/lib.hpp"
 
 /*
 * Fonction qui print le message d'erreur et quitte le programme.
