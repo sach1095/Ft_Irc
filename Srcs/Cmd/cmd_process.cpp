@@ -4,12 +4,6 @@ void	check_Password(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string command = buf.substr(0, buf.find(' '));
 
-	if (command == "/pass")
-	{
-		command = "PASS";
-		buf = buf.substr(1, buf.length() - 1);
-	}
-
 	if (command == "PASS" || command == "/pass")
 	{
 		std::string pass = buf.substr(5, buf.length() - 6);
@@ -19,6 +13,7 @@ void	check_Password(data<user *> &data , user *cursor, std::string buf)
 		if (pass == data.password)
 		{
 			cursor->setAccept("true");
+			std::cout << "Connection accepted" << std::endl;
 			return ;
 		}
 		else
@@ -36,6 +31,7 @@ void	cmd_process(data<user *> &data)
 	int size_adress = sizeof(data.address);
 	char	buffer[1024];
 
+	int nb_boucle = 0;
 	for (std::vector<user *>::iterator it = data.users.begin(); it != data.users.end(); it++)
 	{
 		user *cursor = *it;
@@ -73,17 +69,23 @@ void	cmd_process(data<user *> &data)
 					cursor->setBuffer(buffer);
 				else
 					cursor->setBuffer(cursor->getBuffer() + buffer);
-				std::cout << "===BUFFER===\n|" << cursor->getBuffer() << "|\n";
+				std::cout << "cmd " << nb_boucle << " : " << cursor->getBuffer() << std::endl;
 				std::string command = cursor->getBuffer().substr(0, cursor->getBuffer().find(' '));
 				if (cursor->getAccept() == true)
 				{
-					// pars.parse(cursor->getBuffer(), cursor);
 					std::cout << "need do pars" << std::endl;
 				}
 				else
 				{
 					try
 					{
+						/*
+						* A la premier connection d'un user la commande PASS <mdp> est envoye du clien
+						* Si le mdp est correct alors user.accepte est set a true.
+						* Par la suite le client va nous envoye :
+						* NICK <nickname>
+						* Puis USER <login> <index user> <realname>
+						*/
 						check_Password(data, cursor, cursor->getBuffer());
 					}
 					catch(const std::exception& e)

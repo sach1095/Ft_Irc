@@ -13,7 +13,11 @@ static bool	new_connection(data<user *> &data)
 	/*
 	* show connection, socket, ip and port.
 	*/
-	std::cout << "New connection, socket fd is " << new_socket << " ip is " << inet_ntoa(data.address.sin_addr) << " port : " << ntohs(data.address.sin_port) << std::endl;
+	std::cout << "\n------------------------------------";
+	std::cout << "\nNew connection etablie,\nsocket fd is : " << new_socket;
+	std::cout << "\nIp adress is : " << inet_ntoa(data.address.sin_addr);
+	std::cout << "\nPort : " << ntohs(data.address.sin_port);
+	std::cout << "\n------------------------------------\n" << std::endl;
 
 	/*
 	* add new socket to vector of sockets.
@@ -26,10 +30,10 @@ bool start_online(data<user *> &data)
 {
 	int	max_sd, sd, activity;
 
-	while (true)
+	int online = 1;
+	while (online)
 	{
 		FD_ZERO(&data.readfds);
-
 		/*
 		* add master socket to set
 		*/
@@ -53,6 +57,7 @@ bool start_online(data<user *> &data)
 			if (sd > max_sd)
 				max_sd = sd;
 
+		}
 			/*
 			* wait for an activity on one of the socketsm timeout is NULL
 			* so wait indefinitely
@@ -73,7 +78,6 @@ bool start_online(data<user *> &data)
 			* else its some IO operation one some other socket
 			*/
 			cmd_process(data);
-		}
 	}
 	return (SUCCESS);
 }

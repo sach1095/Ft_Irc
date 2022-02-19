@@ -15,7 +15,16 @@ int	main(int ac, char **av)
 
 	std::cout << "parseur :\n\nport = " << data.port << "\npassword = " << data.password << std::endl;
 
-	create_socket(data);
-	start_online(data);
+	if (create_socket(data))
+		return 1;
+	try
+	{
+		start_online(data);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
 	return (SUCCESS);
 }

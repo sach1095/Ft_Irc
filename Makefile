@@ -55,7 +55,7 @@ $(NAME):	$(OBJS) $(HEADER)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
 
 start:
-	@make && ./$(NAME) 8080 strong-password
+	@make && ./$(NAME) 9999 coucou
 
 clean:
 	@$(RM) $(OBJS)
