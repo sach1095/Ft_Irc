@@ -14,7 +14,7 @@ static bool	new_connection(data<user *> &data)
 	* show connection, socket, ip and port.
 	*/
 	std::cout << "\n------------------------------------";
-	std::cout << "\nNew connection etablie,\nsocket fd is : " << new_socket;
+	std::cout << "\nNew connection establish,\nsocket fd is : " << new_socket;
 	std::cout << "\nIp adress is : " << inet_ntoa(data.address.sin_addr);
 	std::cout << "\nPort : " << ntohs(data.address.sin_port);
 	std::cout << "\n------------------------------------\n" << std::endl;

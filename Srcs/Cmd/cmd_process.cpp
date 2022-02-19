@@ -1,5 +1,11 @@
 #include "../../Includes/lib.hpp"
 
+void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
+{
+
+
+}
+
 void	check_Password(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string command = buf.substr(0, buf.find(' '));
@@ -9,7 +15,6 @@ void	check_Password(data<user *> &data , user *cursor, std::string buf)
 		std::string pass = buf.substr(5, buf.length() - 6);
 		if (buf.find('\r') != buf.npos)
 			pass = buf.substr(5, buf.length() - 7);
-
 		if (pass == data.password)
 		{
 			cursor->setAccept("true");
@@ -69,11 +74,12 @@ void	cmd_process(data<user *> &data)
 					cursor->setBuffer(buffer);
 				else
 					cursor->setBuffer(cursor->getBuffer() + buffer);
-				std::cout << "cmd " << nb_boucle << " : " << cursor->getBuffer() << std::endl;
+				std::cout << "Cmd " << nb_boucle << " : " << cursor->getBuffer() << std::endl;
 				std::string command = cursor->getBuffer().substr(0, cursor->getBuffer().find(' '));
 				if (cursor->getAccept() == true)
 				{
-					std::cout << "need do pars" << std::endl;
+					// parse_cmd(data, cursor, buffer);
+					std::cout << "Need do pars cmd." << std::endl;
 				}
 				else
 				{

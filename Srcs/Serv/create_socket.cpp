@@ -33,9 +33,9 @@ bool	create_socket(data<user *> &data)
 
 	/*
 	* La fonction listen() permet de mettre un socket en attente de connexion.
-	* Ici jusqu'a 3 connexion.
+	* Ici jusqu'a 10 connexion.
 	*/
-	if (listen(data.primary_socket, 3) < 0)
+	if (listen(data.primary_socket, 10) < 0)
 		ret_error("Error listen return - Socket can't be in wait states");
 
 	std::cout << "Waiting for connections ..." << std::endl;
