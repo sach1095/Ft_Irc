@@ -1,7 +1,6 @@
 #pragma once
 
 # include <iostream>
-# include "reply_codes.hpp"
 
 class servException
 {

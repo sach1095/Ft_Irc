@@ -101,19 +101,47 @@ class data
 		}
 };
 
+/*
+* Cmd
+*/
 
-/* parsing.cpp */
-bool	init_and_pars_data(data<user *> &data, char **av);
+/* process_cmd.cpp */
+void	cmd_process(data<user *> &data);
 
-/* ret_error.cpp */
-bool	ret_error(std::string str);
+/* cmd_pass.cpp */
+void	cmd_pass(data<user *> &data , user *cursor, std::string buf);
+
+/* cmd_nick.cpp */
+void	cmd_nick(data<user *> &data , user *cursor, std::string buf);
+
+/* cmd_user.cpp */
+void	cmd_user(data<user *> &data , user *cursor, std::string buf);
+
+
+/*
+* Serv
+*/
 
 /* connect.cpp */
 bool	create_socket(data<user *> &data);
 bool	start_online(data<user *>  &data);
 
-/* command_user.cpp */
+/* creat_socket.cpp */
+bool	create_socket(data<user *> &data);
+
+
+/*
+* Utils
+*/
+
+/* delete.cpp */
 void	delete_user(data<user *> data, user *cursor);
 
-/* process_cmd.cpp */
-void	cmd_process(data<user *> &data);
+/* parsing.cpp */
+bool	pars_data(data<user *> &data, char **av);
+
+/* ret_error.cpp */
+bool	ret_error(std::string str);
+
+/* user.cpp */
+/* all command class user */

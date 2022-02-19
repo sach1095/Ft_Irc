@@ -32,10 +32,13 @@ SS = ./Srcs/Serv/
 SU = ./Srcs/Utils/
 
 SRCS =	$(S)main.cpp \
-		$(SC)delete.cpp \
 		$(SC)cmd_process.cpp \
+		$(SC)cmd_nick.cpp \
+		$(SC)cmd_pass.cpp \
+		$(SC)cmd_user.cpp \
 		$(SS)connect.cpp \
 		$(SS)create_socket.cpp \
+		$(SU)delete.cpp \
 		$(SU)parsing.cpp \
 		$(SU)ret_error.cpp \
 		$(SU)user.cpp
@@ -55,7 +58,7 @@ $(NAME):	$(OBJS) $(HEADER)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
 
 start:
-	@make && ./$(NAME) 9999 coucou
+	@make && ./$(NAME) 9999 coucoucava
 
 clean:
 	@$(RM) $(OBJS)

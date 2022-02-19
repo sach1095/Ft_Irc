@@ -3,7 +3,7 @@
 /*****************************************************************************************************/
 /***** Initialisation de la structure qui a sert à stoker les données a vérifié leur format. *********/
 /*****************************************************************************************************/
-bool	init_and_pars_data(data<user *> &data, char **av)
+bool	pars_data(data<user *> &data, char **av)
 {
 	int	i = 0;
 

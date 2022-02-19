@@ -10,7 +10,7 @@ int	main(int ac, char **av)
 
 	data<user *> data;
 
-	if (init_and_pars_data(data ,av))
+	if (pars_data(data ,av))
 		return (FAIL);
 
 	std::cout << "parseur :\n\nport = " << data.port << "\npassword = " << data.password << std::endl;

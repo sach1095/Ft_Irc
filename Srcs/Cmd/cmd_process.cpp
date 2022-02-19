@@ -2,41 +2,21 @@
 
 void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 {
+	std::string cmd = buf.substr(0, buf.find(' '));
 
-
-}
-
-void	check_Password(data<user *> &data , user *cursor, std::string buf)
-{
-	std::string command = buf.substr(0, buf.find(' '));
-
-	if (command == "PASS" || command == "/pass")
-	{
-		std::string pass = buf.substr(5, buf.length() - 6);
-		if (buf.find('\r') != buf.npos)
-			pass = buf.substr(5, buf.length() - 7);
-		if (pass == data.password)
-		{
-			cursor->setAccept("true");
-			std::cout << "Connection accepted" << std::endl;
-			return ;
-		}
-		else
-			throw servException::pass_mismatch();
-	}
-	else
-		throw servException::pass_param();
-
+	if (cmd == "NICK" || cmd == "/nick")
+		cmd_nick(data, cursor, buf);
+	else if (cmd == "USER" || cmd == "/user")
+		cmd_user(data, cursor, buf);
 }
 
 void	cmd_process(data<user *> &data)
 {
-	int sd;
-	int ret_read;
-	int size_adress = sizeof(data.address);
+	int		sd;
+	int		ret_read;
+	int		size_adress = sizeof(data.address);
 	char	buffer[1024];
 
-	int nb_boucle = 0;
 	for (std::vector<user *>::iterator it = data.users.begin(); it != data.users.end(); it++)
 	{
 		user *cursor = *it;
@@ -74,13 +54,15 @@ void	cmd_process(data<user *> &data)
 					cursor->setBuffer(buffer);
 				else
 					cursor->setBuffer(cursor->getBuffer() + buffer);
-				std::cout << "Cmd " << nb_boucle << " : " << cursor->getBuffer() << std::endl;
+				std::cout << "Cmd " << " : " << cursor->getBuffer() << std::endl;
 				std::string command = cursor->getBuffer().substr(0, cursor->getBuffer().find(' '));
+
+				/*
+				* Si l'utilisateur est deja accepter,
+				* Nous allons commencer a traiter la commande.
+				*/
 				if (cursor->getAccept() == true)
-				{
-					// parse_cmd(data, cursor, buffer);
-					std::cout << "Need do pars cmd." << std::endl;
-				}
+					parse_cmd(data, cursor, buffer);
 				else
 				{
 					try
@@ -92,7 +74,7 @@ void	cmd_process(data<user *> &data)
 						* NICK <nickname>
 						* Puis USER <login> <index user> <realname>
 						*/
-						check_Password(data, cursor, cursor->getBuffer());
+						cmd_pass(data, cursor, cursor->getBuffer());
 					}
 					catch(const std::exception& e)
 					{
