@@ -27,35 +27,34 @@ HEADER =	$(I)lib.hpp \
 			$(I)code_error.hpp \
 			$(I)exception_class.hpp
 
-
 S = ./Srcs/
 
 SC = ./Srcs/Cmd/
 SS = ./Srcs/Serv/
 SU = ./Srcs/Utils/
 
-SRCS =	$(S)main.cpp \
-		$(SC)cmd_process.cpp \
-		$(SC)cmd_nick.cpp \
-		$(SC)cmd_privmsg.cpp \
-		$(SC)cmd_name.cpp \
-		$(SC)cmd_kick.cpp \
-		$(SC)cmd_list.cpp \
-		$(SC)cmd_mode.cpp \
-		$(SC)cmd_notice.cpp \
+SRCS =	$(SC)cmd_process.cpp \
 		$(SC)cmd_invite.cpp \
-		$(SC)cmd_topic.cpp \
-		$(SC)cmd_quit.cpp \
 		$(SC)cmd_join.cpp \
+		$(SC)cmd_list.cpp \
+		$(SC)cmd_kick.cpp \
+		$(SC)cmd_mode.cpp \
+		$(SC)cmd_name.cpp \
+		$(SC)cmd_nick.cpp \
+		$(SC)cmd_notice.cpp \
 		$(SC)cmd_part.cpp \
 		$(SC)cmd_pass.cpp \
+		$(SC)cmd_privmsg.cpp \
+		$(SC)cmd_quit.cpp \
+		$(SC)cmd_topic.cpp \
 		$(SC)cmd_user.cpp \
 		$(SS)connect.cpp \
 		$(SS)create_socket.cpp \
 		$(SU)delete.cpp \
 		$(SU)parsing.cpp \
 		$(SU)ret_error.cpp \
-		$(SU)user.cpp
+		$(SU)user.cpp \
+		$(S)main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

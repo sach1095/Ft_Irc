@@ -19,3 +19,5 @@ Les sources utiles pendant le déroulement du projet. :
 - <a href="https://web.maths.unsw.edu.au/~lafaye/CCM/sockets/sockfonc.htm"> CommentCaMarche.net - Les fonctions de l'API Socket</a>
 
 - <a href="https://www.geeksforgeeks.org/socket-programming-cc/?ref=lbp"> geeksforgeeks </a>
+
+- <a href="http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411"> La doc rfc1459 vf </a>
