@@ -2,7 +2,7 @@
 
 # include <iostream>
 
-class servException
+class exception_class
 {
 
 public:

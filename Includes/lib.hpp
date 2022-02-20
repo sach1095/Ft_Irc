@@ -18,7 +18,8 @@
 # include <cstdlib>
 # include <vector>
 
-# include "servException.hpp"
+# include "code_error.hpp"
+# include "exception_class.hpp"
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <sys/select.h>

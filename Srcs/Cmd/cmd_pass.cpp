@@ -29,14 +29,15 @@ void	cmd_pass(data<user *> &data , user *cursor, std::string buf)
 
 		if (pass.compare(data.password) == SUCCESS)
 		{
-			cursor->setAccept("true");
-			std::cout << "Connection accepted" << std::endl;
+			cursor->setAccept(true);
+			std::string str = ":server " + std::string(RPL_WELCOME) + "\r\n";
+			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
 		else
-			throw servException::pass_mismatch();
+			throw exception_class::pass_mismatch();
 	}
 	else
-		throw servException::pass_param();
+		throw exception_class::pass_param();
 
 }
