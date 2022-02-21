@@ -10,7 +10,7 @@ par l’intermédiaire de canaux de discussion, mais peut aussi être utilisé p
 Les clients IRC se connectent à des serveurs IRC afin d’accéder à des canaux. Les
 serveurs IRC sont connectés entre eux afin de créer des réseaux.
 
-Les sources utiles pendant le déroulement du projet. :
+Les sources utiles pendant le déroulement du projet :
 
 - <a href="http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411"> La doc rfc1459 vf </a>
 
