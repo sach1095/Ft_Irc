@@ -22,6 +22,6 @@ Les sources utiles pendant le déroulement du projet. :
 
 - <a href="https://www.geeksforgeeks.org/socket-programming-cc/?ref=lbp"> geeksforgeeks </a>
 
-Pour bien comprendre comment fonctionne la communication entre serveur et client, voici une représentation visuelle :
+Pour bien comprendre comment fonctionne le fonctionnement de la communication entre serveur et client, voici une représentation visuelle :
 
 <img  height="400" width="300" src="https://github.com/sach1095/Ft_Irc/blob/master/img/Socket_server_img.png" alt="serve/clien_communication" />
