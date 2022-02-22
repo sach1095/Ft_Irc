@@ -14,18 +14,18 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_nick(data, cursor, buf);
 	else if (cmd == "USER")
 		cmd_user(data, cursor, buf);
-	else if (cmd == "QUIT")
-	{
-		// faire une commande qui fait quitte proprement le clien;
-		cmd_quit(data, cursor, buf); // a faire
-	}
-	else if (cmd == "PART")
+	else if (cmd == "NOTICE")
 	{
 		/*
-		* Le message PART provoque le retrait du client expéditeur de la liste
-		* des utilisateurs actifs pour tous les canaux listés dans la chaîne de paramètres.
+		* Lire PRIVMSG en meme temps.
+		* Ce referer a l'article 4.4.2 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
 		*/
-		cmd_part(data, cursor, buf); // a faire
+		cmd_notice(data, cursor, buf); // a faire
+	}
+	else if (cmd == "PRIVMSG")
+	{
+		// Ce referer a l'article 4.4.1 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
+		cmd_privmsg(data, cursor, buf); // a faire
 	}
 	else if (cmd == "JOIN")
 	{
@@ -37,19 +37,6 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		* accède au canal #foo en utilisant la clé "fubar", et au canal #bar en utilisant la clé "foobar".
 		*/
 		cmd_join(data, cursor, buf); // a faire
-	}
-	else if (cmd == "MODE")
-	{
-		// Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
-		cmd_mode(data, cursor, buf); // a faire
-	}
-	else if (cmd == "TOPIC")
-	{
-		/*
-		* TOPIC est utilisé pour modifier ou voir le sujet d'un canal.
-		* Le sujet du canal <canal> est renvoyé s'il n'y a pas de <sujet> fourni en paramètre.
-		*/
-		cmd_topic(data, cursor, buf); // a faire
 	}
 	else if (cmd == "INVITE")
 	{
@@ -63,18 +50,31 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_invite(data, cursor, buf); // a faire
 	}
-	else if (cmd == "NOTICE")
+	else if (cmd == "QUIT")
+	{
+		// faire une commande qui fait quitte proprement le clien;
+		cmd_quit(data, cursor, buf); // a faire
+	}
+	else if (cmd == "PART")
 	{
 		/*
-		* Lire PRIVMSG en meme temps.
-		* Ce referer a l'article 4.4.2 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
+		* Le message PART provoque le retrait du client expéditeur de la liste
+		* des utilisateurs actifs pour tous les canaux listés dans la chaîne de paramètres.
 		*/
-		cmd_notice(data, cursor, buf); // a faire
+		cmd_part(data, cursor, buf); // a faire
 	}
-	else if (cmd == "PRIVMSG")
+	else if (cmd == "MODE")
 	{
-		// Ce referer a l'article 4.4.1 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
-		cmd_privmsg(data, cursor, buf); // a faire
+		// Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
+		cmd_mode(data, cursor, buf); // a faire
+	}
+	else if (cmd == "TOPIC")
+	{
+		/*
+		* TOPIC est utilisé pour modifier ou voir le sujet d'un canal.
+		* Le sujet du canal <canal> est renvoyé s'il n'y a pas de <sujet> fourni en paramètre.
+		*/
+		cmd_topic(data, cursor, buf); // a faire
 	}
 	else if (cmd == "KICK")
 	{
