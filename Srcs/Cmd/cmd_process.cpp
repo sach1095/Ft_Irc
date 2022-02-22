@@ -10,16 +10,16 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	* effectivement l'acheminement d'un message textuel d'un client à un autre,
 	* le reste le rend juste possible et assure que cela se passe de façon fiable et structurée.
 	*/
-	if (cmd == "NICK" || cmd == "/nick")
+	if (cmd == "NICK")
 		cmd_nick(data, cursor, buf);
-	else if (cmd == "USER" || cmd == "/user")
+	else if (cmd == "USER")
 		cmd_user(data, cursor, buf);
-	else if (cmd == "QUIT" || cmd == "/quit")
+	else if (cmd == "QUIT")
 	{
 		// faire une commande qui fait quitte proprement le clien;
 		cmd_quit(data, cursor, buf); // a faire
 	}
-	else if (cmd == "PART" || cmd == "/part")
+	else if (cmd == "PART")
 	{
 		/*
 		* Le message PART provoque le retrait du client expéditeur de la liste
@@ -27,7 +27,7 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_part(data, cursor, buf); // a faire
 	}
-	else if (cmd == "JOIN" || cmd == "/join")
+	else if (cmd == "JOIN")
 	{
 		/* join permet de rejoindre un canal si il existe ou de le cree dans le cas echean.
 		* l'utilisateur doit être invité si le canal est en mode "sur invitation seulement" (voir MODE)
@@ -38,12 +38,12 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_join(data, cursor, buf); // a faire
 	}
-	else if (cmd == "MODE" || cmd == "/mode")
+	else if (cmd == "MODE")
 	{
 		// Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
 		cmd_mode(data, cursor, buf); // a faire
 	}
-	else if (cmd == "TOPIC" || cmd == "/topic")
+	else if (cmd == "TOPIC")
 	{
 		/*
 		* TOPIC est utilisé pour modifier ou voir le sujet d'un canal.
@@ -51,7 +51,7 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_topic(data, cursor, buf); // a faire
 	}
-	else if (cmd == "INVITE" || cmd == "/invite")
+	else if (cmd == "INVITE")
 	{
 		/*
 		* Paramètres: <pseudonyme> <canal>
@@ -63,7 +63,7 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_invite(data, cursor, buf); // a faire
 	}
-	else if (cmd == "NOTICE" || cmd == "/notice")
+	else if (cmd == "NOTICE")
 	{
 		/*
 		* Lire PRIVMSG en meme temps.
@@ -71,12 +71,12 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_notice(data, cursor, buf); // a faire
 	}
-	else if (cmd == "PRIVMSG" || cmd == "/privmsg")
+	else if (cmd == "PRIVMSG")
 	{
 		// Ce referer a l'article 4.4.1 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
 		cmd_privmsg(data, cursor, buf); // a faire
 	}
-	else if (cmd == "KICK" || cmd == "/kick")
+	else if (cmd == "KICK")
 	{
 		/*
 		* Paramètres: <canal> <utilisateur> [<commentaire>]
@@ -84,7 +84,7 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_kick(data, cursor, buf); // a faire
 	}
-	else if (cmd == "LIST" || cmd == "/list")
+	else if (cmd == "LIST")
 	{
 		/*
 		* Paramètres: [<canal>{,<canal>} [<serveur>]]
@@ -95,23 +95,7 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_list(data, cursor, buf); // a faire
 	}
-	else if (cmd == "NAME" || cmd == "/name")
-	{
-		/*
-		* Paramètres: [<canal>{,<canal>}]
-
-		* En utilisant la commande NAMES, un utilisateur peut obtenir la liste des pseudonymes visibles
-		* sur n'importe quel canal qu'il peut voir. Les noms de canaux qu'il peut voir sont ceux qui ne sont
-		* ni privés (+p), ni secrets (+s), ou ceux sur lesquels il est actuellement.
-		* Le paramètre <canal> spécifie quels sont les canaux dont l'information est voulue, s'ils sont valides.
-		* Il n'y a pas de message d'erreur pour les noms de canaux invalides.
-		*/
-		cmd_name(data, cursor, buf); // a faire
-	}
 	else if (cmd != "PONG" || cmd != "/pong")
-	{
-		/* code */
-	}
 	{
 		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " :Unknown command\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
