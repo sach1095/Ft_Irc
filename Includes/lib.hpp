@@ -28,79 +28,8 @@
 # include <sys/socket.h>
 # include <unistd.h>
 
-class user
-{
-	private:
-		std::string	_nick;
-		std::string	_login;
-		std::string	_realName;
-		int			_sd;
-		bool		_access;
-		struct sockaddr_in	_address;
-		std::string	_buffer;
-		user();
-		user(user const& other);
-		user operator=(user const& other);
-
-	public:
-
-		user(int sd, sockaddr_in address);
-		~user();
-		std::string	getNick() const;
-		std::string	getLogin() const;
-		std::string	getRealName() const;
-		std::string	getIp() const;
-		std::string getBuffer() const;
-		sockaddr_in	getAddress() const;
-		int			getSd() const;
-		bool		getAccept() const;
-		void		setNick(std::string nick);
-		void		setLogin(std::string login);
-		void		setRealName(std::string realName);
-		void		setBuffer(std::string buffer);
-		void		cleanBuffer();
-		void		setSd(int sd);
-		void		setAccept(bool integer);
-		void		setAddr(sockaddr_in address);
-};
-
-
-template < typename T >
-class data
-{
-	public:
-		int					port;
-		int					primary_socket;
-		struct sockaddr_in	address;
-		fd_set				readfds;
-		std::string			password;
-		std::vector<user *>	users;
-
-		data(){};
-		~data(){};
-		data(data const& other)
-		{
-			this->port = other.port;
-			this->primary_socket = other.primary_socket;
-			this->address = other.address;
-			this->readfds = other.readfds;
-			this->password = other.password;
-			this->users = other.users;
-		}
-
-		data operator=(data const& other)
-		{
-			if (this == &other)
-				return (*this);
-			this->port = other.port;
-			this->primary_socket = other.primary_socket;
-			this->address = other.address;
-			this->readfds = other.readfds;
-			this->password = other.password;
-			this->users = other.users;
-			return (*this);
-		}
-};
+# include "user_class.hpp"
+# include "data_class.hpp"
 
 /*
 * Cmd
@@ -112,7 +41,6 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf);
 void	cmd_kick(data<user *> &data , user *cursor, std::string buf);
 void	cmd_list(data<user *> &data , user *cursor, std::string buf);
 void	cmd_mode(data<user *> &data , user *cursor, std::string buf);
-void	cmd_name(data<user *> &data , user *cursor, std::string buf);
 void	cmd_nick(data<user *> &data , user *cursor, std::string buf);
 void	cmd_notice(data<user *> &data , user *cursor, std::string buf);
 void	cmd_part(data<user *> &data , user *cursor, std::string buf);

@@ -25,6 +25,8 @@ CC = clang++
 I = ./Includes/
 HEADER =	$(I)lib.hpp \
 			$(I)code_error.hpp \
+			$(I)user_class.hpp \
+			$(I)data_class.hpp \
 			$(I)exception_class.hpp
 
 S = ./Srcs/
@@ -39,7 +41,6 @@ SRCS =	$(SC)cmd_process.cpp \
 		$(SC)cmd_list.cpp \
 		$(SC)cmd_kick.cpp \
 		$(SC)cmd_mode.cpp \
-		$(SC)cmd_name.cpp \
 		$(SC)cmd_nick.cpp \
 		$(SC)cmd_notice.cpp \
 		$(SC)cmd_part.cpp \
@@ -71,7 +72,7 @@ $(NAME):	$(OBJS) $(HEADER)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
 
 start:
-	@make && ./$(NAME) 9999 coucoucava
+	@make && ./$(NAME) 9999 coucou
 
 clean:
 	@$(RM) $(OBJS)
