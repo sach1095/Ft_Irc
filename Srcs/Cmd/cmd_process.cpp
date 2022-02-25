@@ -29,7 +29,8 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	}
 	else if (cmd == "JOIN")
 	{
-		/* join permet de rejoindre un canal si il existe ou de le cree dans le cas echean.
+		/*
+		* join permet de rejoindre un canal si il existe ou de le cree dans le cas echean.
 		* l'utilisateur doit être invité si le canal est en mode "sur invitation seulement" (voir MODE)
 		* le pseudo/nom d'utilisateur/nom d'hôte ne doit pas correspondre à un bannissement actif.
 		* une clef peut etre demander si le salon en a une.
@@ -119,17 +120,17 @@ void	cmd_process(data<user *> &data)
 			if ((ret_read = read(sd, buffer, 1024)) == 0)
 			{
 				/*
-				* if someone is disconnected, get his details and print hem.
+				* des quelqu'un ce deconnecte, recuperer ses detail et les affiche.
 				*/
 				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&data.address);
 				std::cout << "User disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
 				/*
-				* close the socket and set is as 0 in list.
+				* Close le socket et le set a 0 dans la liste.
 				*/
 				close(sd);
 				sd = 0;
 				/*
-				* delete the user from the list.
+				* Supprime l'utilisateur de la liste.
 				*/
 				delete_user(data, cursor);
 				return ;

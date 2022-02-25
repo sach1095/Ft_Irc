@@ -4,12 +4,6 @@ void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string cmd = buf.substr(0, buf.find(' '));
 
-	if (cmd.compare("/user") == SUCCESS)
-	{
-		cmd = "USER";
-		buf = buf.substr(1, buf.length() - 1);
-	}
-
 	buf = buf.substr(5, buf.length() - 5);
 
 	std::string user = buf.substr(0, buf.find(' '));
