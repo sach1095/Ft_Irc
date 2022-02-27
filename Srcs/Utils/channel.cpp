@@ -1,15 +1,15 @@
 #include "../../Includes/lib.hpp"
 
-Channel::Channel(std::string name):_name(name)
+Channel::Channel(std::string name): _name(name), _Private(false)
 {
 	_topic = "Topic not set";
 }
 
-Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic)
+Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic), _Private(false)
 {
 }
 
-Channel::Channel(std::string name, std::string topic, std::string password):_name(name), _topic(topic) ,_password(password)
+Channel::Channel(std::string name, std::string topic, std::string password):_name(name), _topic(topic) ,_password(password), _Private(false)
 {
 }
 
@@ -37,6 +37,12 @@ std::string Channel::getTopic() const
 	return _topic;
 }
 
+bool Channel::getPrivate() const
+{
+	return _Private;
+}
+
+
 user *Channel::getCli(std::string cli)
 {
 	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
@@ -63,9 +69,19 @@ void		Channel::setTopic(std::string topic)
 	_topic = topic;
 }
 
+void	Channel::setPrivate(bool b)
+{
+	_Private = b;
+}
+
 void		Channel::addUser(user *cli)
 {
 	_members.push_back(cli);
+}
+
+void		Channel::addInvitation(user *cli)
+{
+	_invited.push_back(cli);
 }
 
 void		Channel::addOp(user *cli)
@@ -108,9 +124,9 @@ void		Channel::deleteOp(user *cli)
 	}
 }
 
-void		channel::deleteBan(std::string cli)
+void		Channel::deleteBan(std::string cli)
 {
-	for (std::vector<client *>::iterator it = _banned.begin(); it != _banned.end(); it++)
+	for (std::vector<user *>::iterator it = _banned.begin(); it != _banned.end(); it++)
 	{
 		if ((*it)->getNick() == cli)
 		{
@@ -130,6 +146,28 @@ void		Channel::deleteBan(std::string cli)
 			break ;
 		}
 	}
+}
+
+bool		Channel::isInvited(user *cli) const
+{
+	for (std::vector<user*>::const_iterator it = _invited.begin(); it != _invited.end(); it++)
+	{
+		user *c = *it;
+		if (c->getNick() == cli->getNick())
+			return true;
+	}
+	return false;
+}
+
+bool		Channel::isInvited(std::string cli) const
+{
+	for (std::vector<user*>::const_iterator it = _invited.begin(); it != _invited.end(); it++)
+	{
+		user *c = *it;
+		if (c->getNick() == cli)
+			return true;
+	}
+	return false;
 }
 
 bool		Channel::isMember(user *cli) const

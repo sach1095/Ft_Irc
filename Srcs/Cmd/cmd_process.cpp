@@ -35,6 +35,18 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_join(data, cursor, buf); // a faire
 	}
+	else if (cmd == "INVITE")
+	{
+		/*
+		* Paramètres: <pseudonyme> <canal>
+		* Le message INVITE est utilisé pour inviter des utilisateurs dans un canal.
+		* Le paramètre <pseudonyme> est le pseudonyme de la personne à inviter dans le canal destination <canal>.
+		* Il n'est pas nécessaire que le canal dans lequel la personne est invitée existe, ni même soit valide.
+		* Pour inviter une personne dans un canal en mode sur invitation (MODE +i),
+		* le client envoyant l'invitation doit être opérateur sur le canal désigné.
+		*/
+		cmd_invite(data, cursor, buf); // a faire
+	}
 	else if (cmd == "MODE")
 	{
 		// Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .

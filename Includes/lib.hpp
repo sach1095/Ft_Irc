@@ -37,6 +37,7 @@
 */
 void	cmd_process(data<user *> &data);
 
+void	cmd_invite(data<user *> &data , user *cursor, std::string buf);
 void	cmd_join(data<user *> &data , user *cursor, std::string buf);
 void	cmd_kick(data<user *> &data , user *cursor, std::string buf);
 void	cmd_list(data<user *> &data , user *cursor, std::string buf);
