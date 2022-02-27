@@ -30,23 +30,21 @@
 
 # include "user_class.hpp"
 # include "data_class.hpp"
+# include "channel_class.hpp"
 
 /*
 * Cmd
 */
 void	cmd_process(data<user *> &data);
 
-void	cmd_invite(data<user *> &data , user *cursor, std::string buf);
 void	cmd_join(data<user *> &data , user *cursor, std::string buf);
 void	cmd_kick(data<user *> &data , user *cursor, std::string buf);
 void	cmd_list(data<user *> &data , user *cursor, std::string buf);
 void	cmd_mode(data<user *> &data , user *cursor, std::string buf);
 void	cmd_nick(data<user *> &data , user *cursor, std::string buf);
 void	cmd_notice(data<user *> &data , user *cursor, std::string buf);
-void	cmd_part(data<user *> &data , user *cursor, std::string buf);
 void	cmd_pass(data<user *> &data , user *cursor, std::string buf);
 void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf);
-void	cmd_quit(data<user *> &data , user *cursor, std::string buf);
 void	cmd_topic(data<user *> &data , user *cursor, std::string buf);
 void	cmd_user(data<user *> &data , user *cursor, std::string buf);
 

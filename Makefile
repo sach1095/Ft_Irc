@@ -36,17 +36,14 @@ SS = ./Srcs/Serv/
 SU = ./Srcs/Utils/
 
 SRCS =	$(SC)cmd_process.cpp \
-		$(SC)cmd_invite.cpp \
 		$(SC)cmd_join.cpp \
 		$(SC)cmd_list.cpp \
 		$(SC)cmd_kick.cpp \
 		$(SC)cmd_mode.cpp \
 		$(SC)cmd_nick.cpp \
 		$(SC)cmd_notice.cpp \
-		$(SC)cmd_part.cpp \
 		$(SC)cmd_pass.cpp \
 		$(SC)cmd_privmsg.cpp \
-		$(SC)cmd_quit.cpp \
 		$(SC)cmd_topic.cpp \
 		$(SC)cmd_user.cpp \
 		$(SS)connect.cpp \
@@ -72,7 +69,7 @@ $(NAME):	$(OBJS) $(HEADER)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
 
 start:
-	@make && ./$(NAME) 9999 coucou
+	@make && ./$(NAME) 9999 123
 
 clean:
 	@$(RM) $(OBJS)

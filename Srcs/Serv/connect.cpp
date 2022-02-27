@@ -30,8 +30,8 @@ bool start_online(data<user *> &data)
 {
 	int	max_sd, sd, activity;
 
-	int online = 1;
-	while (online)
+	data.online = 1;
+	while (data.online)
 	{
 		FD_ZERO(&data.readfds);
 		/*

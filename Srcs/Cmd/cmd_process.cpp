@@ -5,6 +5,11 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	std::string cmd = buf.substr(0, buf.find(' '));
 
 	/*
+	* on retire les retour chariot et les retur a la ligne pour gere plus facilement la commande
+	*/
+	while (cmd.back() == '\r' || cmd.back() == '\n')
+		cmd.pop_back();
+	/*
 	* Le but principal du protocole IRC est de fournir une base afin que des clients puissent communiquer entre eux.
 	* PRIVMSG et NOTICE sont les seuls messages disponibles qui réalisent
 	* effectivement l'acheminement d'un message textuel d'un client à un autre,
@@ -15,18 +20,9 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	else if (cmd == "USER")
 		cmd_user(data, cursor, buf);
 	else if (cmd == "NOTICE")
-	{
-		/*
-		* Lire PRIVMSG en meme temps.
-		* Ce referer a l'article 4.4.2 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
-		*/
-		cmd_notice(data, cursor, buf); // a faire
-	}
+		cmd_notice(data, cursor, buf);
 	else if (cmd == "PRIVMSG")
-	{
-		// Ce referer a l'article 4.4.1 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
-		cmd_privmsg(data, cursor, buf); // a faire
-	}
+		cmd_privmsg(data, cursor, buf);
 	else if (cmd == "JOIN")
 	{
 		/*
@@ -38,31 +34,6 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		* accède au canal #foo en utilisant la clé "fubar", et au canal #bar en utilisant la clé "foobar".
 		*/
 		cmd_join(data, cursor, buf); // a faire
-	}
-	else if (cmd == "INVITE")
-	{
-		/*
-		* Paramètres: <pseudonyme> <canal>
-		* Le message INVITE est utilisé pour inviter des utilisateurs dans un canal.
-		* Le paramètre <pseudonyme> est le pseudonyme de la personne à inviter dans le canal destination <canal>.
-		* Il n'est pas nécessaire que le canal dans lequel la personne est invitée existe, ni même soit valide.
-		* Pour inviter une personne dans un canal en mode sur invitation (MODE +i),
-		* le client envoyant l'invitation doit être opérateur sur le canal désigné.
-		*/
-		cmd_invite(data, cursor, buf); // a faire
-	}
-	else if (cmd == "QUIT")
-	{
-		// faire une commande qui fait quitte proprement le clien;
-		cmd_quit(data, cursor, buf); // a faire
-	}
-	else if (cmd == "PART")
-	{
-		/*
-		* Le message PART provoque le retrait du client expéditeur de la liste
-		* des utilisateurs actifs pour tous les canaux listés dans la chaîne de paramètres.
-		*/
-		cmd_part(data, cursor, buf); // a faire
 	}
 	else if (cmd == "MODE")
 	{
@@ -96,7 +67,14 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		*/
 		cmd_list(data, cursor, buf); // a faire
 	}
-	else if (cmd != "PONG" || cmd != "/pong")
+	else if(cmd == "PASS")
+	{
+		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
+		send(cursor->getSd(), err.c_str(), err.length(), 0);
+	}
+	else if (cmd == "EXIT")
+		data.online = false;
+	else if (cmd != "PONG")
 	{
 		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " :Unknown command\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
