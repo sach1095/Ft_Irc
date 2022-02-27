@@ -5,11 +5,6 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	std::string cmd = buf.substr(0, buf.find(' '));
 
 	/*
-	* on retire les retour chariot et les retur a la ligne pour gere plus facilement la commande
-	*/
-	while (cmd.back() == '\r' || cmd.back() == '\n')
-		cmd.pop_back();
-	/*
 	* Le but principal du protocole IRC est de fournir une base afin que des clients puissent communiquer entre eux.
 	* PRIVMSG et NOTICE sont les seuls messages disponibles qui réalisent
 	* effectivement l'acheminement d'un message textuel d'un client à un autre,
@@ -23,7 +18,28 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_notice(data, cursor, buf);
 	else if (cmd == "PRIVMSG")
 		cmd_privmsg(data, cursor, buf);
-	else if (cmd == "JOIN")
+	else if (cmd == "TOPIC")
+		cmd_topic(data, cursor, buf);
+	else if (cmd == "KICK")
+		cmd_kick(data, cursor, buf);
+	else if (cmd == "EXIT")
+		data.online = false;
+	else if (cmd == "INVITE")
+		cmd_invite(data, cursor, buf);
+	else if(cmd == "PASS")
+	{
+		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
+		send(cursor->getSd(), err.c_str(), err.length(), 0);
+	}
+	else if (cmd == "LIST")
+	{
+		/*
+		* Paramètres: [<canal>]
+		* Le message LIST est utilisé pour lister les canaux et leur sujet.
+		*/
+		cmd_list(data, cursor, buf);
+	}
+	else if (cmd == "JOIN") // a faire
 	{
 		/*
 		* join permet de rejoindre un canal si il existe ou de le cree dans le cas echean.
@@ -33,59 +49,20 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		* ex: JOIN #foo,#bar fubar,foobar ;
 		* accède au canal #foo en utilisant la clé "fubar", et au canal #bar en utilisant la clé "foobar".
 		*/
-		cmd_join(data, cursor, buf); // a faire
+		cmd_join(data, cursor, buf);
 	}
-	else if (cmd == "INVITE")
+	else if (cmd == "MODE") // a faire
 	{
 		/*
-		* Paramètres: <pseudonyme> <canal>
-		* Le message INVITE est utilisé pour inviter des utilisateurs dans un canal.
-		* Le paramètre <pseudonyme> est le pseudonyme de la personne à inviter dans le canal destination <canal>.
-		* Il n'est pas nécessaire que le canal dans lequel la personne est invitée existe, ni même soit valide.
-		* Pour inviter une personne dans un canal en mode sur invitation (MODE +i),
-		* le client envoyant l'invitation doit être opérateur sur le canal désigné.
+		* Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
+		* Les mode a faire :
+		* o - donne/retire les privilèges d'opérateur de canal
+		* pour le flag o - le nombre de paramètres est restreint à trois par commande
+		* i - drapeau de canal accessible uniquement sur invitation
+		* k - définit la clé du canal (mot de passe)
 		*/
-		cmd_invite(data, cursor, buf); // a faire
+		cmd_mode(data, cursor, buf);
 	}
-	else if (cmd == "MODE")
-	{
-		// Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
-		cmd_mode(data, cursor, buf); // a faire
-	}
-	else if (cmd == "TOPIC")
-	{
-		/*
-		* TOPIC est utilisé pour modifier ou voir le sujet d'un canal.
-		* Le sujet du canal <canal> est renvoyé s'il n'y a pas de <sujet> fourni en paramètre.
-		*/
-		cmd_topic(data, cursor, buf); // a faire
-	}
-	else if (cmd == "KICK")
-	{
-		/*
-		* Paramètres: <canal> <utilisateur> [<commentaire>]
-		* La commande KICK est utilisée pour retirer par la force un utilisateur d'un canal.
-		*/
-		cmd_kick(data, cursor, buf); // a faire
-	}
-	else if (cmd == "LIST")
-	{
-		/*
-		* Paramètres: [<canal>{,<canal>} [<serveur>]]
-		* Le message LIST est utilisé pour lister les canaux et leur sujet. Si le paramètre <canal> est utilisé,
-		* seul le statut de ces canaux est affiché. Les canaux privés sont listés (sans leur sujet) comme canal "Prv"
-		* à moins que le client qui génère la requête soit effectivement sur le canal. De même,
-		* les canaux secrets ne sont pas listés du tout, à moins que le client soit un membre du canal en question.
-		*/
-		cmd_list(data, cursor, buf); // a faire
-	}
-	else if(cmd == "PASS")
-	{
-		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
-		send(cursor->getSd(), err.c_str(), err.length(), 0);
-	}
-	else if (cmd == "EXIT")
-		data.online = false;
 	else if (cmd != "PONG")
 	{
 		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " :Unknown command\r\n";

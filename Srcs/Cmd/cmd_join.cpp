@@ -2,8 +2,7 @@
 
 void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 {
-	std::string cmd = buf.substr(0, buf.find(' '));
-
+	std::vector<std::string> cmd = parse_cmd(buf);
 
 	// cmd.
 

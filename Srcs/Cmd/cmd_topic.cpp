@@ -2,14 +2,42 @@
 
 void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 {
-	std::string cmd = buf.substr(0, buf.find(' '));
+	std::vector<std::string> cmd = parse_cmd(buf);
 
-	int start = cmd.length() + 1;
-
-	std::string nick = buf.substr(start, buf.length() - (cmd.length() + 2));
-	if (buf.find('\r') != buf.npos)
-		nick = buf.substr(start, buf.length() - (cmd.length() + 3));
-
-	cursor->setNick(nick);
-
+	std::string msg;
+	Channel *chan;
+	if (cmd.size() < 2)
+	{
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " topic :Not enough parameters\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return;
+	}
+	chan = getChan(data, cmd[1]);
+	if (chan != NULL)
+	{
+		if (!chan->isMember(cursor))
+		{
+			msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " :You're not on that channel\r\n";
+			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+			return;
+		}
+		else if (cmd.size() == 2)
+		{
+			msg = ":server " + std::string(RPL_TOPIC) + " " + cursor->getNick() + " " + chan->getName() + " :" + chan->getTopic() + "\r\n";
+			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		}
+		else if (!chan->isOp(cursor))
+		{
+			msg = ":server " + std::string(ERR_CHANOPRIVSNEEDED) + " " + cursor->getNick() + " " + chan->getName() + " :You're not channel operator\r\n";
+			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+			return;
+		}
+		else
+		{
+			if (cmd[2].front() == ':')
+				chan->setTopic(&cmd[2][1]);
+			else
+				chan->setTopic(cmd[2]);
+		}
+	}
 }

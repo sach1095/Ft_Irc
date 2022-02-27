@@ -5,15 +5,14 @@
 class Channel{
 
 private:
-		std::string	_name;
-		std::string	_password;
-		std::string _topic;
-		user *_creator;
-		std::vector<user*> _members;
-		std::vector<user*> _op;
-		std::vector<user*> _banned;
-		std::vector<user*> _invited;
-		bool _Private;
+		std::string			_name;
+		std::string			_password;
+		std::string			_topic;
+		std::vector<user*>	_members;
+		std::vector<user*>	_op;
+		std::vector<user*>	_banned;
+		user				*_creator;
+		bool				_Private;
 
 		Channel();
 		Channel(Channel const& other);
@@ -37,17 +36,15 @@ private:
 		void	setPrivate(bool b);
 
 		void	addUser(user *cli);
-		void	addInvitation(user *cli);
 		void	addOp(user *cli);
 		void	addBan(user *cli);
 		void	deleteUser(user *cli);
 		void	deleteBan(std::string cli);
 		void	deleteOp(user *cli);
+		void	deleteEverywhere(user *cli);
 		bool	isMember(user *cli) const;
 		bool	isMember(std::string cli) const;
 		bool	isOp(user *cli) const;
-		bool	isInvited(user *cli) const;
-		bool	isInvited(std::string cli) const;
 		bool	isBanned(user *cli) const;
 		bool	isBanned(std::string cli) const;
 };

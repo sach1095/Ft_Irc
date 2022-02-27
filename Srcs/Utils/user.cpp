@@ -88,3 +88,58 @@ std::string	user::getIp() const
 	std::string ip = inet_ntoa(_address.sin_addr);
 	return ip;
 }
+
+user*	getUser(std::string name, Channel *channel)
+{
+	user *c;
+	std::vector<user*> members = channel->getMembers();
+	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		c = *it;
+		if (c->getNick() == name)
+			return c;
+	}
+	return NULL;
+}
+
+bool	checkUser(user *cli, Channel *channel)
+{
+	std::vector<user *> members = channel->getMembers();
+	user *c;
+	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		c = *it;
+		if (c->getSd() == cli->getSd())
+			return true;
+	}
+	return false;
+}
+
+bool	checkUserStr(std::string cli, Channel *channel)
+{
+	std::vector<user *> members = channel->getMembers();
+	user *c;
+	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		c = *it;
+		if (c->getNick() == cli)
+			return true;
+	}
+	return false;
+}
+
+void		user::addInvitation(std::string name_chan)
+{
+	_invited.push_back(name_chan);
+}
+
+bool		user::isInvited(std::string cli) const
+{
+	for (std::vector<std::string>::const_iterator it = _invited.begin(); it != _invited.end(); it++)
+	{
+		std::string cursor = *it;
+		if (cli.compare(cursor))
+			return true;
+	}
+	return false;
+}

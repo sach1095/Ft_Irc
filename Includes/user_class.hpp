@@ -5,9 +5,10 @@
 class user
 {
 	private:
-		std::string	_nick;
-		std::string	_login;
-		std::string	_realName;
+		std::string					_nick;
+		std::string					_login;
+		std::string					_realName;
+		std::vector<std::string>	_invited;
 		int			_sd;
 		bool		_access;
 		struct sockaddr_in	_address;
@@ -24,8 +25,10 @@ class user
 		std::string	getLogin() const;
 		std::string	getRealName() const;
 		std::string	getIp() const;
-		std::string getBuffer() const;
+		std::string	getBuffer() const;
 		sockaddr_in	getAddress() const;
+		void		addInvitation(std::string name_chan);
+		bool		isInvited(std::string name_chan) const;
 		int			getSd() const;
 		bool		getAccept() const;
 		void		setNick(std::string nick);
@@ -36,4 +39,5 @@ class user
 		void		setSd(int sd);
 		void		setAccept(bool integer);
 		void		setAddr(sockaddr_in address);
+
 };

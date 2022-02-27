@@ -1,26 +1,8 @@
 #include "../../Includes/lib.hpp"
 
-static std::vector<std::string>	parse_notice(std::string buf)
-{
-	std::vector<std::string> cmd;
-
-	while (buf.back() == '\n' || buf.back() == '\r')
-		buf.pop_back();
-	cmd.push_back(buf.substr(0, buf.find(' ')));
-	buf = buf.substr(6 + 1, buf.length() - 6);
-	cmd.push_back(buf.substr(0, buf.find(' ')));
-	std::string to_send = buf.substr(0, buf.find(' '));
-	buf = buf.substr(to_send.length(), buf.length() - to_send.length());
-	std::string cmd_Msg = buf.substr(1, buf.find('\0'));
-	if (cmd_Msg[0] == ':')
-		cmd_Msg = buf.substr(2, buf.find('\0'));
-	cmd.push_back(cmd_Msg);
-	return cmd;
-}
-
 void	cmd_notice(data<user *> &data , user *cursor, std::string buf)
 {
-	std::vector<std::string> cmd = parse_notice(buf);
+	std::vector<std::string> cmd = parse_msg(buf);
 
 	
 	if (cmd.size() < 3)

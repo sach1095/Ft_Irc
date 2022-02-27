@@ -70,10 +70,19 @@ bool	create_socket(data<user *> &data);
 void	delete_user(data<user *> data, user *cursor);
 
 /* parsing.cpp */
-bool	pars_data(data<user *> &data, char **av);
-
+bool						pars_data(data<user *> &data, char **av);
+std::vector<std::string>	parse_cmd(std::string buf);
+std::vector<std::string>	parse_msg(std::string buf);
 /* ret_error.cpp */
 bool	ret_error(std::string str);
 
 /* user.cpp */
-/* all command class user */
+/* all command class user and -> */
+user*	getUser(std::string name, Channel *channel);
+bool	checkUser(user *cli, Channel *chan);
+bool	checkUserStr(std::string cli, Channel *chan);
+
+/* channel.cpp */
+/* all command class channel and -> */
+Channel*	getChan(data<user *> &data, std::string name);
+void		send_to_all_members(std::string message, Channel *channel);

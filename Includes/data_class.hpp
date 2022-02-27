@@ -3,18 +3,20 @@
 # include "lib.hpp"
 
 class user;
+class Channel;
 
 template < typename T >
 class data
 {
 	public:
-		int					port;
-		int					primary_socket;
-		int					online;
-		struct sockaddr_in	address;
-		fd_set				readfds;
-		std::string			password;
-		std::vector<user *>	users;
+		int						port;
+		int						primary_socket;
+		int						online;
+		struct sockaddr_in		address;
+		fd_set					readfds;
+		std::string				password;
+		std::vector<user *>		users;
+		std::vector<Channel *>	*channels;
 
 		data(){};
 		~data(){};

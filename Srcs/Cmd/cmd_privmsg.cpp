@@ -1,28 +1,9 @@
 #include "../../Includes/lib.hpp"
 
-static std::vector<std::string>	parse_privmsg(std::string buf)
-{
-	std::vector<std::string> cmd;
-
-	while (buf.back() == '\n' || buf.back() == '\r')
-		buf.pop_back();
-	cmd.push_back(buf.substr(0, buf.find(' ')));
-	buf = buf.substr(7 + 1, buf.length() - 7);
-	cmd.push_back(buf.substr(0, buf.find(' ')));
-	std::string to_send = buf.substr(0, buf.find(' '));
-	buf = buf.substr(to_send.length(), buf.length() - to_send.length());
-	std::string cmd_Msg = buf.substr(1, buf.find('\0'));
-	if (cmd_Msg[0] == ':')
-		cmd_Msg = buf.substr(2, buf.find('\0'));
-	cmd.push_back(cmd_Msg);
-	return cmd;
-}
-
 void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 {
 	std::cout << "In PRIVMSG " << std::endl;
-	std::vector<std::string> cmd = parse_privmsg(buf);
-
+	std::vector<std::string> cmd = parse_msg(buf);
 
 	if (cmd.size() < 3)
 	{

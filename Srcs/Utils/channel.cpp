@@ -79,10 +79,7 @@ void		Channel::addUser(user *cli)
 	_members.push_back(cli);
 }
 
-void		Channel::addInvitation(user *cli)
-{
-	_invited.push_back(cli);
-}
+
 
 void		Channel::addOp(user *cli)
 {
@@ -99,6 +96,18 @@ void		Channel::addBan(user *cli)
 		_banned.push_back(cli);
 	}
 }
+
+bool		Channel::isMember(user *cli) const
+{
+	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		user *c = *it;
+		if (c->getNick() == cli->getNick())
+			return true;
+	}
+	return false;
+}
+
 
 void		Channel::deleteUser(user *cli)
 {
@@ -148,38 +157,9 @@ void		Channel::deleteBan(std::string cli)
 	}
 }
 
-bool		Channel::isInvited(user *cli) const
-{
-	for (std::vector<user*>::const_iterator it = _invited.begin(); it != _invited.end(); it++)
-	{
-		user *c = *it;
-		if (c->getNick() == cli->getNick())
-			return true;
-	}
-	return false;
-}
 
-bool		Channel::isInvited(std::string cli) const
-{
-	for (std::vector<user*>::const_iterator it = _invited.begin(); it != _invited.end(); it++)
-	{
-		user *c = *it;
-		if (c->getNick() == cli)
-			return true;
-	}
-	return false;
-}
 
-bool		Channel::isMember(user *cli) const
-{
-	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
-	{
-		user *c = *it;
-		if (c->getNick() == cli->getNick())
-			return true;
-	}
-	return false;
-}
+
 
 bool		Channel::isMember(std::string cli) const
 {
@@ -212,4 +192,32 @@ bool		Channel::isBanned(std::string cli) const
 			return true;
 	}
 	return false;
+}
+
+void		Channel::deleteEverywhere(user *cli)
+{
+	deleteUser(cli);
+	deleteOp(cli);
+}
+
+Channel*	getChan(data<user *> &data, std::string name)
+{
+	for (std::vector<Channel *>::iterator it = data.channels->begin(); it != data.channels->end(); it++)
+	{
+		Channel *c = *it;
+		if (c->getName() == name)
+			return c;
+	}
+	return NULL;
+}
+
+void	send_to_all_members(std::string message, Channel *channel)
+{
+	user *c;
+	std::vector<user*> members = channel->getMembers();
+	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		c = *it;
+		send(c->getSd(), message.c_str(), message.length(), 0);
+	}
 }
