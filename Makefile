@@ -39,6 +39,7 @@ SU = ./Srcs/Utils/
 SRCS =	$(SC)cmd_process.cpp \
 		$(SC)cmd_invite.cpp \
 		$(SC)cmd_join.cpp \
+		$(SC)cmd_quit.cpp \
 		$(SC)cmd_list.cpp \
 		$(SC)cmd_kick.cpp \
 		$(SC)cmd_mode.cpp \
