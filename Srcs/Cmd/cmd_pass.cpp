@@ -24,8 +24,6 @@ void	cmd_pass(data<user *> &data , user *cursor, std::string buf)
 		if (pass.compare(data.password) == SUCCESS)
 		{
 			cursor->setAccept(true);
-			std::string str = ":server " + std::string(RPL_WELCOME) + "\r\n";
-			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
 		else

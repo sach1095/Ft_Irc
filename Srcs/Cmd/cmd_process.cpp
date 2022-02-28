@@ -26,8 +26,6 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		data.online = false;
 	else if (cmd == "INVITE")
 		cmd_invite(data, cursor, buf);
-	else if (cmd == "QUIT")
-		cmd_quit(data, cursor, buf);
 	else if(cmd == "PASS")
 	{
 		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";

@@ -44,7 +44,6 @@ bool start_online(data<user *> &data)
 		{
 			user *cursor = *it;
 			sd = cursor->getSd();
-
 			/*
 			* if valid socket descriptor then aff to read list
 			*/
@@ -56,7 +55,6 @@ bool start_online(data<user *> &data)
 			*/
 			if (sd > max_sd)
 				max_sd = sd;
-
 		}
 			/*
 			* wait for an activity on one of the socketsm timeout is NULL

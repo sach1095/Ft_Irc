@@ -8,7 +8,6 @@ void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 
 	std::string user = buf.substr(0, buf.find(' '));
 	cursor->setLogin(user);
-	std::cout << "Test login = " << cursor->getLogin() << std::endl;
 
 	std::string realname;
 	if (buf.find('*') != buf.npos)
@@ -22,5 +21,4 @@ void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 			realname.pop_back();
 	}
 	cursor->setRealName(realname);
-	std::cout << "Test realname = " << cursor->getRealName() << std::endl;
 }

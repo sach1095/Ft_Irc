@@ -22,7 +22,7 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 		Channel *chan = getChan(data, cmd[1]);
 		if (chan == NULL)
 			return ;
-		std::string msg = ":" + cursor->getNick() + " NOTICE " + cmd[1] + " :" + cmd[2] + "\r\n";
+		std::string msg = ":" + cursor->getNick() + " PRIVMSG " + cmd[1] + " :" + cmd[2] + "\r\n";
 		send_to_all_members(msg, chan);
 	}
 	else
@@ -45,6 +45,7 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 		else
 		{
 			std::string tmp = ":" + cursor->getNick() + " PRIVMSG " + cmd[1] + " :" + cmd[2] + "\r\n";
+			std::cout << "debug in privmsg :\nstring msg |" << tmp << "|\ntest sd = " << index->getSd() << std::endl;
 			send(index->getSd(), tmp.c_str(), tmp.length(), 0);
 		}
 	}
