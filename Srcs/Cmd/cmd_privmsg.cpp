@@ -19,10 +19,11 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 	}
 	if (cmd[1][0] == '#')
 	{
-		// privmsg pour channel
-		std::string cmd_Channel = buf.substr(0, buf.find(' '));
-		std::cout << "test Channel = " << cmd_Channel << std::endl;
-		return ;
+		Channel *chan = getChan(data, cmd[1]);
+		if (chan == NULL)
+			return ;
+		std::string msg = ":" + cursor->getNick() + " NOTICE " + cmd[1] + " :" + cmd[2] + "\r\n";
+		send_to_all_members(msg, chan);
 	}
 	else
 	{

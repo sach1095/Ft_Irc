@@ -108,6 +108,17 @@ bool		Channel::isMember(user *cli) const
 	return false;
 }
 
+bool		Channel::isOp(user *cli) const
+{
+	for (std::vector<user*>::const_iterator it = _op.begin(); it != _op.end(); it++)
+	{
+		user *c = *it;
+		if (c->getNick() == cli->getNick())
+			return true;
+	}
+	return false;
+}
+
 
 void		Channel::deleteUser(user *cli)
 {
@@ -144,22 +155,6 @@ void		Channel::deleteBan(std::string cli)
 		}
 	}
 }
-
-void		Channel::deleteBan(std::string cli)
-{
-	for (std::vector<user *>::iterator it = _banned.begin(); it != _banned.end(); it++)
-	{
-		if ((*it)->getNick() == cli)
-		{
-			_banned.erase(it);
-			break ;
-		}
-	}
-}
-
-
-
-
 
 bool		Channel::isMember(std::string cli) const
 {

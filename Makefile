@@ -27,6 +27,7 @@ HEADER =	$(I)lib.hpp \
 			$(I)code_error.hpp \
 			$(I)user_class.hpp \
 			$(I)data_class.hpp \
+			$(I)channel_class.hpp \
 			$(I)exception_class.hpp
 
 S = ./Srcs/
@@ -53,6 +54,7 @@ SRCS =	$(SC)cmd_process.cpp \
 		$(SU)parsing.cpp \
 		$(SU)ret_error.cpp \
 		$(SU)user.cpp \
+		$(SU)channel.cpp \
 		$(S)main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
