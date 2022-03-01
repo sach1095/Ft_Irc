@@ -13,6 +13,7 @@ private:
 		std::vector<user*>	_banned;
 		user				*_creator;
 		bool				_Private;
+		bool				_needPassword;
 
 		Channel();
 		Channel(Channel const& other);
@@ -34,6 +35,7 @@ private:
 		void	setPassword(std::string password);
 		void	setTopic(std::string topic);
 		void	setPrivate(bool b);
+		void	setneedPassword(bool b);
 
 		void	addUser(user *cli);
 		void	addOp(user *cli);
@@ -45,6 +47,7 @@ private:
 		bool	isMember(user *cli) const;
 		bool	isMember(std::string cli) const;
 		bool	isOp(user *cli) const;
+		bool	needPassord() const;
 		bool	isBanned(user *cli) const;
 		bool	isBanned(std::string cli) const;
 };
