@@ -1,15 +1,11 @@
 #include "../../Includes/lib.hpp"
 
-Channel::Channel(std::string name): _name(name), _Private(false), _needPassword(false)
+Channel::Channel(std::string name): _name(name), _Private(false)
 {
 	_topic = "Topic not set";
 }
 
-Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic), _Private(false), _needPassword(false)
-{
-}
-
-Channel::Channel(std::string name, std::string topic, std::string password):_name(name), _topic(topic) ,_password(password), _Private(false), _needPassword(false)
+Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic), _Private(false)
 {
 }
 
@@ -27,11 +23,6 @@ std::vector<user*>	Channel::getMembers()
 	return _members;
 }
 
-std::string	Channel::getPassword() const
-{
-	return _password;
-}
-
 std::string Channel::getTopic() const
 {
 	return _topic;
@@ -41,12 +32,6 @@ bool Channel::getPrivate() const
 {
 	return _Private;
 }
-
-bool Channel::needPassord() const
-{
-	return (_needPassword);
-}
-
 
 user *Channel::getCli(std::string cli)
 {
@@ -62,16 +47,6 @@ user *Channel::getCli(std::string cli)
 void		Channel::setName(std::string name)
 {
 	_name = name;
-}
-
-void	Channel::setneedPassword(bool b)
-{
-	_needPassword = b;
-}
-
-void		Channel::setPassword(std::string password)
-{
-	_password = password;
 }
 
 void		Channel::setTopic(std::string topic)

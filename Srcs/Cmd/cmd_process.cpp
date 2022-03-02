@@ -90,7 +90,7 @@ void	cmd_process(data<user *> &data)
 				* des quelqu'un ce deconnecte, recuperer ses detail et les affiche.
 				*/
 				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&data.address);
-				std::cout << "User disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
+				std::cout << "User " << cursor->getNick() << " disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
 				/*
 				* Close le socket et le set a 0 dans la liste.
 				*/
