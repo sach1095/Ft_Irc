@@ -16,7 +16,7 @@ bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::s
 		{
 			chan->addOp(index);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +o \r\n";
-			send_to_all_members(message, chan, cursor);
+			send_to_all_members(message, chan);
 		}
 		return SUCCESS;
 	}
@@ -26,7 +26,7 @@ bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::s
 		{
 			chan->deleteOp(index);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -o \r\n";
-			send_to_all_members(message, chan, cursor);
+			send_to_all_members(message, chan);
 		}
 	}
 	return SUCCESS;
@@ -40,7 +40,7 @@ bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->setPrivate(true);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +i \r\n";
-			send_to_all_members(message, chan, cursor);
+			send_to_all_members(message, chan);
 		}
 		return SUCCESS;
 	}
@@ -50,7 +50,7 @@ bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->setPrivate(false);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -i \r\n";
-			send_to_all_members(message, chan, cursor);
+			send_to_all_members(message, chan);
 		}
 		return SUCCESS;
 	}
@@ -77,14 +77,14 @@ bool	exec_b(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->addBan(chan->getCli(cmd[3]));
 			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +b \r\n";
-			send_to_all_members(message, chan, cursor);
+			send_to_all_members(message, chan);
 			return SUCCESS;
 		}
 		else if ( add_or_remove == false)
 		{
 			chan->deleteBan(cmd[3]);
 			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -b \r\n";
-			send_to_all_members(message, chan, cursor);
+			send_to_all_members(message, chan);
 			return SUCCESS;
 		}
 	}

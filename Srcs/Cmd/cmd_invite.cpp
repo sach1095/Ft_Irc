@@ -12,11 +12,11 @@ void	cmd_invite(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
+	if (cmd[2][0] != '#')
+		cmd[2] = '#' + cmd[2];
 	Channel_to_invite = getChan(data, cmd[2]);
 	if (Channel_to_invite == NULL)
-	{
 		return;
-	}
 	if (!Channel_to_invite->isOp(cursor))
 	{
 		msg = ":server " + std::string(ERR_CHANOPRIVSNEEDED) + " " + cursor->getNick() + " " + Channel_to_invite->getName() + " :You're not channel operator\r\n";

@@ -31,6 +31,7 @@ private:
 		void	setTopic(std::string topic);
 		void	setPrivate(bool b);
 
+		bool	isPrivate() const;
 		void	addUser(user *cli);
 		void	addOp(user *cli);
 		void	addBan(user *cli);

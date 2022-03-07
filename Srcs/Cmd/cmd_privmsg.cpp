@@ -2,7 +2,6 @@
 
 void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 {
-	std::cout << "In PRIVMSG " << std::endl;
 	std::vector<std::string> cmd = parse_msg(buf);
 
 	if (cmd.size() < 3)
@@ -45,7 +44,6 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 		else
 		{
 			std::string tmp = ":" + cursor->getNick() + " PRIVMSG " + cmd[1] + " :" + cmd[2] + "\r\n";
-			std::cout << "debug in privmsg :\nstring msg |" << tmp << "|\ntest sd = " << index->getSd() << std::endl;
 			send(index->getSd(), tmp.c_str(), tmp.length(), 0);
 		}
 	}

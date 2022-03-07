@@ -3,7 +3,7 @@
 static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string cmd = buf.substr(0, buf.find(' '));
-
+	std::cout << "cmd = : " << buf << std::endl;
 	/*
 	* Le but principal du protocole IRC est de fournir une base afin que des clients puissent communiquer entre eux.
 	* PRIVMSG et NOTICE sont les seuls messages disponibles qui réalisent
@@ -18,50 +18,23 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_notice(data, cursor, buf);
 	else if (cmd == "PRIVMSG")
 		cmd_privmsg(data, cursor, buf);
-	else if (cmd == "TOPIC")
-		cmd_topic(data, cursor, buf);
 	else if (cmd == "KICK")
 		cmd_kick(data, cursor, buf);
 	else if (cmd == "EXIT")
 		data.online = false;
 	else if (cmd == "INVITE")
 		cmd_invite(data, cursor, buf);
+	else if (cmd == "LIST")
+		cmd_list(data, cursor, buf);
+	else if (cmd == "JOIN")
+		cmd_join(data, cursor, buf);
+	else if (cmd == "MODE")
+		cmd_mode(data, cursor, buf);
 	else if(cmd == "PASS")
 	{
 		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
 		send(cursor->getSd(), err.c_str(), err.length(), 0);
-	}
-	else if (cmd == "LIST")
-	{
-		/*
-		* Paramètres: [<canal>]
-		* Le message LIST est utilisé pour lister les canaux et leur sujet.
-		*/
-		cmd_list(data, cursor, buf);
-	}
-	else if (cmd == "JOIN") // a faire
-	{
-		/*
-		* join permet de rejoindre un canal si il existe ou de le cree dans le cas echean.
-		* l'utilisateur doit être invité si le canal est en mode "sur invitation seulement" (voir MODE)
-		* le pseudo/nom d'utilisateur/nom d'hôte ne doit pas correspondre à un bannissement actif.
-		* une clef peut etre demander si le salon en a une.
-		* ex: JOIN #foo,#bar fubar,foobar ;
-		* accède au canal #foo en utilisant la clé "fubar", et au canal #bar en utilisant la clé "foobar".
-		*/
-		cmd_join(data, cursor, buf);
-	}
-	else if (cmd == "MODE") // a faire
-	{
-		/*
-		* Ce referer a l'article 4.2.3 de http://abcdrfc.free.fr/rfc-vf/rfc1459.html#411 .
-		* Les mode a faire :
-		* o - donne/retire les privilèges d'opérateur de canal
-		* pour le flag o - le nombre de paramètres est restreint à trois par commande
-		* i - drapeau de canal accessible uniquement sur invitation
-		* k - définit la clé du canal (mot de passe)
-		*/
-		cmd_mode(data, cursor, buf);
+		return ;
 	}
 	else if (cmd != "PONG")
 	{
@@ -114,9 +87,6 @@ void	cmd_process(data<user *> &data)
 					cursor->setBuffer(buffer);
 				else
 					cursor->setBuffer(cursor->getBuffer() + buffer);
-				std::cout << "Cmd " << " : " << cursor->getBuffer() << std::endl;
-				std::string command = cursor->getBuffer().substr(0, cursor->getBuffer().find(' '));
-
 				/*
 				* Si l'utilisateur est deja accepter,
 				* Nous allons commencer a traiter la commande.

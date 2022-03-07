@@ -46,7 +46,6 @@ SRCS =	$(SC)cmd_process.cpp \
 		$(SC)cmd_notice.cpp \
 		$(SC)cmd_pass.cpp \
 		$(SC)cmd_privmsg.cpp \
-		$(SC)cmd_topic.cpp \
 		$(SC)cmd_user.cpp \
 		$(SS)connect.cpp \
 		$(SS)create_socket.cpp \

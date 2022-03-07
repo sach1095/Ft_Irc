@@ -56,26 +56,26 @@ bool start_online(data<user *> &data)
 			if (sd > max_sd)
 				max_sd = sd;
 		}
-			/*
-			* wait for an activity on one of the socketsm timeout is NULL
-			* so wait indefinitely
-			*/
-			activity = select(max_sd + 1, &data.readfds, NULL, NULL, NULL);
+		/*
+		* wait for an activity on one of the socketsm timeout is NULL
+		* so wait indefinitely
+		*/
+		activity = select(max_sd + 1, &data.readfds, NULL, NULL, NULL);
 
-			if ((activity < 0) && (errno!=EINTR))
-				std::cerr << "timeout select" << std::endl;
+		if ((activity < 0) && (errno!=EINTR))
+			std::cerr << "timeout select" << std::endl;
 
-			/*
-			* If something happened on the master socket ,
-			* then its an incoming connection
-			*/
-			if (FD_ISSET(data.primary_socket, &data.readfds))
-				new_connection(data);
+		/*
+		* If something happened on the master socket ,
+		* then its an incoming connection
+		*/
+		if (FD_ISSET(data.primary_socket, &data.readfds))
+			new_connection(data);
 
-			/*
-			* else its some IO operation one some other socket
-			*/
-			cmd_process(data);
+		/*
+		* else its some IO operation one some other socket
+		*/
+		cmd_process(data);
 	}
 	return (SUCCESS);
 }

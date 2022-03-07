@@ -16,7 +16,7 @@ std::string	listClients(std::vector<user*> members, Channel *chan_cmd)
 
 void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 {
-	std::vector<std::string> cmd = parse_cmd(buf);
+	std::vector<std::string> cmd = parse_msg(buf);
 	Channel *chan_cmd = NULL;
 	std::string msg;
 	bool first_time = false;
@@ -29,12 +29,20 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	if (cmd[1][0] != '#')
 		cmd[1] = '#' + cmd[1];
 	chan_cmd = getChan(data, cmd[1]);
-	if (chan_cmd == NULL)
+	if (chan_cmd == NULL && cmd.size() == 2)
 		data.channels.push_back(new Channel(cmd[1]));
+	else if (chan_cmd == NULL)
+		data.channels.push_back(new Channel(cmd[1], cmd[2]));
 	chan_cmd = getChan(data, cmd[1]);
 	if (chan_cmd->isBanned(cursor))
 	{
 		msg = ":server " + std::string(ERR_BANNEDFROMCHAN) + " " + cmd[1] + " :Cannot join channel, your are banned\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return;
+	}
+	if (chan_cmd->isPrivate() && !cursor->isInvited(chan_cmd->getName()))
+	{
+		msg = ":server " + std::string(ERR_INVITEONLYCHAN) + " " + cmd[1] + " :Cannot join channel, your are not invited\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
@@ -45,14 +53,12 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 		return;
 	}
 	else if (!chan_cmd->isMember(cursor))
-	{
 		first_time = true;
-	}
 	chan_cmd->addUser(cursor);
 	if (chan_cmd->getMembers().size() == 1)
 		chan_cmd->addOp(cursor);
 	msg = ":" + cursor->getNick() + "!" + cursor->getLogin() + "@" + cursor->getIp() + " JOIN " + cmd[1] + "\r\n";
-	send_to_all_members(msg, chan_cmd, cursor);
+	send_to_all_members(msg, chan_cmd);
 	if (first_time == true)
 	{
 		msg = ":server " + std::string(RPL_TOPIC) + " " + cursor->getNick() + " " + cmd[1] + " :" + chan_cmd->getTopic() + "\r\n";
@@ -68,7 +74,6 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 		msg = ":server " + std::string(RPL_ENDOFNAMES) + " " + chan_cmd->getName() + " :End of NAMES list\r\n";
 		send(index->getSd(), msg.c_str(), msg.length(), 0);
 	}
-	msg = ":" + cursor->getNick() + "!" + cursor->getLogin() + "@" + cursor->getIp() + " JOIN " + cmd[1] + "\r\n";
 	return ;
 
 	/*

@@ -33,6 +33,11 @@ bool Channel::getPrivate() const
 	return _Private;
 }
 
+bool Channel::isPrivate() const
+{
+	return _Private;
+}
+
 user *Channel::getCli(std::string cli)
 {
 	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
@@ -63,8 +68,6 @@ void		Channel::addUser(user *cli)
 {
 	_members.push_back(cli);
 }
-
-
 
 void		Channel::addOp(user *cli)
 {
@@ -103,7 +106,6 @@ bool		Channel::isOp(user *cli) const
 	}
 	return false;
 }
-
 
 void		Channel::deleteUser(user *cli)
 {
@@ -204,11 +206,10 @@ Channel*	getChan(data<user *> &data, std::string name)
 	return NULL;
 }
 
-void	send_to_all_members(std::string message, Channel *channel, user *sender)
+void	send_to_all_members(std::string message, Channel *channel)
 {
 	user *c;
 	std::vector<user*> members = channel->getMembers();
-	(void)sender;
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
 		c = *it;
