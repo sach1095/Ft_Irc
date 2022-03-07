@@ -3,9 +3,20 @@
 void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 {
 	std::vector<std::string> cmd = parse_cmd(buf);
-
-	// cmd.
-
+	Channel *chan_cmd;
+	std::string msg;
+	if (!(cmd.size() > 2))
+	{
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cursor->getNick() + " " + " :" + cmd[0] + ":Not enough parameters\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return;
+	}
+	if (cmd[1][0] != '#')
+		cmd[1] = '#' + cmd[1];
+	chan_cmd = getChan(data, cmd[1]);
+	if (chan_cmd == NULL)
+		data.channels->push_back(new Channel(cmd[1]));
+	
 	/*
 	* Pour mon Foubienne. ( Si tu a un doute http://abcdrfc.free.fr/rfc-vf/rfc1459.html#421 )
 	* ex de commande join :
@@ -33,4 +44,6 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	*    y compris lui-même. (tu peut regarde sur list faut swap RPL_LIST par RPL_NAMREPLY).
 	*    si ta besoin d'aide pour la syntax de message retour tu me dit ;).
 	*/
+
+
 }
