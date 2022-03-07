@@ -79,10 +79,12 @@ bool	ret_error(std::string str);
 /* user.cpp */
 /* all command class user and -> */
 user*	getUser(std::string name, Channel *channel);
+user*	getUser_from_list(std::string name, std::vector<user *> users);
 bool	checkUser(user *cli, Channel *chan);
 bool	checkUserStr(std::string cli, Channel *chan);
 
 /* channel.cpp */
 /* all command class channel and -> */
 Channel*	getChan(data<user *> &data, std::string name);
-void		send_to_all_members(std::string message, Channel *channel);
+void		send_to_all_members(std::string message, Channel *channel, user *sender);
+void		send_msg_to_all_members(std::string message, Channel *channel, user *sender);

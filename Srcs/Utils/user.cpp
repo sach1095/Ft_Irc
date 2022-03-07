@@ -102,6 +102,18 @@ user*	getUser(std::string name, Channel *channel)
 	return NULL;
 }
 
+user*	getUser_from_list(std::string name, std::vector<user *> users)
+{
+	user *c;
+	for (std::vector<user*>::iterator it = users.begin(); it != users.end(); it++)
+	{
+		c = *it;
+		if (c->getNick() == name)
+			return c;
+	}
+	return NULL;
+}
+
 bool	checkUser(user *cli, Channel *channel)
 {
 	std::vector<user *> members = channel->getMembers();

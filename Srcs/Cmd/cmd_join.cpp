@@ -1,11 +1,26 @@
 #include "../../Includes/lib.hpp"
 
+std::string	listClients(std::vector<user*> members, Channel *chan_cmd)
+{
+	std::string liste;
+	user *index;
+	for (std::vector<user *>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		index = *it;
+		if (chan_cmd->isOp(index))
+			liste += "@";
+		liste += index->getNick() + " ";
+	}
+	return liste;
+}
+
 void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 {
 	std::vector<std::string> cmd = parse_cmd(buf);
-	Channel *chan_cmd;
+	Channel *chan_cmd = NULL;
 	std::string msg;
-	if (!(cmd.size() > 2))
+	bool first_time = false;
+	if (!(cmd.size() > 1))
 	{
 		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cursor->getNick() + " " + " :" + cmd[0] + ":Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
@@ -15,8 +30,47 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 		cmd[1] = '#' + cmd[1];
 	chan_cmd = getChan(data, cmd[1]);
 	if (chan_cmd == NULL)
-		data.channels->push_back(new Channel(cmd[1]));
-	
+		data.channels.push_back(new Channel(cmd[1]));
+	chan_cmd = getChan(data, cmd[1]);
+	if (chan_cmd->isBanned(cursor))
+	{
+		msg = ":server " + std::string(ERR_BANNEDFROMCHAN) + " " + cmd[1] + " :Cannot join channel, your are banned\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return;
+	}
+	else if (chan_cmd->isMember(cursor))
+	{
+		msg = ":server " + std::string(ERR_USERONCHANNEL) + " " + cursor->getNick() + " " + cursor->getNick() + " :is already on channel\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return;
+	}
+	else if (!chan_cmd->isMember(cursor))
+	{
+		first_time = true;
+	}
+	chan_cmd->addUser(cursor);
+	if (chan_cmd->getMembers().size() == 1)
+		chan_cmd->addOp(cursor);
+	msg = ":" + cursor->getNick() + "!" + cursor->getLogin() + "@" + cursor->getIp() + " JOIN " + cmd[1] + "\r\n";
+	send_to_all_members(msg, chan_cmd, cursor);
+	if (first_time == true)
+	{
+		msg = ":server " + std::string(RPL_TOPIC) + " " + cursor->getNick() + " " + cmd[1] + " :" + chan_cmd->getTopic() + "\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		user *index;
+		std::vector<user*> members = chan_cmd->getMembers();
+		for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+		{
+			index = *it;
+			msg = ":server " + std::string(RPL_NAMREPLY) + " " + (*it)->getNick() + " = " + chan_cmd->getName() + " :" + listClients(members, chan_cmd) + "\r\n";
+			send((*it)->getSd(), msg.c_str(), msg.length(), 0);
+		}
+		msg = ":server " + std::string(RPL_ENDOFNAMES) + " " + chan_cmd->getName() + " :End of NAMES list\r\n";
+		send(index->getSd(), msg.c_str(), msg.length(), 0);
+	}
+	msg = ":" + cursor->getNick() + "!" + cursor->getLogin() + "@" + cursor->getIp() + " JOIN " + cmd[1] + "\r\n";
+	return ;
+
 	/*
 	* Pour mon Foubienne. ( Si tu a un doute http://abcdrfc.free.fr/rfc-vf/rfc1459.html#421 )
 	* ex de commande join :
@@ -44,6 +98,4 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	*    y compris lui-même. (tu peut regarde sur list faut swap RPL_LIST par RPL_NAMREPLY).
 	*    si ta besoin d'aide pour la syntax de message retour tu me dit ;).
 	*/
-
-
 }

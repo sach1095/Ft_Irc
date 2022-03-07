@@ -2,7 +2,7 @@
 
 void	cmd_kick(data<user *> &data , user *cursor, std::string buf)
 {
-	std::vector<std::string> cmd = parse_msg(buf);
+	std::vector<std::string> cmd = parse_cmd(buf);
 	std::string msg;
 	Channel *chan = getChan(data, cmd[1]);
 
@@ -38,7 +38,9 @@ void	cmd_kick(data<user *> &data , user *cursor, std::string buf)
 	}
 	if (cmd[3][0] != ':')
 		cmd[3] = ':' + cmd[3];
-	msg = ":" + cursor->getNick() + " KICK " + cmd[1] + " " + cmd[2] + " " + cmd[3] + "\r\n";
-	send_to_all_members(msg, chan);
+	for (size_t i = 3; i < cmd.size(); i++)
+		 msg = msg + cmd[i] + " ";
+	msg = ":" + cursor->getNick() + " KICK " + cmd[1] + " " + cmd[2] + " " + msg + "\r\n";
+	send_to_all_members(msg, chan, cursor);
 	chan->deleteEverywhere(getUser(cmd[2], chan));
 }

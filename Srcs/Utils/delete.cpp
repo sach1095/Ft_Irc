@@ -11,6 +11,11 @@ void	delete_user(data<user *> data, user *cursor)
 			break ;
 		it++;
 	}
+	for (std::vector<Channel *>::iterator chan_it = data.channels.begin(); chan_it < data.channels.end(); chan_it++)
+	{
+		Channel *chan = *chan_it;
+		(*chan_it)->deleteEverywhere(*it);
+	}
 	delete cursor;
 	data.users.erase(it);
 }

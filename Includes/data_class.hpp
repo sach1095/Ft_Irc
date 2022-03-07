@@ -16,7 +16,7 @@ class data
 		fd_set					readfds;
 		std::string				password;
 		std::vector<user *>		users;
-		std::vector<Channel *>	*channels;
+		std::vector<Channel *>	channels;
 
 		data(){};
 		~data(){};

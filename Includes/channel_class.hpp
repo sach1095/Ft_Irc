@@ -36,6 +36,7 @@ private:
 		void	addBan(user *cli);
 		void	deleteUser(user *cli);
 		void	deleteBan(std::string cli);
+		void	deleteBan(user *cli);
 		void	deleteOp(user *cli);
 		void	deleteEverywhere(user *cli);
 		bool	isMember(user *cli) const;

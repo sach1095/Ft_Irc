@@ -2,7 +2,7 @@
 
 Channel::Channel(std::string name): _name(name), _Private(false)
 {
-	_topic = "Topic not set";
+	_topic = "No Topic";
 }
 
 Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic), _Private(false)
@@ -129,6 +129,18 @@ void		Channel::deleteOp(user *cli)
 	}
 }
 
+void		Channel::deleteBan(user *cli)
+{
+	for (std::vector<user *>::iterator it = _banned.begin(); it != _banned.end(); it++)
+	{
+		if (*it == cli)
+		{
+			_banned.erase(it);
+			break ;
+		}
+	}
+}
+
 void		Channel::deleteBan(std::string cli)
 {
 	for (std::vector<user *>::iterator it = _banned.begin(); it != _banned.end(); it++)
@@ -174,30 +186,44 @@ bool		Channel::isBanned(std::string cli) const
 	return false;
 }
 
-void		Channel::deleteEverywhere(user *cli)
+void		Channel::deleteEverywhere(user *cursor)
 {
-	deleteUser(cli);
-	deleteOp(cli);
+	deleteOp(cursor);
+	deleteBan(cursor);
+	deleteUser(cursor);
 }
 
 Channel*	getChan(data<user *> &data, std::string name)
 {
-	for (std::vector<Channel *>::iterator it = data.channels->begin(); it != data.channels->end(); it++)
+	for (std::vector<Channel *>::iterator it = data.channels.begin(); it != data.channels.end(); it++)
 	{
-		Channel *c = *it;
-		if (c->getName() == name)
-			return c;
+		Channel *index = *it;
+		if (index->getName() == name)
+			return index;
 	}
 	return NULL;
 }
 
-void	send_to_all_members(std::string message, Channel *channel)
+void	send_to_all_members(std::string message, Channel *channel, user *sender)
+{
+	user *c;
+	std::vector<user*> members = channel->getMembers();
+	(void)sender;
+	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		c = *it;
+		send(c->getSd(), message.c_str(), message.length(), 0);
+	}
+}
+
+void	send_msg_to_all_members(std::string message, Channel *channel, user *sender)
 {
 	user *c;
 	std::vector<user*> members = channel->getMembers();
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
 		c = *it;
-		send(c->getSd(), message.c_str(), message.length(), 0);
+		if (sender->getNick() != c->getNick())
+			send(c->getSd(), message.c_str(), message.length(), 0);
 	}
 }

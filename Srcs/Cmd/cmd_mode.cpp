@@ -1,21 +1,22 @@
 #include "../../Includes/lib.hpp"
 
-bool	exec_o(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
+bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
 {
 	user *index = getUser(cmd[3], chan);
 	if (index == NULL)
 	{
-		std::string str = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[3] + " :No such nick\r\n";
+		std::string str = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[3] + " :No such nick, User not on the channel.\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 		return FAIL;
 	}
+	index = getUser_from_list(cmd[3], data.users);
 	if (add_or_remove == true)
 	{
 		if (!chan->isOp(index))
 		{
-			chan->addOp(cursor);
+			chan->addOp(index);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +o \r\n";
-			send_to_all_members(message, chan);
+			send_to_all_members(message, chan, cursor);
 		}
 		return SUCCESS;
 	}
@@ -25,7 +26,7 @@ bool	exec_o(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->deleteOp(index);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -o \r\n";
-			send_to_all_members(message, chan);
+			send_to_all_members(message, chan, cursor);
 		}
 	}
 	return SUCCESS;
@@ -39,7 +40,7 @@ bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->setPrivate(true);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +i \r\n";
-			send_to_all_members(message, chan);
+			send_to_all_members(message, chan, cursor);
 		}
 		return SUCCESS;
 	}
@@ -49,9 +50,43 @@ bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->setPrivate(false);
 			std::string message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -i \r\n";
-			send_to_all_members(message, chan);
+			send_to_all_members(message, chan, cursor);
 		}
 		return SUCCESS;
+	}
+	return SUCCESS;
+}
+
+bool	exec_b(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
+{
+	std::string message;
+	if (cmd.size() < 4)
+	{
+		message = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cursor->getNick() + " :Mode :Not enough parameters\r\n";
+		send(cursor->getSd(), message.c_str(), message.length(), 0);
+		return FAIL;
+	}
+	else if (!chan->isMember(cmd[3]) && !chan->isBanned(cmd[3]))
+	{
+		message = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[3] + " :No such nick\r\n";
+		send(cursor->getSd(), message.c_str(), message.length(), 0);
+		return FAIL;
+	}
+	else {
+		if (add_or_remove == true && !chan->isOp(chan->getCli(cmd[3])))
+		{
+			chan->addBan(chan->getCli(cmd[3]));
+			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +b \r\n";
+			send_to_all_members(message, chan, cursor);
+			return SUCCESS;
+		}
+		else if ( add_or_remove == false)
+		{
+			chan->deleteBan(cmd[3]);
+			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -b \r\n";
+			send_to_all_members(message, chan, cursor);
+			return SUCCESS;
+		}
 	}
 	return SUCCESS;
 }
@@ -92,7 +127,7 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 		{
 			if (cmd[2][i] == 'o' && !(cmd.size() < 4))
 			{
-				if (exec_i(chan, cursor, cmd, add_or_remove))
+				if (exec_o(data, chan, cursor, cmd, add_or_remove))
 					return ;
 			}
 			else if (cmd[2][i] == 'o' && cmd.size() < 4)
@@ -104,6 +139,11 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 			else if (cmd[2][i] == 'i')
 			{
 				if (exec_i(chan, cursor, cmd, add_or_remove))
+					return ;
+			}
+			else if (cmd[2][i] == 'b')
+			{
+				if (exec_b(chan, cursor, cmd, add_or_remove))
 					return ;
 			}
 			else

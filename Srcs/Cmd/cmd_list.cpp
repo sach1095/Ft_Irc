@@ -11,7 +11,7 @@ void	cmd_list(data<user *> &data , user *cursor, std::string buf)
 	{
 		msg = ":server " + std::string(RPL_LISTSTART) + " Channel :Users Name\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
-		for (std::vector<Channel *>::iterator it = data.channels->begin(); it != data.channels->end(); it++)
+		for (std::vector<Channel *>::iterator it = data.channels.begin(); it != data.channels.end(); it++)
 		{
 			if ((*it)->isMember(cursor))
 			{
