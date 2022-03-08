@@ -1,5 +1,18 @@
 #include "../../Includes/lib.hpp"
 
+bool	checkExisteBefor(user *cli, Channel *chan)
+{
+	std::vector<user *> members = chan->getMembers();
+	user *c;
+	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
+	{
+		c = *it;
+		if (c->getSd() == cli->getSd())
+			return true;
+	}
+	return false;
+}
+
 std::string	listClients(Channel *chan_cmd)
 {
 	std::string liste;
@@ -36,9 +49,7 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	if (chan_cmd == NULL && cmd.size() == 2)
 		data.channels.push_back(new Channel(cmd[1]));
 	else if (!getChan(data, cmd[1]))
-	{
 		data.channels.push_back(new Channel(cmd[1], cmd[2]));
-	}
 	chan_cmd = getChan(data, cmd[1]);
 	if (chan_cmd->isBanned(cursor))
 	{
@@ -58,21 +69,27 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
-	else if (!chan_cmd->isMember(cursor))
+	else if (!checkExisteBefor(cursor, chan_cmd))
+	{
+		chan_cmd->addUser(cursor);
+		if (chan_cmd->getMembers().size() == 1)
+			chan_cmd->addOp(cursor);
 		first_time = true;
-	chan_cmd->addUser(cursor);
-	if (chan_cmd->getMembers().size() == 1)
-		chan_cmd->addOp(cursor);
+	}
 	msg = ":" + cursor->getNick() + "!" + cursor->getLogin() + "@" + cursor->getIp() + " JOIN " + cmd[1] + "\r\n";
 	send_to_all_members(msg, chan_cmd);
 	if (first_time == true)
 	{
 		msg = ":server " + std::string(RPL_TOPIC) + " " + cursor->getNick() + " " + cmd[1] + " :" + chan_cmd->getTopic() + "\r\n";
-		send_msg_to_all_members(msg, chan_cmd, cursor);
-		msg = ":server " + std::string(RPL_NAMREPLY) + " " + cursor->getNick() + " = " + chan_cmd->getName() + " :" + listClients(chan_cmd) + "\r\n";
-		send_msg_to_all_members(msg, chan_cmd, cursor);
-		msg = ":server " + std::string(RPL_ENDOFNAMES) + " " + chan_cmd->getName() + " :End of NAMES list\r\n";
-		send_msg_to_all_members(msg, chan_cmd, cursor);
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		std::vector<user*> members = chan_cmd->getMembers();
+		for (std::vector<user*>::iterator it =  members.begin(); it != members.end(); it++)
+		{
+			msg = ":server " + std::string(RPL_NAMREPLY) + " " + (*it)->getNick() + " = " + chan_cmd->getName() + " :" + listClients(chan_cmd) + "\r\n";
+			send((*it)->getSd(), msg.c_str(), msg.length(), 0);
+			msg = ":server " + std::string(RPL_ENDOFNAMES) + " " + chan_cmd->getName() + " :End of NAMES list\r\n";
+			send((*it)->getSd(), msg.c_str(), msg.length(), 0);
+		}
 	}
 	return ;
 
