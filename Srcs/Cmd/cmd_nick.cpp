@@ -11,4 +11,5 @@ void	cmd_nick(data<user *> &data , user *cursor, std::string buf)
 		nick = buf.substr(start, buf.length() - (cmd.length() + 3));
 
 	cursor->setNick(nick);
+	std::cout << "test nick = " << cursor->getNick() << std::endl;
 }
