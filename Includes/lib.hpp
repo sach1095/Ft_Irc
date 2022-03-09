@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 # include "user_class.hpp"
 # include "data_class.hpp"

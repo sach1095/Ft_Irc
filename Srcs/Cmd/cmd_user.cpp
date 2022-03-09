@@ -22,5 +22,4 @@ void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 			realname.pop_back();
 	}
 	cursor->setRealName(realname);
-	std::cout << "test user - login = " << cursor->getLogin() << " real name  = " << cursor->getRealName() << std::endl;
 }

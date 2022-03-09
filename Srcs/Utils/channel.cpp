@@ -224,10 +224,7 @@ void	send_msg_to_all_members(std::string message, Channel *channel, user *sender
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
 		c = *it;
-		std::cout << "Nick: " << c->getNick() << std::endl;
-		if (sender->getNick() != c->getNick()) {
-			std::cout << "SENT" << std::endl;
+		if (sender->getNick() != c->getNick())
 			send(c->getSd(), message.c_str(), message.length(), 0);
-		}
 	}
 }

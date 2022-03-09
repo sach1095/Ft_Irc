@@ -30,14 +30,10 @@ std::string	listClients(Channel *chan_cmd)
 
 void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 {
-	std::vector<std::string> cmd = parse_cmd(buf);
-	puts("here");
+	std::vector<std::string> cmd = parse_msg(buf);
 	Channel *chan_cmd = NULL;
-	puts("here 0.1");
 	std::string msg;
-	puts("here 0.2");
 	bool first_time = false;
-	puts("here 0.3");
 	if (!(cmd.size() > 1))
 	{
 		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cursor->getNick() + " " + " :" + cmd[0] + ":Not enough parameters\r\n";

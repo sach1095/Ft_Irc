@@ -42,10 +42,10 @@ std::vector<std::string>	parse_cmd(std::string buf)
 
 std::vector<std::string>	parse_msg(std::string buf)
 {
+	char delimiter = ' ';
 	std::vector<std::string> cmd;
 	std::stringstream ss(buf);
 	std::string line;
-	char delimiter = ' ';
 	while (std::getline(ss, line, delimiter))
 	{
 		while (line.back() == '\n' || line.back() == '\r')
@@ -54,11 +54,9 @@ std::vector<std::string>	parse_msg(std::string buf)
 	}
 	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back().size() == 0)
 		cmd.pop_back();
-	if (cmd.size() > 2 && cmd[2][0] == ':'){
+	if (cmd.size() > 2 && cmd[2][0] == ':')
 		cmd[2] = &cmd[2][1];
-		cmd[2] = cmd[2] + cmd[3];
-		for (size_t i = 3; i < cmd.size(); i++)
-			cmd[2] = cmd[2] + cmd[i];
-	}
+	for (size_t i = 3; i < cmd.size(); i++)
+		cmd[2] = cmd[2] + " " + cmd[i];
 	return cmd;
 }
