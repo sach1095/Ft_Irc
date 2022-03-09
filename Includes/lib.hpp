@@ -66,7 +66,7 @@ bool	create_socket(data<user *> &data);
 */
 
 /* delete.cpp */
-void	delete_user(data<user *> data, user *cursor);
+void	delete_user(data<user *> &data, user *cursor);
 
 /* parsing.cpp */
 bool						pars_data(data<user *> &data, char **av);

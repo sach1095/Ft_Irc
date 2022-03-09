@@ -47,7 +47,7 @@ void	cmd_process(data<user *> &data)
 {
 	int		sd;
 	int		ret_read;
-	int		size_adress = sizeof(data.address);
+	//int		size_adress = sizeof(data.address);
 	char	buffer[1024];
 
 	for (std::vector<user *>::iterator it = data.users.begin(); it != data.users.end(); it++)

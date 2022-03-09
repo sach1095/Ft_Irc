@@ -18,9 +18,12 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 	}
 	if (cmd[1][0] == '#')
 	{
+		std::cout << "HERE IT IS" << std::endl;
 		Channel *chan = getChan(data, cmd[1]);
-		if (chan == NULL)
+		if (chan == NULL) {
+			std::cout << "OUPS" << std::endl;
 			return ;
+		}
 		std::string msg = ":" + cursor->getNick() + " PRIVMSG " + cmd[1] + " :" + cmd[2] + "\r\n";
 		send_msg_to_all_members(msg, chan, cursor);
 	}

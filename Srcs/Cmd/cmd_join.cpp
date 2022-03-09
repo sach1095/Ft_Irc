@@ -32,7 +32,7 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 {
 	std::vector<std::string> cmd = parse_cmd(buf);
 	puts("here");
-	Channel *chan_cmd;
+	Channel *chan_cmd = NULL;
 	puts("here 0.1");
 	std::string msg;
 	puts("here 0.2");

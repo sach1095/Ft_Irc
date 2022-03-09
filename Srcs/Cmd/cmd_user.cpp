@@ -2,6 +2,7 @@
 
 void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 {
+	(void)data;
 	std::string cmd = buf.substr(0, buf.find(' '));
 
 	buf = buf.substr(5, buf.length() - 5);

@@ -58,7 +58,7 @@ SRCS =	$(SC)cmd_process.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
-CFLAGS = # -Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
 
 all:	$(NAME)
 
@@ -71,7 +71,7 @@ $(NAME):	$(OBJS) $(HEADER)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
 
 start:
-	@make && ./$(NAME) 9999 123
+	@make && ./$(NAME) 9999 123 | cat -e
 
 clean:
 	@$(RM) $(OBJS)

@@ -1,6 +1,6 @@
 #include "../../Includes/lib.hpp"
 
-user::user(int sd, sockaddr_in address): _sd(sd), _address(address), _access(false)
+user::user(int sd, sockaddr_in address): _sd(sd), _access(false), _address(address)
 {
 }
 

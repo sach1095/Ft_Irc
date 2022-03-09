@@ -34,6 +34,7 @@ bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::s
 
 bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
 {
+	(void)cmd;
 	if (add_or_remove == true)
 	{
 		if (!chan->getPrivate())
@@ -95,8 +96,6 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 {
 	std::vector<std::string> cmd = parse_cmd(buf);
 	bool add_or_remove = false;
-	bool isExist = false;
-	user *index;
 
 	Channel *chan = getChan(data, cmd[1]);
 	if (cmd.size() > 1 && cmd[1][0] == '#')
