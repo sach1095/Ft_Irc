@@ -10,6 +10,12 @@ void	cmd_nick(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}
+	if (getUser_from_list(cmd[1], data.users))
+	{
+		msg = ":server " + std::string(ERR_NICKNAMEINUSE) + " nick: Nickname in use\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return ;
+	}
 	cursor->setNick(cmd[1]);
 	std::cout << "test nick = " << cursor->getNick() << std::endl;
 	if (cmd.size() > 2)
