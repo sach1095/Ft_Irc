@@ -21,7 +21,6 @@ class data
 		data(){};
 		~data()
 		{
-			puts("aikkk");
 			for (std::vector<user *>::iterator it = users.begin(); it != users.end(); it++)
 			{
 				close((*it)->getSd());

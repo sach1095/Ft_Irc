@@ -19,8 +19,12 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 	if (cmd[1][0] == '#')
 	{
 		Channel *chan = getChan(data, cmd[1]);
-		if (chan == NULL) {
-			std::cout << "OUPS" << std::endl;
+		if (chan == NULL)
+			return ;
+		if (!chan->isMember(cursor))
+		{
+			std::string msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " :You're not on that channel\r\n";
+			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 			return ;
 		}
 		std::string msg = ":" + cursor->getNick() + " PRIVMSG " + cmd[1] + " :" + cmd[2] + "\r\n";

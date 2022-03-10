@@ -151,7 +151,7 @@ bool		user::isInvited(std::string cli) const
 	for (std::vector<std::string>::const_iterator it = _invited.begin(); it != _invited.end(); it++)
 	{
 		std::string cursor = *it;
-		if (cli.compare(cursor))
+		if (cli == cursor)
 			return true;
 	}
 	return false;

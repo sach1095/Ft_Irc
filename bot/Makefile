@@ -17,45 +17,22 @@ CO_A_OUT = \033[96m
 WHITE = \033[1;49;97m
 
 # Executable
-NAME = ircserv
+NAME = bot
 
 CC = clang++
 
 # Include
 I = ./Includes/
-HEADER =	$(I)lib.hpp \
-			$(I)code_error.hpp \
-			$(I)user_class.hpp \
-			$(I)data_class.hpp \
-			$(I)channel_class.hpp \
-			$(I)exception_class.hpp
+
+HEADER =	$(I)bot.hpp \
+			$(I)lib.hpp
 
 S = ./Srcs/
 
-SC = ./Srcs/Cmd/
-SS = ./Srcs/Serv/
-SU = ./Srcs/Utils/
-
-SRCS =	$(SC)cmd_process.cpp \
-		$(SC)cmd_invite.cpp \
-		$(SC)cmd_join.cpp \
-		$(SC)cmd_list.cpp \
-		$(SC)cmd_topic.cpp \
-		$(SC)cmd_kick.cpp \
-		$(SC)cmd_mode.cpp \
-		$(SC)cmd_nick.cpp \
-		$(SC)cmd_notice.cpp \
-		$(SC)cmd_pass.cpp \
-		$(SC)cmd_privmsg.cpp \
-		$(SC)cmd_user.cpp \
-		$(SS)connect.cpp \
-		$(SS)create_socket.cpp \
-		$(SU)delete.cpp \
-		$(SU)parsing.cpp \
-		$(SU)ret_error.cpp \
-		$(SU)user.cpp \
-		$(SU)channel.cpp \
-		$(S)main.cpp
+SRCS =	$(S)bot.cpp \
+		$(S)reponce.cpp \
+		$(S)question.cpp \
+		main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -70,12 +47,10 @@ all:	$(NAME)
 $(NAME):	$(OBJS) $(HEADER)
 	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
+	@printf "Pour lancer le BOT : ./bot <ip_Serveur> <Port> <Password>\n"
 
 start:
-	@make && ./$(NAME) 9999 123 | cat -e
-
-leaks:
-	@make && Leaks -atExit -- ./$(NAME) 9999 123
+	@make && ./$(NAME) 127.0.0.1 9999 123 | cat -e
 
 clean:
 	@$(RM) $(OBJS)

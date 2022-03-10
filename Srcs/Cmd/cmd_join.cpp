@@ -48,19 +48,25 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	else if (!getChan(data, cmd[1]))
 		data.channels.push_back(new Channel(cmd[1], cmd[2]));
 	chan_cmd = getChan(data, cmd[1]);
+	std::cout << "befor check join" << std::endl;
 	if (chan_cmd->isBanned(cursor))
 	{
+		std::cout << "in join" << std::endl;
 		msg = ":server " + std::string(ERR_BANNEDFROMCHAN) + " " + cmd[1] + " :Cannot join channel, your are banned\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
-	if (chan_cmd->isPrivate() && !cursor->isInvited(chan_cmd->getName()))
+	std::cout << "afther join" << std::endl;
+	if (chan_cmd->isPrivate())
 	{
-		msg = ":server " + std::string(ERR_INVITEONLYCHAN) + " " + cmd[1] + " :Cannot join channel, your are not invited\r\n";
-		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
-		return;
+		if (!cursor->isInvited(chan_cmd->getName()))
+		{
+			msg = ":server " + std::string(ERR_INVITEONLYCHAN) + " " + cmd[1] + " :Cannot join channel, your are not invited\r\n";
+			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+			return;
+		}
 	}
-	else if (chan_cmd->isMember(cursor))
+	if (chan_cmd->isMember(cursor))
 	{
 		msg = ":server " + std::string(ERR_USERONCHANNEL) + " " + cursor->getNick() + " " + cursor->getNick() + " :is already on channel\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);

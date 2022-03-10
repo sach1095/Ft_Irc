@@ -82,10 +82,8 @@ void		Channel::addOp(user *cli)
 
 void		Channel::addBan(user *cli)
 {
-	if (isMember(cli))
-	{
-		_banned.push_back(cli);
-	}
+	std::cout << "debut add ban = " << cli->getNick() << std::endl;
+	_banned.push_back(cli);
 }
 
 bool		Channel::isMember(user *cli) const
@@ -162,8 +160,7 @@ bool		Channel::isMember(std::string cli) const
 {
 	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
 	{
-		user *c = *it;
-		if (c->getNick() == cli)
+		if ((*it)->getNick() == cli)
 			return true;
 	}
 	return false;
@@ -173,10 +170,14 @@ bool		Channel::isBanned(user *cli) const
 {
 	for (std::vector<user*>::const_iterator it = _banned.begin(); it != _banned.end(); it++)
 	{
-		user *c = *it;
-		if (c->getNick() == cli->getNick())
+		std::cout << "debut isbanned 1 = " << cli->getNick()  << " 2 = " << (*it)->getNick()  << std::endl;
+		if ((*it)->getNick() == cli->getNick())
+		{
+			std::cout << "ret true" << std::endl;
 			return true;
+		}
 	}
+	std::cout << "ret false" << std::endl;
 	return false;
 }
 
@@ -184,8 +185,7 @@ bool		Channel::isBanned(std::string cli) const
 {
 	for (std::vector<user*>::const_iterator it = _banned.begin(); it != _banned.end(); it++)
 	{
-		user *c = *it;
-		if (c->getNick() == cli)
+		if ((*it)->getNick() == cli)
 			return true;
 	}
 	return false;

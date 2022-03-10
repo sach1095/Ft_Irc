@@ -94,7 +94,7 @@ void	cmd_process(data<user *> &data)
 				* Nous allons commencer a traiter la commande.
 				*/
 				if (cursor->getAccept() == true)
-					parse_cmd(data, cursor, buffer);
+					parse_cmd(data, cursor, cursor->getBuffer());
 				else
 				{
 					try

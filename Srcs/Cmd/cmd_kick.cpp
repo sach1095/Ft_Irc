@@ -42,5 +42,5 @@ void	cmd_kick(data<user *> &data , user *cursor, std::string buf)
 		 msg = msg + cmd[i] + " ";
 	msg = ":" + cursor->getNick() + " KICK " + cmd[1] + " " + cmd[2] + " " + msg + "\r\n";
 	send_to_all_members(msg, chan);
-	chan->deleteEverywhere(getUser(cmd[2], chan));
+	chan->deleteUser(getUser(cmd[2], chan));
 }

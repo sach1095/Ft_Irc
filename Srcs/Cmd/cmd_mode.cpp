@@ -1,6 +1,6 @@
 #include "../../Includes/lib.hpp"
 
-bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
+static bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
 {
 	user *index = getUser(cmd[3], chan);
 	if (index == NULL)
@@ -32,7 +32,7 @@ bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::s
 	return SUCCESS;
 }
 
-bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
+static bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
 {
 	(void)cmd;
 	if (add_or_remove == true)
@@ -58,7 +58,7 @@ bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 	return SUCCESS;
 }
 
-bool	exec_b(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
+static bool	exec_b(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
 {
 	std::string message;
 	if (cmd.size() < 4)
@@ -76,9 +76,13 @@ bool	exec_b(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 	else {
 		if (add_or_remove == true && !chan->isOp(chan->getCli(cmd[3])))
 		{
-			chan->addBan(chan->getCli(cmd[3]));
+			std::cout << "debut mode 3 = " << cmd[3] << std::endl;
+			chan->addBan(getUser(cmd[3], chan));
 			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +b \r\n";
 			send_to_all_members(message, chan);
+			message.clear();
+			message = "KICK " + chan->getName() + cmd[3] + "\r\n";
+			cmd_kick(data, cursor, message);
 			return SUCCESS;
 		}
 		else if ( add_or_remove == false)
@@ -147,7 +151,7 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 			}
 			else if (cmd[2][i] == 'b')
 			{
-				if (exec_b(chan, cursor, cmd, add_or_remove))
+				if (exec_b(data, chan, cursor, cmd, add_or_remove))
 					return ;
 			}
 			else

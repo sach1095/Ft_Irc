@@ -16,6 +16,12 @@ void	cmd_notice(data<user *> &data , user *cursor, std::string buf)
 		Channel *chan = getChan(data, cmd[1]);
 		if (chan == NULL)
 			return ;
+		if (!chan->isMember(cursor))
+		{
+			std::string msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " :You're not on that channel\r\n";
+			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+			return ;
+		}
 		std::string msg = ":" + cursor->getNick() + " NOTICE " + cmd[1] + " :" + cmd[2] + "\r\n";
 		send_msg_to_all_members(msg, chan, cursor);
 	}
