@@ -11,6 +11,9 @@ Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic)
 
 Channel::~Channel()
 {
+	_banned.clear();
+	_op.clear();
+	_members.clear();
 }
 
 std::string	Channel::getName() const

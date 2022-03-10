@@ -30,9 +30,10 @@
 # include <fcntl.h>
 
 # include "user_class.hpp"
-# include "data_class.hpp"
 # include "channel_class.hpp"
+# include "data_class.hpp"
 
+# define PASS_ROOT 42
 /*
 * Cmd
 */
@@ -47,6 +48,7 @@ void	cmd_nick(data<user *> &data , user *cursor, std::string buf);
 void	cmd_notice(data<user *> &data , user *cursor, std::string buf);
 void	cmd_pass(data<user *> &data , user *cursor, std::string buf);
 void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf);
+void	cmd_topic(data<user *> &data , user *cursor, std::string buf);
 void	cmd_user(data<user *> &data , user *cursor, std::string buf);
 
 
@@ -67,6 +69,7 @@ bool	create_socket(data<user *> &data);
 */
 
 /* delete.cpp */
+void	delete_all(data<user *> &data , user *cursor, std::string buf);
 void	delete_user(data<user *> &data, user *cursor);
 
 /* parsing.cpp */

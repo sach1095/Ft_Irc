@@ -40,6 +40,7 @@ SRCS =	$(SC)cmd_process.cpp \
 		$(SC)cmd_invite.cpp \
 		$(SC)cmd_join.cpp \
 		$(SC)cmd_list.cpp \
+		$(SC)cmd_topic.cpp \
 		$(SC)cmd_kick.cpp \
 		$(SC)cmd_mode.cpp \
 		$(SC)cmd_nick.cpp \
@@ -58,7 +59,7 @@ SRCS =	$(SC)cmd_process.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
+CFLAGS = #-Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
 
 all:	$(NAME)
 
@@ -72,6 +73,9 @@ $(NAME):	$(OBJS) $(HEADER)
 
 start:
 	@make && ./$(NAME) 9999 123 | cat -e
+
+leaks:
+	@make && Leaks -atExit -- ./$(NAME) 9999 123
 
 clean:
 	@$(RM) $(OBJS)

@@ -34,9 +34,10 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	Channel *chan_cmd = NULL;
 	std::string msg;
 	bool first_time = false;
-	if (!(cmd.size() > 1))
+
+	if ((cmd.size() < 2))
 	{
-		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cursor->getNick() + " " + " :" + cmd[0] + ":Not enough parameters\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}

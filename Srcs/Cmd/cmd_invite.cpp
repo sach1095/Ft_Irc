@@ -8,7 +8,7 @@ void	cmd_invite(data<user *> &data , user *cursor, std::string buf)
 
 	if (cmd.size() < 3)
 	{
-		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " invite :Not enough parameters\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}

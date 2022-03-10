@@ -33,7 +33,7 @@ std::vector<std::string>	parse_cmd(std::string buf)
 			line.pop_back();
 		cmd.push_back(line);
 	}
-	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back().size() == 0)
+	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back() == " " || cmd.back().size() == 0)
 		cmd.pop_back();
 	if (cmd.size() > 2 && cmd[2][0] == ':')
 		cmd[2] = &cmd[2][1];
@@ -52,11 +52,13 @@ std::vector<std::string>	parse_msg(std::string buf)
 			line.pop_back();
 		cmd.push_back(line);
 	}
-	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back().size() == 0)
+	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back() == " " || cmd.back() == "#" || cmd.back().size() == 0)
 		cmd.pop_back();
 	if (cmd.size() > 2 && cmd[2][0] == ':')
+	{
 		cmd[2] = &cmd[2][1];
-	for (size_t i = 3; i < cmd.size(); i++)
-		cmd[2] = cmd[2] + " " + cmd[i];
+		for (size_t i = 3; i < cmd.size(); i++)
+			cmd[2] = cmd[2] + " " + cmd[i];
+	}
 	return cmd;
 }

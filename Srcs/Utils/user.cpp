@@ -6,6 +6,7 @@ user::user(int sd, sockaddr_in address): _sd(sd), _access(false), _address(addre
 
 user::~user()
 {
+	_invited.clear();
 }
 
 std::string	user::getNick() const

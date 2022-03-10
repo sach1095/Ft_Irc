@@ -63,7 +63,7 @@ bool	exec_b(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 	std::string message;
 	if (cmd.size() < 4)
 	{
-		message = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cursor->getNick() + " :Mode :Not enough parameters\r\n";
+		message = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :Mode :Not enough parameters\r\n";
 		send(cursor->getSd(), message.c_str(), message.length(), 0);
 		return FAIL;
 	}
@@ -85,6 +85,11 @@ bool	exec_b(Channel *chan , user *cursor, std::vector<std::string> cmd, bool add
 		{
 			chan->deleteBan(cmd[3]);
 			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -b \r\n";
+			send_to_all_members(message, chan);
+			return SUCCESS;
+		}
+		else{
+			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " try use +b on channel operator\r\n";
 			send_to_all_members(message, chan);
 			return SUCCESS;
 		}
@@ -131,7 +136,7 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 			}
 			else if (cmd[2][i] == 'o' && cmd.size() < 4)
 			{
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[2] + " : to more param\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}

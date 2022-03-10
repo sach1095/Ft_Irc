@@ -14,7 +14,7 @@ void	cmd_kick(data<user *> &data , user *cursor, std::string buf)
 	}
 	if (cmd[2].empty())
 	{
-		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " kick: Not enough parameters\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}

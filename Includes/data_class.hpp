@@ -2,8 +2,8 @@
 
 # include "lib.hpp"
 
-class user;
-class Channel;
+// class user;
+// class Channel;
 
 template < typename T >
 class data
@@ -19,7 +19,19 @@ class data
 		std::vector<Channel *>	channels;
 
 		data(){};
-		~data(){};
+		~data()
+		{
+			puts("aikkk");
+			for (std::vector<user *>::iterator it = users.begin(); it != users.end(); it++)
+			{
+				close((*it)->getSd());
+				delete *it;
+			}
+			users.clear();
+			for (std::vector<Channel *>::iterator it = channels.begin(); it != channels.end(); it++)
+				delete *it;
+			channels.clear();
+		}
 		data(data const& other)
 		{
 			this->port = other.port;

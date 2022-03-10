@@ -10,7 +10,9 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	* effectivement l'acheminement d'un message textuel d'un client à un autre,
 	* le reste le rend juste possible et assure que cela se passe de façon fiable et structurée.
 	*/
-	if (cmd == "NICK")
+	if (cmd == "EXIT")
+		delete_all(data, cursor, buf);
+	else if (cmd == "NICK")
 		cmd_nick(data, cursor, buf);
 	else if (cmd == "USER")
 		cmd_user(data, cursor, buf);
@@ -18,10 +20,10 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_notice(data, cursor, buf);
 	else if (cmd == "PRIVMSG")
 		cmd_privmsg(data, cursor, buf);
+	else if (cmd == "TOPIC")
+		cmd_topic(data, cursor, buf);
 	else if (cmd == "KICK")
 		cmd_kick(data, cursor, buf);
-	else if (cmd == "EXIT")
-		data.online = false;
 	else if (cmd == "INVITE")
 		cmd_invite(data, cursor, buf);
 	else if (cmd == "LIST")
