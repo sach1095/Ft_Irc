@@ -91,3 +91,4 @@ bool	checkUserStr(std::string cli, Channel *chan);
 Channel*	getChan(data<user *> &data, std::string name);
 void		send_to_all_members(std::string message, Channel *channel);
 void		send_msg_to_all_members(std::string message, Channel *channel, user *sender);
+void		delete_chan(data<user *> &data, Channel *chan);

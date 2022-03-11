@@ -45,4 +45,8 @@ private:
 		bool	isOp(user *cli) const;
 		bool	isBanned(user *cli) const;
 		bool	isBanned(std::string cli) const;
+
+		bool	OpisEmpty();
+		bool	MemberisEmpty();
+		void	setNewOp();
 };

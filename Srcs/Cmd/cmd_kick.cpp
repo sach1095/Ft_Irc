@@ -36,6 +36,12 @@ void	cmd_kick(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}
+	else if (cursor->getNick() ==  cmd[2])
+	{
+		msg = ":server " + std::string(ERR_USERNOTINCHANNEL) + " " + cmd[2] + " " + cmd[1] + ": you can't kick you self\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return ;
+	}
 	if (cmd[3][0] != ':')
 		cmd[3] = ':' + cmd[3];
 	for (size_t i = 3; i < cmd.size(); i++)

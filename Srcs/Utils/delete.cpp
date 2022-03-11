@@ -32,6 +32,10 @@ void	delete_user(data<user *> &data, user *cursor)
 	for (std::vector<Channel*>::iterator it = data.channels.begin(); it != ite; it++)
 	{
 		(*it)->deleteEverywhere(cursor);
+		if ((*it)->OpisEmpty() && !(*it)->MemberisEmpty())
+			(*it)->setNewOp();
+		else if ((*it)->MemberisEmpty())
+			delete_chan(data, *it);
 	}
 	while (it != data.users.end())
 	{

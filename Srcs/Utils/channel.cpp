@@ -231,3 +231,35 @@ void	send_msg_to_all_members(std::string message, Channel *channel, user *sender
 			send(c->getSd(), message.c_str(), message.length(), 0);
 	}
 }
+
+bool	Channel::OpisEmpty()
+{
+	if (_op.size() == 0)
+		return true;
+	return false;
+}
+
+bool	Channel::MemberisEmpty()
+{
+	if (_members.size() == 0)
+		return true;
+	return false;
+}
+
+void	Channel::setNewOp()
+{
+	user *member = _members[0];
+	addOp(member);
+}
+
+void	delete_chan(data<user *> &data, Channel *chan)
+{
+	for (std::vector<Channel *>::iterator it = data.channels.begin(); it != data.channels.end(); it++)
+	{
+		if ((*it)->getName() == chan->getName())
+		{
+			delete *it;
+			data.channels.erase(it);
+		}
+	}
+}
