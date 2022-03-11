@@ -22,7 +22,6 @@ bool	create_socket(data<user *> &data)
 	* sin_port représente le port à contacter
 	* sin_addr représente l'adresse de l'hôte
 	*/
-
 	if (fcntl(data.primary_socket, F_SETFL, O_NONBLOCK) == -1)
 		return ret_error("Error fcntl return");
 

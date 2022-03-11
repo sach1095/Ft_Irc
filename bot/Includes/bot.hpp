@@ -10,8 +10,8 @@ public:
 	int							sock;
 	int							_sd;
 	int							_online;
+	int							_port;
 	std::string					_Ip;
-	std::string					_port;
 	std::string					_buffer;
 	std::string					_Pass;
 	std::string					_Nick;

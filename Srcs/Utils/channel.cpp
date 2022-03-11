@@ -115,7 +115,7 @@ void		Channel::deleteUser(user *cli)
 		if (*it == cli)
 		{
 			_members.erase(it);
-			break ;
+			return ;
 		}
 	}
 }
@@ -127,7 +127,7 @@ void		Channel::deleteOp(user *cli)
 		if (*it == cli)
 		{
 			_op.erase(it);
-			break ;
+			return ;
 		}
 	}
 }
@@ -139,7 +139,7 @@ void		Channel::deleteBan(user *cli)
 		if (*it == cli)
 		{
 			_banned.erase(it);
-			break ;
+			return ;
 		}
 	}
 }
@@ -151,7 +151,7 @@ void		Channel::deleteBan(std::string cli)
 		if ((*it)->getNick() == cli)
 		{
 			_banned.erase(it);
-			break ;
+			return ;
 		}
 	}
 }
@@ -170,14 +170,11 @@ bool		Channel::isBanned(user *cli) const
 {
 	for (std::vector<user*>::const_iterator it = _banned.begin(); it != _banned.end(); it++)
 	{
-		std::cout << "debut isbanned 1 = " << cli->getNick()  << " 2 = " << (*it)->getNick()  << std::endl;
 		if ((*it)->getNick() == cli->getNick())
 		{
-			std::cout << "ret true" << std::endl;
 			return true;
 		}
 	}
-	std::cout << "ret false" << std::endl;
 	return false;
 }
 
@@ -260,6 +257,7 @@ void	delete_chan(data<user *> &data, Channel *chan)
 		{
 			delete *it;
 			data.channels.erase(it);
+			return ;
 		}
 	}
 }

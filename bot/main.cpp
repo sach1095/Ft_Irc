@@ -1,7 +1,5 @@
 #include "Includes/lib.hpp"
 
-#define PORT 8080
-
 bool	ret_error(std::string str)
 {
 	std::cerr << str << std::endl;
@@ -10,21 +8,24 @@ bool	ret_error(std::string str)
 
 void	go_connect(Bot &bot)
 {
+	std::cout << "sec" << std::cout;
 	std::string msg = bot._Pass + "\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	sleep(500);
+	std::cout << "sec 1 " << std::cout;
+	sleep(1500);
 	msg.clear();
 	msg = bot._Nick + "\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	sleep(500);
+	std::cout << "sec 2" << std::cout;
+	sleep(1500);
 	msg.clear();
 	msg = bot._User_name + "\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	sleep(500);
+	sleep(1500);
 	msg.clear();
 	msg = "JOIN #bot\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	sleep(500);
+	sleep(1500);
 }
 
 void	parse_cmd(Bot &bot, std::string buf)
@@ -69,13 +70,14 @@ void	go_online(Bot &bot)
 int main(int ac, char **av)
 {
 	Bot bot;
-	
+
 	if (ac > 4 || ac < 3)
 		return(ret_error("Errro bad number of arguments, Need <ip_Serveur> <Port> <Password>\n"));
 
 	bot.sock = 0;
 	bot._Ip = av[1];
-	bot._port = av[2];
+	std::stringstream aa(av[2]);
+	aa >> bot._port;
 	bot._Pass = "PASS ";
 	bot._Nick = "Mr_robot";
 	bot._User_name = "bot * rob ot";
@@ -84,12 +86,16 @@ int main(int ac, char **av)
 	if ((bot.sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		return(ret_error("Socket creation error \n"));
 	bot.serv_addr.sin_family = AF_INET;
-	bot.serv_addr.sin_port = htons(PORT);
+	bot.serv_addr.sin_port = htons(bot._port);
 
 	if(inet_pton(AF_INET, bot._Ip.c_str(), &bot.serv_addr.sin_addr)<=0)
 		return(ret_error("\nInvalid address/ Address not supported \n"));
+	std::cout << "debug ip = " << bot._Ip << " port = " << bot._port << " PASS = " << bot._Pass << " sock = " << bot.sock << std::endl;
 	if (connect(bot.sock, (struct sockaddr *)&bot.serv_addr, sizeof(bot.serv_addr)) < 0)
+	{
+		std::cout << "errno = " << errno << " ," << strerror(errno) << std::endl;
 		return(ret_error("\nConnection Failed \n \n"));
+	}
 	go_connect(bot);
 
 	while (bot._online)
