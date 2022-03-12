@@ -20,6 +20,8 @@ public:
 	std::vector<std::string>	_Cmd;
 	struct						sockaddr_in serv_addr;
 	struct 						hostent *server;
+	time_t						actuel;
+	std::string					to_join;
 	Bot();
 	~Bot();
 };

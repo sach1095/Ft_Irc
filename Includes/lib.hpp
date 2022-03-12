@@ -28,6 +28,7 @@
 # include <sys/socket.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <netdb.h>
 
 # include "user_class.hpp"
 # include "channel_class.hpp"

@@ -24,7 +24,7 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <sys/socket.h>
-# include <netdb.h>
+
 # include <unistd.h>
 # include <fcntl.h>
 
@@ -32,6 +32,18 @@
 
 void	rep_1(Bot &bot);
 void	rep_2(Bot &bot);
+void	rep_3(Bot &bot);
+void	rep_4(Bot &bot);
+void	rep_5(Bot &bot);
+void	rep_6(Bot &bot);
+void	rep_7(Bot &bot);
+void	rep_8(Bot &bot);
 
 bool	quest_1(std::string buf);
 bool	quest_2(std::string buf);
+bool	quest_3(std::string buf);
+bool	quest_4(std::string buf);
+bool	quest_5(std::string buf);
+bool	quest_6(std::string buf);
+bool	quest_7(std::string buf);
+bool	quest_8(std::string buf);

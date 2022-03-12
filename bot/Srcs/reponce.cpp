@@ -11,3 +11,41 @@ void	rep_2(Bot &bot)
 	std::string msg = "PRIVMSG #bot_chan :ca va et toi.\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
 }
+
+void	rep_3(Bot &bot)
+{
+	std::string msg = "PRIVMSG #bot_chan : WAZAAAAAAA !!!!!.\r\n";
+	send(bot.sock , msg.c_str() , msg.size(), 0);
+}
+
+void	rep_4(Bot &bot)
+{
+	std::string msg = "PRIVMSG #bot_chan : bof rien de special, je tchate tranquille.\r\n";
+	send(bot.sock , msg.c_str() , msg.size(), 0);
+}
+
+void	rep_5(Bot &bot)
+{
+	std::string msg = "PRIVMSG #bot_chan : vsccodee la baseee, mais vim est puissant si tu le maitrisse bien.\r\n";
+	send(bot.sock , msg.c_str() , msg.size(), 0);
+}
+
+void	rep_6(Bot &bot)
+{
+	bot.actuel = time(0);
+	tm *ltm = localtime(&bot.actuel);
+	std::stringstream aa;
+	aa << "PRIVMSG #bot_chan : la il est" << ltm->tm_hour << ":" << ltm->tm_min << "\r\n";
+	std::string msg = aa.str();
+	send(bot.sock , msg.c_str() , msg.size(), 0);
+}
+
+void	rep_7(Bot &bot)
+{
+	bot.actuel = time(0);
+	tm *ltm = localtime(&bot.actuel);
+	std::stringstream aa;
+	aa << "PRIVMSG #bot_chan : nous somme le " << ltm->tm_yday << " " << ltm->tm_mon << " de l'annee " << ltm->tm_year << " autre chose ?\r\n";
+	std::string msg = aa.str();
+	send(bot.sock , msg.c_str() , msg.size(), 0);
+}
