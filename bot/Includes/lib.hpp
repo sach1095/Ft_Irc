@@ -46,4 +46,4 @@ bool	quest_4(std::string buf);
 bool	quest_5(std::string buf);
 bool	quest_6(std::string buf);
 bool	quest_7(std::string buf);
-bool	quest_8(std::string buf);
+bool	quest_8(Bot &bot, std::string buf);

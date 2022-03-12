@@ -9,7 +9,6 @@ bool	ret_error(std::string str)
 void	go_connect(Bot &bot)
 {
 	std::string msg = bot._Pass;
-	std::cout << "debug pass = " << bot._Pass << std::endl;
 	send(bot.sock , msg.c_str() , msg.size(), 0);
 	msg.clear();
 	usleep(1000);
@@ -32,8 +31,27 @@ void	parse_cmd(Bot &bot, std::string buf)
 
 	if (quest_1(buf))
 		rep_1(bot);
-	else if (quest_2(buf))
+	usleep(1000);
+	if (quest_2(buf))
 		rep_2(bot);
+	usleep(1000);
+	if (quest_3(buf))
+		rep_3(bot);
+	usleep(1000);
+	if (quest_4(buf))
+		rep_4(bot);
+	usleep(1000);
+	if (quest_5(buf))
+		rep_5(bot);
+	usleep(1000);
+	if (quest_6(buf))
+		rep_6(bot);
+	usleep(1000);
+	if (quest_7(buf))
+		rep_7(bot);
+	usleep(1000);
+	if (quest_8(bot, buf))
+		rep_8(bot);
 }
 
 void	go_online(Bot &bot)
@@ -94,7 +112,6 @@ int main(int ac, char **av)
 	bot.server = gethostbyname(bot._Ip.c_str());
 	if (bot.server == NULL)
 		ret_error(strerror(errno));
-
 
 	std::memcpy((char *)bot.server->h_addr, (char *)&bot.serv_addr.sin_addr.s_addr, bot.server->h_length);
 
