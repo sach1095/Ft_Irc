@@ -32,7 +32,7 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 	}
 	else
 	{
-		user *index;
+		user *index = NULL;
 		std::vector<user *>::iterator it = data.users.begin();
 		while ( it != data.users.end())
 		{

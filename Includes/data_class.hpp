@@ -2,8 +2,8 @@
 
 # include "lib.hpp"
 
-// class user;
-// class Channel;
+class user;
+class Channel;
 
 template < typename T >
 class data

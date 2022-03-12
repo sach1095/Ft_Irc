@@ -26,7 +26,7 @@ bool	create_socket(data<user *> &data)
 		return ret_error("Error fcntl return");
 
 	data.address.sin_family = AF_INET;
-	data.address.sin_addr.s_addr = htonl(INADDR_ANY);
+	data.address.sin_addr.s_addr = INADDR_ANY;
 	data.address.sin_port = htons(data.port);
 
 	if (bind(data.primary_socket, (struct sockaddr *)&data.address, sizeof(data.address)) < 0)
@@ -38,9 +38,8 @@ bool	create_socket(data<user *> &data)
 	* La fonction listen() permet de mettre un socket en attente de connexion.
 	* Ici jusqu'a 10 connexion.
 	*/
-	if (listen(data.primary_socket, 10) < 0)
+	if (listen(data.primary_socket, 3) < 0)
 		return (ret_error("Error listen return - Socket can't be in wait states"));
-
 	std::cout << "Waiting for connections ..." << std::endl;
 	return (SUCCESS);
 }

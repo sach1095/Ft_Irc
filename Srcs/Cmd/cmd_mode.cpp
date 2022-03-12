@@ -58,49 +58,6 @@ static bool	exec_i(Channel *chan , user *cursor, std::vector<std::string> cmd, b
 	return SUCCESS;
 }
 
-static bool	exec_b(data<user *> &data ,Channel *chan , user *cursor, std::vector<std::string> cmd, bool add_or_remove)
-{
-	std::string message;
-	if (cmd.size() < 4)
-	{
-		message = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :Mode :Not enough parameters\r\n";
-		send(cursor->getSd(), message.c_str(), message.length(), 0);
-		return FAIL;
-	}
-	else if (!chan->isMember(cmd[3]) && !chan->isBanned(cmd[3]))
-	{
-		message = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[3] + " :No such nick\r\n";
-		send(cursor->getSd(), message.c_str(), message.length(), 0);
-		return FAIL;
-	}
-	else {
-		if (add_or_remove == true && !chan->isOp(chan->getCli(cmd[3])))
-		{
-			std::cout << "debut mode 3 = " << cmd[3] << std::endl;
-			chan->addBan(getUser(cmd[3], chan));
-			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use +b \r\n";
-			send_to_all_members(message, chan);
-			message.clear();
-			message = "KICK " + chan->getName() + cmd[3] + "\r\n";
-			cmd_kick(data, cursor, message);
-			return SUCCESS;
-		}
-		else if ( add_or_remove == false)
-		{
-			chan->deleteBan(cmd[3]);
-			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " use -b \r\n";
-			send_to_all_members(message, chan);
-			return SUCCESS;
-		}
-		else{
-			message = ":server " + std::string(RPL_CHANNELMODEIS) + " " + cursor->getNick() + " " + chan->getName() + " :" + cursor->getNick() +  " try use +b on channel operator\r\n";
-			send_to_all_members(message, chan);
-			return SUCCESS;
-		}
-	}
-	return SUCCESS;
-}
-
 void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 {
 	std::vector<std::string> cmd = parse_cmd(buf);
@@ -147,11 +104,6 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 			else if (cmd[2][i] == 'i')
 			{
 				if (exec_i(chan, cursor, cmd, add_or_remove))
-					return ;
-			}
-			else if (cmd[2][i] == 'b')
-			{
-				if (exec_b(data, chan, cursor, cmd, add_or_remove))
 					return ;
 			}
 			else

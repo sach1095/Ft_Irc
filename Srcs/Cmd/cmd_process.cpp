@@ -3,7 +3,7 @@
 static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string cmd = buf.substr(0, buf.find(' '));
-	std::cout << "cmd = : " << buf << std::endl;
+	std::cout << "cmd in parse = : " << buf << std::endl;
 	/*
 	* Le but principal du protocole IRC est de fournir une base afin que des clients puissent communiquer entre eux.
 	* PRIVMSG et NOTICE sont les seuls messages disponibles qui réalisent
@@ -32,12 +32,16 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_join(data, cursor, buf);
 	else if (cmd == "MODE")
 		cmd_mode(data, cursor, buf);
+	else if (cmd == "QUIT")
+		cmd_quit(data, cursor, buf);
 	else if(cmd == "PASS")
 	{
 		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
 		send(cursor->getSd(), err.c_str(), err.length(), 0);
 		return ;
 	}
+	else if (cmd == "PONG")
+		std::cout << "pong cmd" << std::endl;
 	else if (cmd != "PONG")
 	{
 		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " :Unknown command\r\n";
@@ -45,12 +49,28 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 	}
 }
 
+static void	disconnect_user(data<user *> &data, user *cursor, int sd)
+{
+	/*
+	* Close le socket et le set a 0 dans la liste.
+	*/
+	std::string msg;
+	msg = "QUIT : " + cursor->getNick() + " was deconnected.";
+	parse_cmd(data, cursor, msg);
+	close(sd);
+	sd = 0;
+	/*
+	* Supprime l'utilisateur de la liste.
+	*/
+	delete_user(data, cursor);
+}
+
 void	cmd_process(data<user *> &data)
 {
-	int		sd;
-	int		ret_read;
-	//int		size_adress = sizeof(data.address);
-	char	buffer[1024];
+	int		sd = 0;
+	int		ret_read = 0;
+	int		size_adress = sizeof(data.address);
+	char	buffer[1024] = {0};
 
 	for (std::vector<user *>::iterator it = data.users.begin(); it != data.users.end(); it++)
 	{
@@ -59,22 +79,14 @@ void	cmd_process(data<user *> &data)
 
 		if (FD_ISSET(sd, &data.readfds))
 		{
-			if ((ret_read = read(sd, buffer, 1024)) == 0)
+			if ((ret_read = read(sd, buffer, 1024)) <= 0)
 			{
 				/*
 				* des quelqu'un ce deconnecte, recuperer ses detail et les affiche.
 				*/
-				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&data.address);
+				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&size_adress);
 				std::cout << "User " << cursor->getNick() << " disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
-				/*
-				* Close le socket et le set a 0 dans la liste.
-				*/
-				close(sd);
-				sd = 0;
-				/*
-				* Supprime l'utilisateur de la liste.
-				*/
-				delete_user(data, cursor);
+				disconnect_user(data, cursor, sd);
 				return ;
 			}
 			else
@@ -89,6 +101,7 @@ void	cmd_process(data<user *> &data)
 					cursor->setBuffer(buffer);
 				else
 					cursor->setBuffer(cursor->getBuffer() + buffer);
+				std::cout << "buffer = " << cursor->getBuffer() << std::endl;
 				/*
 				* Si l'utilisateur est deja accepter,
 				* Nous allons commencer a traiter la commande.

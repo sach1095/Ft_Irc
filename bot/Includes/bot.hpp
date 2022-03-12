@@ -19,6 +19,7 @@ public:
 	std::vector<std::string>	_Connect;
 	std::vector<std::string>	_Cmd;
 	struct						sockaddr_in serv_addr;
+	struct 						hostent *server;
 	Bot();
 	~Bot();
 };

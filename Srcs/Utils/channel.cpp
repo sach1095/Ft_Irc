@@ -11,7 +11,6 @@ Channel::Channel(std::string name, std::string topic):_name(name), _topic(topic)
 
 Channel::~Channel()
 {
-	_banned.clear();
 	_op.clear();
 	_members.clear();
 }
@@ -80,12 +79,6 @@ void		Channel::addOp(user *cli)
 	}
 }
 
-void		Channel::addBan(user *cli)
-{
-	std::cout << "debut add ban = " << cli->getNick() << std::endl;
-	_banned.push_back(cli);
-}
-
 bool		Channel::isMember(user *cli) const
 {
 	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
@@ -132,30 +125,6 @@ void		Channel::deleteOp(user *cli)
 	}
 }
 
-void		Channel::deleteBan(user *cli)
-{
-	for (std::vector<user *>::iterator it = _banned.begin(); it != _banned.end(); it++)
-	{
-		if (*it == cli)
-		{
-			_banned.erase(it);
-			return ;
-		}
-	}
-}
-
-void		Channel::deleteBan(std::string cli)
-{
-	for (std::vector<user *>::iterator it = _banned.begin(); it != _banned.end(); it++)
-	{
-		if ((*it)->getNick() == cli)
-		{
-			_banned.erase(it);
-			return ;
-		}
-	}
-}
-
 bool		Channel::isMember(std::string cli) const
 {
 	for (std::vector<user*>::const_iterator it = _members.begin(); it != _members.end(); it++)
@@ -166,32 +135,9 @@ bool		Channel::isMember(std::string cli) const
 	return false;
 }
 
-bool		Channel::isBanned(user *cli) const
-{
-	for (std::vector<user*>::const_iterator it = _banned.begin(); it != _banned.end(); it++)
-	{
-		if ((*it)->getNick() == cli->getNick())
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-bool		Channel::isBanned(std::string cli) const
-{
-	for (std::vector<user*>::const_iterator it = _banned.begin(); it != _banned.end(); it++)
-	{
-		if ((*it)->getNick() == cli)
-			return true;
-	}
-	return false;
-}
-
 void		Channel::deleteEverywhere(user *cursor)
 {
 	deleteOp(cursor);
-	deleteBan(cursor);
 	deleteUser(cursor);
 }
 
@@ -208,7 +154,7 @@ Channel*	getChan(data<user *> &data, std::string name)
 
 void	send_to_all_members(std::string message, Channel *channel)
 {
-	user *c;
+	user *c = NULL;
 	std::vector<user*> members = channel->getMembers();
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
@@ -219,13 +165,49 @@ void	send_to_all_members(std::string message, Channel *channel)
 
 void	send_msg_to_all_members(std::string message, Channel *channel, user *sender)
 {
-	user *c;
+	user *c = NULL;
 	std::vector<user*> members = channel->getMembers();
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
 		c = *it;
 		if (sender->getNick() != c->getNick())
 			send(c->getSd(), message.c_str(), message.length(), 0);
+	}
+}
+
+static bool insave(user *sender, std::vector<user *> save)
+{
+	for (std::vector<user *>::iterator it = save.begin(); it != save.end(); it++)
+	{
+		user *search = *it;
+		if (search->getNick() == sender->getNick())
+			return true;
+	}
+	return false;
+}
+
+void	send_msg_to_all_channels(data<user *> &data, std::string message, user *sender)
+{
+	std::vector<user *> save;
+	save.push_back(sender);
+
+	for (std::vector<Channel *>::iterator it = data.channels.begin(); it != data.channels.end(); it++)
+	{
+		Channel *index = *it;
+		if (index->isMember(sender->getNick()))
+		{
+			std::vector<user *> cls = index->getMembers();
+			for (std::vector<user *>::iterator it2 = cls.begin(); it2 != cls.end(); it2++)
+			{
+				user *dest = *it2;
+				if (!(insave(dest, save)))
+				{
+					send(dest->getSd(), message.c_str(), message.length(), 0);
+					save.push_back(dest);
+				}
+			}
+			index->deleteEverywhere(sender);
+		}
 	}
 }
 
@@ -245,8 +227,11 @@ bool	Channel::MemberisEmpty()
 
 void	Channel::setNewOp()
 {
-	user *member = _members[0];
-	addOp(member);
+	if (_members.size() != 0)
+	{
+		user *member = _members[0];
+		addOp(member);
+	}
 }
 
 void	delete_chan(data<user *> &data, Channel *chan)

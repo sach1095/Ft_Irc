@@ -92,25 +92,25 @@ std::string	user::getIp() const
 
 user*	getUser(std::string name, Channel *channel)
 {
-	user *c;
+	user *index = NULL;
 	std::vector<user*> members = channel->getMembers();
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
-		c = *it;
-		if (c->getNick() == name)
-			return c;
+		index = *it;
+		if (index->getNick() == name)
+			return index;
 	}
 	return NULL;
 }
 
 user*	getUser_from_list(std::string name, std::vector<user *> users)
 {
-	user *c;
+	user *index = NULL;
 	for (std::vector<user*>::iterator it = users.begin(); it != users.end(); it++)
 	{
-		c = *it;
-		if (c->getNick() == name)
-			return c;
+		index = *it;
+		if (index->getNick() == name)
+			return index;
 	}
 	return NULL;
 }
@@ -118,11 +118,11 @@ user*	getUser_from_list(std::string name, std::vector<user *> users)
 bool	checkUser(user *cli, Channel *channel)
 {
 	std::vector<user *> members = channel->getMembers();
-	user *c;
+	user *index = NULL;
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
-		c = *it;
-		if (c->getSd() == cli->getSd())
+		index = *it;
+		if (index->getSd() == cli->getSd())
 			return true;
 	}
 	return false;
@@ -131,11 +131,11 @@ bool	checkUser(user *cli, Channel *channel)
 bool	checkUserStr(std::string cli, Channel *channel)
 {
 	std::vector<user *> members = channel->getMembers();
-	user *c;
+	user *index = NULL;
 	for (std::vector<user*>::iterator it = members.begin(); it != members.end(); it++)
 	{
-		c = *it;
-		if (c->getNick() == cli)
+		index = *it;
+		if (index->getNick() == cli)
 			return true;
 	}
 	return false;

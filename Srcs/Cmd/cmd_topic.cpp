@@ -5,7 +5,7 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 	std::vector<std::string> cmd = parse_msg(buf);
 
 	std::string msg;
-	Channel *chan;
+	Channel *chan = NULL;
 	if (cmd.size() < 2)
 	{
 		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Not enough parameters\r\n";

@@ -4,7 +4,6 @@ void	cmd_notice(data<user *> &data , user *cursor, std::string buf)
 {
 	std::vector<std::string> cmd = parse_msg(buf);
 
-
 	if (cmd.size() < 3)
 		return ;
 	if (cmd[1][0] == '$')
@@ -27,7 +26,7 @@ void	cmd_notice(data<user *> &data , user *cursor, std::string buf)
 	}
 	else
 	{
-		user *index;
+		user *index = NULL;
 		std::vector<user *>::iterator it = data.users.begin();
 		while ( it != data.users.end())
 		{

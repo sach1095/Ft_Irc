@@ -50,6 +50,7 @@ void	cmd_pass(data<user *> &data , user *cursor, std::string buf);
 void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf);
 void	cmd_topic(data<user *> &data , user *cursor, std::string buf);
 void	cmd_user(data<user *> &data , user *cursor, std::string buf);
+void	cmd_quit(data<user *> &data , user *cursor, std::string buf);
 
 
 /*
@@ -92,3 +93,4 @@ Channel*	getChan(data<user *> &data, std::string name);
 void		send_to_all_members(std::string message, Channel *channel);
 void		send_msg_to_all_members(std::string message, Channel *channel, user *sender);
 void		delete_chan(data<user *> &data, Channel *chan);
+void		send_msg_to_all_channels(data<user *> &data, std::string message, user *sender);

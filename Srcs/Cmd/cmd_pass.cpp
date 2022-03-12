@@ -4,10 +4,8 @@ void	cmd_pass(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string cmd = buf.substr(0, buf.find(' '));
 
-	std::cout << "test gfet mdp" << std::endl;
 	if (cmd.compare("PASS") == SUCCESS)
 	{
-		std::cout << "ouiii" << std::endl;
 		int start = cmd.length() + 1;
 
 		/*

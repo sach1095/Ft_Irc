@@ -2,7 +2,7 @@
 
 static bool	new_connection(data<user *> &data)
 {
-	int new_socket;
+	int new_socket = 0;
 	int size_adress = sizeof(data.address);
 
 	/*
@@ -28,7 +28,7 @@ static bool	new_connection(data<user *> &data)
 
 bool start_online(data<user *> &data)
 {
-	int	max_sd, sd, activity;
+	int	max_sd, sd, activity = 0;
 
 	data.online = 1;
 	while (data.online)

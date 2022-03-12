@@ -8,24 +8,22 @@ bool	ret_error(std::string str)
 
 void	go_connect(Bot &bot)
 {
-	std::cout << "sec" << std::cout;
-	std::string msg = bot._Pass + "\r\n";
+	std::string msg = bot._Pass;
+	std::cout << "debug pass = " << bot._Pass << std::endl;
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	std::cout << "sec 1 " << std::cout;
-	sleep(1500);
 	msg.clear();
+	usleep(1000);
 	msg = bot._Nick + "\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	std::cout << "sec 2" << std::cout;
-	sleep(1500);
 	msg.clear();
+	usleep(1000);
 	msg = bot._User_name + "\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	sleep(1500);
 	msg.clear();
-	msg = "JOIN #bot\r\n";
+	usleep(1000);
+	msg = "JOIN #bot_chan\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
-	sleep(1500);
+	msg.clear();
 }
 
 void	parse_cmd(Bot &bot, std::string buf)
@@ -40,15 +38,13 @@ void	parse_cmd(Bot &bot, std::string buf)
 
 void	go_online(Bot &bot)
 {
-	char	buffer[1024];
+	char	buffer[1024] = {0};
 	int		valread;
-	int		online = 1;
-
-	while (true)
+	while (bot._online)
 	{
-		if((valread = read(bot.sock , buffer, 1024)) == 0){
+		if((valread = recv(bot.sock, buffer, 1024, 0)) <= 0){
 			close(bot.sock);
-			online = 0;
+			bot._online = 0;
 		}
 		else{
 			buffer[valread] = '\0';
@@ -62,9 +58,13 @@ void	go_online(Bot &bot)
 			else
 				bot._buffer = bot._buffer + buffer;
 		}
-		parse_cmd(bot, bot._buffer);
-		bot._buffer.clear();
+		if (bot._buffer.find('\n') != std::string::npos)
+		{
+			parse_cmd(bot, bot._buffer);
+			bot._buffer.clear();
+		}
 	}
+	bot._online = 0;
 }
 
 int main(int ac, char **av)
@@ -79,23 +79,28 @@ int main(int ac, char **av)
 	std::stringstream aa(av[2]);
 	aa >> bot._port;
 	bot._Pass = "PASS ";
-	bot._Nick = "Mr_robot";
-	bot._User_name = "bot * rob ot";
-	bot._Pass = bot._Pass + av[3];
+	bot._Nick = "NICK Mr_robot";
+	bot._User_name = "USER bot * rob ot";
+	bot._Pass = bot._Pass + av[3] + "\r\n";
 
 	if ((bot.sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		return(ret_error("Socket creation error \n"));
 	bot.serv_addr.sin_family = AF_INET;
+	bot.serv_addr.sin_addr.s_addr = INADDR_ANY;
 	bot.serv_addr.sin_port = htons(bot._port);
 
 	if(inet_pton(AF_INET, bot._Ip.c_str(), &bot.serv_addr.sin_addr)<=0)
 		return(ret_error("\nInvalid address/ Address not supported \n"));
-	std::cout << "debug ip = " << bot._Ip << " port = " << bot._port << " PASS = " << bot._Pass << " sock = " << bot.sock << std::endl;
-	if (connect(bot.sock, (struct sockaddr *)&bot.serv_addr, sizeof(bot.serv_addr)) < 0)
-	{
-		std::cout << "errno = " << errno << " ," << strerror(errno) << std::endl;
-		return(ret_error("\nConnection Failed \n \n"));
-	}
+	bot.server = gethostbyname(bot._Ip.c_str());
+	if (bot.server == NULL)
+		ret_error(strerror(errno));
+
+
+	std::memcpy((char *)bot.server->h_addr, (char *)&bot.serv_addr.sin_addr.s_addr, bot.server->h_length);
+
+	if (connect(bot.sock, (struct sockaddr *)&bot.serv_addr, sizeof(bot.serv_addr)) == -1)
+		return(ret_error("\nConnection Failed \n"));
+
 	go_connect(bot);
 
 	while (bot._online)
