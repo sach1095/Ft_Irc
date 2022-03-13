@@ -35,12 +35,9 @@ void	delete_user(data<user *> &data, user *cursor)
 		{
 			(*it)->deleteEverywhere(cursor);
 			if ((*it)->OpisEmpty() && !(*it)->MemberisEmpty())
-			{
 				(*it)->setNewOp();
-			}else if ((*it)->MemberisEmpty())
-			{
+			else if ((*it)->MemberisEmpty())
 				delete_chan(data, *it);
-			}
 			break;
 		}
 	}

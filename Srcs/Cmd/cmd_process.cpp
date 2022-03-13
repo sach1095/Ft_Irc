@@ -32,8 +32,6 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_join(data, cursor, buf);
 	else if (cmd == "MODE")
 		cmd_mode(data, cursor, buf);
-	else if (cmd == "QUIT")
-		cmd_quit(data, cursor, buf);
 	else if(cmd == "PASS")
 	{
 		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
@@ -54,9 +52,6 @@ static void	disconnect_user(data<user *> &data, user *cursor, int sd)
 	/*
 	* Close le socket et le set a 0 dans la liste.
 	*/
-	std::string msg;
-	msg = "QUIT : " + cursor->getNick() + " was deconnected.";
-	parse_cmd(data, cursor, msg);
 	close(sd);
 	sd = 0;
 	/*

@@ -229,8 +229,7 @@ void	Channel::setNewOp()
 {
 	if (_members.size() != 0)
 	{
-		user *member = _members[0];
-		addOp(member);
+		addOp(_members[0]);
 	}
 }
 
