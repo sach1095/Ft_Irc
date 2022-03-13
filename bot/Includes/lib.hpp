@@ -38,6 +38,7 @@ void	rep_5(Bot &bot);
 void	rep_6(Bot &bot);
 void	rep_7(Bot &bot);
 void	rep_8(Bot &bot);
+void	rep_9(Bot &bot);
 
 bool	quest_1(std::string buf);
 bool	quest_2(std::string buf);
@@ -47,3 +48,4 @@ bool	quest_5(std::string buf);
 bool	quest_6(std::string buf);
 bool	quest_7(std::string buf);
 bool	quest_8(Bot &bot, std::string buf);
+bool	quest_9(std::string buf);

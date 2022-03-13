@@ -99,3 +99,11 @@ bool	quest_8(Bot &bot, std::string buf)
 		}
 	return false;
 }
+
+bool	quest_9(std::string buf)
+{
+	if (buf.find("non c'est trop") != std::string::npos ||
+			buf.find("trop") != std::string::npos)
+		return true;
+	return false;
+}

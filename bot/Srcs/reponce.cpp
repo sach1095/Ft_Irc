@@ -59,7 +59,18 @@ void	rep_8(Bot &bot)
 	send(bot.sock , msg.c_str() , msg.size(), 0);
 	msg.clear();
 	usleep(1000);
-	msg = "KICK #bot_chan " + bot.to_ban + "\r\n";
+	msg = "KICK #bot_chan " + bot.to_ban + " :Pas de gros mots ici!\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
 	bot.to_ban.clear();
+}
+
+void	rep_9(Bot &bot)
+{
+	bot.actuel = time(0);
+	tm *ltm = localtime(&bot.actuel);
+	std::stringstream aa;
+
+	aa << "PRIVMSG #bot_chan : quand c'est trop, c'est tropico ;)\r\n";
+	std::string msg = aa.str();
+	send(bot.sock , msg.c_str() , msg.size(), 0);
 }
