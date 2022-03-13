@@ -1,23 +1,23 @@
 #include "../Includes/lib.hpp"
 
-// static std::vector<std::string>	copy_parse_cmd(std::string buf)
-// {
-// 	char delimiter = ' ';
-// 	std::vector<std::string> cmd;
-// 	std::stringstream ss(buf);
-// 	std::string line;
-// 	while (std::getline(ss, line, delimiter))
-// 	{
-// 		while (line.back() == '\n' || line.back() == '\r')
-// 			line.pop_back();
-// 		cmd.push_back(line);
-// 	}
-// 	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back() == " " || cmd.back().size() == 0)
-// 		cmd.pop_back();
-// 	if (cmd.size() > 2 && cmd[2][0] == ':')
-// 		cmd[2] = &cmd[2][1];
-// 	return cmd;
-// }
+static std::vector<std::string>	copy_parse_cmd(std::string buf)
+{
+	char delimiter = ' ';
+	std::vector<std::string> cmd;
+	std::stringstream ss(buf);
+	std::string line;
+	while (std::getline(ss, line, delimiter))
+	{
+		while (line.back() == '\n' || line.back() == '\r')
+			line.pop_back();
+		cmd.push_back(line);
+	}
+	while (cmd.back() == "\n" || cmd.back() == "\r" || cmd.back() == " " || cmd.back().size() == 0)
+		cmd.pop_back();
+	if (cmd.size() > 2 && cmd[2][0] == ':')
+		cmd[2] = &cmd[2][1];
+	return cmd;
+}
 
 bool	quest_1(std::string buf)
 {
@@ -86,8 +86,16 @@ bool	quest_7(std::string buf)
 
 bool	quest_8(Bot &bot, std::string buf)
 {
-	(void)bot;
-	if (buf.find("merde") != std::string::npos)
-		return true;
+	std::vector<std::string> cmd = copy_parse_cmd(buf);
+	if (buf.find("merde") != std::string::npos ||
+		buf.find("connard") != std::string::npos ||
+		buf.find("conard") != std::string::npos ||
+		buf.find("salo") != std::string::npos ||
+		buf.find("encule") != std::string::npos)
+		{
+			bot.to_ban = &cmd[0][1];
+			std::cout << "Test ban : " << bot.to_ban << std::endl;
+			return true;
+		}
 	return false;
 }

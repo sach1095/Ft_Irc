@@ -57,4 +57,9 @@ void	rep_8(Bot &bot)
 	aa << "PRIVMSG #bot_chan : c'est pas bien les gros mots.\r\n";
 	std::string msg = aa.str();
 	send(bot.sock , msg.c_str() , msg.size(), 0);
+	msg.clear();
+	usleep(1000);
+	msg = "KICK #bot_chan " + bot.to_ban + "\r\n";
+	send(bot.sock , msg.c_str() , msg.size(), 0);
+	bot.to_ban.clear();
 }

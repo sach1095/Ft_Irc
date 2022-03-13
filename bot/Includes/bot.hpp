@@ -47,7 +47,7 @@ public:
 	std::vector<std::string>	_Cmd;
 	struct						sockaddr_in serv_addr;
 	time_t						actuel;
-	std::string					to_join;
+	std::string					to_ban;
 	struct hostent *server;
 	Bot();
 	~Bot();

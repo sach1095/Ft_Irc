@@ -42,10 +42,15 @@ void	cmd_kick(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}
-	if (cmd[3][0] != ':')
-		cmd[3] = ':' + cmd[3];
-	for (size_t i = 3; i < cmd.size(); i++)
-		 msg = msg + cmd[i] + " ";
+	if (cmd.size() > 3)
+	{
+		if (cmd[3][0] != ':')
+			cmd[3] = ':' + cmd[3];
+		for (size_t i = 3; i < cmd.size(); i++)
+			 msg = msg + cmd[i] + " ";
+	}
+	else
+		msg = "no raison given";
 	msg = ":" + cursor->getNick() + " KICK " + cmd[1] + " " + cmd[2] + " " + msg + "\r\n";
 	send_to_all_members(msg, chan);
 	chan->deleteUser(getUser(cmd[2], chan));
