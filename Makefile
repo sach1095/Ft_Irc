@@ -59,7 +59,7 @@ SRCS =	$(SC)cmd_process.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
+CFLAGS = #-Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
 
 all:	$(NAME)
 

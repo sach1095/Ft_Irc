@@ -52,6 +52,39 @@ void	parse_cmd(Bot &bot, std::string buf)
 	usleep(1000);
 	if (quest_8(bot, buf))
 		rep_8(bot);
+	if (quest_9(buf))
+		rep_9(bot);
+	usleep(1000);
+	if (quest_10(buf))
+		rep_10(bot);
+	usleep(1000);
+	if (quest_11(buf))
+		rep_11(bot);
+	usleep(1000);
+	if (quest_12(buf))
+		rep_12(bot);
+	usleep(1000);
+	if (quest_13(buf))
+		rep_13(bot);
+	usleep(1000);
+	if (quest_14(bot, buf))
+		rep_14(bot);
+	usleep(1000);
+	if (quest_15(buf))
+		rep_15(bot);
+	usleep(1000);
+	if (quest_16(buf))
+		rep_16(bot);
+	usleep(1000);
+	if (quest_17(buf))
+		rep_17(bot);
+	usleep(1000);
+	if (quest_18(buf))
+		rep_18(bot);
+	usleep(1000);
+	if (quest_19(buf))
+		rep_19(bot);
+	usleep(1000);
 }
 
 void	go_online(Bot &bot)

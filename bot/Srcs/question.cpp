@@ -94,7 +94,6 @@ bool	quest_8(Bot &bot, std::string buf)
 		buf.find("encule") != std::string::npos)
 		{
 			bot.to_ban = &cmd[0][1];
-			std::cout << "Test ban : " << bot.to_ban << std::endl;
 			return true;
 		}
 	return false;
@@ -104,6 +103,89 @@ bool	quest_9(std::string buf)
 {
 	if (buf.find("non c'est trop") != std::string::npos ||
 			buf.find("trop") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_10(std::string buf)
+{
+	if (buf.find("ou sont tes lunette") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_11(std::string buf)
+{
+	if (buf.find("prepare moi mon cafe") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_12(std::string buf)
+{
+	if (buf.find("pas de bra") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_13(std::string buf)
+{
+	if (buf.find("ya du soleil") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_14(Bot &bot, std::string buf)
+{
+	std::vector<std::string> cmd = copy_parse_cmd(buf);
+	if (buf.find("fada") != std::string::npos ||
+		buf.find("je suis marseillais") != std::string::npos ||
+		buf.find("peut cher") != std::string::npos ||
+		buf.find("ofan") != std::string::npos ||
+		buf.find("tarpin") != std::string::npos ||
+		buf.find("allez l'OM") != std::string::npos)
+	{
+		bot.to_ban = &cmd[0][1];
+		return true;
+	}
+	return false;
+}
+
+bool	quest_15(std::string buf)
+{
+	if (buf.find("chou rabibi") != std::string::npos)
+		return true;
+	return false;
+}
+
+
+bool	quest_16(std::string buf)
+{
+	if (buf.find("tu vote qui") != std::string::npos ||
+		buf.find("tu va vote qui") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_17(std::string buf)
+{
+	if (buf.find("votera-tu ?") != std::string::npos ||
+		buf.find("tu vote ?") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_18(std::string buf)
+{
+	if (buf.find("colise") != std::string::npos ||
+		buf.find("esti") != std::string::npos)
+		return true;
+	return false;
+}
+
+bool	quest_19(std::string buf)
+{
+	if (buf.find("il on des tete de") != std::string::npos)
 		return true;
 	return false;
 }
