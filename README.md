@@ -26,7 +26,7 @@ Les sources utiles pendant le déroulement du projet :
 
 Pour bien comprendre comment fonctionne le fonctionnement de la communication entre serveur et client, voici une représentation  visuelle :
 
-<img  height="400" width="300" src="https://github.com/sach1095/Ft_Irc/blob/master/img/Socket_server_img.png" alt="serve/clien_communication" />
+<img  height="400" width="300" src="https://github.com/sach1095/Ft_Irc/blob/master/img/Socket_server.png" alt="serve/clien_communication" />
 
 Pour cloner le project :
 
