@@ -28,6 +28,12 @@ Pour bien comprendre comment fonctionne le fonctionnement de la communication en
 
 <img  height="400" width="300" src="https://github.com/sach1095/Ft_Irc/blob/master/img/Socket_server_img.png" alt="serve/clien_communication" />
 
+Pour cloner le project :
+
+- git clone https://github.com/sach1095/Ft_Irc.git
+
+--------------------------------------------------------------------------------
+
 Pour lancer le project :
 
 - make
