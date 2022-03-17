@@ -25,11 +25,11 @@ void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 	if (!cursor->getIdentify())
 	{
 		cursor->setIdentfy(true);
-		std::string msg = ":server " + std::string(RPL_WELCOME) + "	:Welcome " + cursor->getNick() + " !\r\n";
+		std::string msg = ":server " + std::string(RPL_WELCOME) + " :Welcome " + cursor->getNick() + " \r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		msg = ":server " + std::string(RPL_YOURHOST) + " :Your host is ircserv , running version 2.0\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
-		msg = ":server " + std::string(RPL_CREATED) + ":This server was created 13/02/2022-13:05\r\n";
+		msg = ":server " + std::string(RPL_CREATED) + " :This server was created 13/02/2022-13:05\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		msg = ":server " + std::string(RPL_MYINFO) + " : ircserv 2.0 0 0\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
