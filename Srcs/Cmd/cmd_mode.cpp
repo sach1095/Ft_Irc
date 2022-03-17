@@ -90,12 +90,12 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 		}
 		for (size_t i = 1; cmd[2][i] != '\0'; i++)
 		{
-			if (cmd[2][i] == 'o' && !(cmd.size() < 4))
+			if (cmd[2][i] == 'o' && cmd.size() < 5)
 			{
 				if (exec_o(data, chan, cursor, cmd, add_or_remove))
 					return ;
 			}
-			else if (cmd[2][i] == 'o' && cmd.size() < 4)
+			else if (cmd[2][i] == 'o' && cmd.size() > 4)
 			{
 				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);

@@ -43,6 +43,7 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	}
 	if (cmd[1][0] != '#')
 		cmd[1] = '#' + cmd[1];
+	// rajouter une fonction to_upper pour mettre le nom des channel en minuscule;
 	if (chan_cmd == NULL && cmd.size() == 2)
 		data.channels.push_back(new Channel(cmd[1]));
 	else if (!getChan(data, cmd[1]))
