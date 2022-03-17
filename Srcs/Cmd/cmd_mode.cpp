@@ -74,7 +74,7 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 		}
 		if (!chan->isOp(cursor))
 		{
-			std::string str = ":server " + std::string(ERR_USERSDONTMATCH) + " " + cmd[1] + " : You are not operator\r\n";
+			std::string str = ":server " + std::string(ERR_USERSDONTMATCH) + " " + cmd[1] + " :You are not operator\r\n";
 			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
@@ -84,31 +84,47 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 			add_or_remove = false;
 		else
 		{
-			std::string str = ":server " + std::string(ERR_UMODEUNKNOWNFLAG) + " " + cmd[2] + " : Unknown flags\r\n";
+			std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :Unknown flag\r\n";
 			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
 		for (size_t i = 1; cmd[2][i] != '\0'; i++)
 		{
-			if (cmd[2][i] == 'o' && cmd.size() < 5)
-			{
+			if (cmd[2][i] == 'o' && cmd.size() == 4){
 				if (exec_o(data, chan, cursor, cmd, add_or_remove))
 					return ;
 			}
-			else if (cmd[2][i] == 'o' && cmd.size() > 4)
-			{
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param\r\n";
+			else if (cmd[2][i] == 'o' && cmd.size() > 4){
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :to more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
-			else if (cmd[2][i] == 'i')
-			{
+			else if (cmd[2][i] == 'o' && cmd.size() <= 3){
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :need more param\r\n";
+				send(cursor->getSd(), str.c_str(), str.length(), 0);
+				return ;
+			}
+			else if (cmd[2][i] == 'i' && cmd.size() == 3){
 				if (exec_i(chan, cursor, cmd, add_or_remove))
 					return ;
 			}
-			else
-			{
-				std::string str = ":server " + std::string(ERR_UMODEUNKNOWNFLAG) + " " + cmd[2] + " : Unknown flags\r\n";
+			else if (cmd[2][i] == 'i'){
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :to more param\r\n";
+				send(cursor->getSd(), str.c_str(), str.length(), 0);
+				return ;
+			}
+			else if (cmd[2][i] == 'i' && cmd.size() > 3){
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :to more param\r\n";
+				send(cursor->getSd(), str.c_str(), str.length(), 0);
+				return ;
+			}
+			else if (cmd[2][i] == 'i' && cmd.size() <= 2){
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :need more param\r\n";
+				send(cursor->getSd(), str.c_str(), str.length(), 0);
+				return ;
+			}
+			else{
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :Unknown flag\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}

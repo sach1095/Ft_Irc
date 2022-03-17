@@ -37,8 +37,6 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), err.c_str(), err.length(), 0);
 		return ;
 	}
-	else if (cmd == "PONG")
-		std::cout << "pong cmd" << std::endl;
 	else if (cmd != "PONG")
 	{
 		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " :Unknown command\r\n";

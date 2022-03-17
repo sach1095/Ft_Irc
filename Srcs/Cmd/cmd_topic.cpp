@@ -43,4 +43,10 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 				chan->setTopic(cmd[2]);
 		}
 	}
+	else
+	{
+		msg = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " : No such channel\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return ;
+	}
 }

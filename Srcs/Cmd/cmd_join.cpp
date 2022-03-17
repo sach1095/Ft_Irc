@@ -1,5 +1,12 @@
 #include "../../Includes/lib.hpp"
 
+static char easytolower(char in)
+{
+	if(in <= 'Z' && in >= 'A')
+		return in - ('Z' - 'z');
+	return in;
+}
+
 bool	checkExisteBefor(user *cli, Channel *chan)
 {
 	std::vector<user *> members = chan->getMembers();
@@ -43,7 +50,9 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	}
 	if (cmd[1][0] != '#')
 		cmd[1] = '#' + cmd[1];
-	// rajouter une fonction to_upper pour mettre le nom des channel en minuscule;
+	for (size_t i = 0; i < cmd[1].size(); i++)
+		cmd[1][i] = easytolower(cmd[1][i]);
+	std::cout << "Test = " << cmd[1] << std::endl;
 	if (chan_cmd == NULL && cmd.size() == 2)
 		data.channels.push_back(new Channel(cmd[1]));
 	else if (!getChan(data, cmd[1]))

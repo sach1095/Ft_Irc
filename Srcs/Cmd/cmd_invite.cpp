@@ -12,11 +12,21 @@ void	cmd_invite(data<user *> &data , user *cursor, std::string buf)
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
+	else if (cmd.size() > 3)
+	{
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :to more parameters\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
+		return;
+	}
 	if (cmd[2][0] != '#')
 		cmd[2] = '#' + cmd[2];
 	Channel_to_invite = getChan(data, cmd[2]);
 	if (Channel_to_invite == NULL)
+	{
+		msg = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cmd[2] + " : No such channel\r\n";
+		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
+	}
 	if (!Channel_to_invite->isOp(cursor))
 	{
 		msg = ":server " + std::string(ERR_CHANOPRIVSNEEDED) + " " + cursor->getNick() + " " + Channel_to_invite->getName() + " :You're not channel operator\r\n";

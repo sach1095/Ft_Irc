@@ -28,7 +28,7 @@ void	cmd_list(data<user *> &data , user *cursor, std::string buf)
 	}
 	else
 	{
-		msg = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + " :Not accepte arguments\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " :to more param, we not accepte arguments.\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 	}
 }
