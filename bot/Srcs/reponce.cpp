@@ -2,7 +2,7 @@
 
 void	rep_1(Bot &bot)
 {
-	std::string msg = "PRIVMSG #bot_chan :Hello à toi aussi.\r\n";
+	std::string msg = "PRIVMSG #bot_chan :Hello.\r\n";
 	send(bot.sock , msg.c_str() , msg.size(), 0);
 }
 

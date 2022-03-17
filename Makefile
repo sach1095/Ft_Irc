@@ -1,10 +1,10 @@
 # Makefile in cpp
 
 # Colors
-GREY = \033[4;34m
+GREY = \033[2:49;39m
 RED = \033[1;31m
 GREEN = \033[3;32m
-YELLOW = \033[2;49;33m
+YELLOW = \033[3;49;33m
 BLUE = \033[4;34m
 BLUEE = \033[3;34m
 PURPLE = \033[3;35m
@@ -18,6 +18,8 @@ WHITE = \033[1;49;97m
 
 # Executable
 NAME = ircserv
+
+BOT = ./Bot
 
 CC = clang++
 
@@ -61,7 +63,10 @@ OBJS = $(SRCS:.cpp=.o)
 
 CFLAGS = #-Wall -Wextra -Werror -std=c++98  -g3 -fsanitize=address
 
-all:	$(NAME)
+all:	compil $(NAME)
+
+compil:
+	@make -C $(BOT)
 
 %.o:	%.cpp $(HEADER)
 	@printf "\033[2K\r$(PURPLE)$<: $(CYAN)loading..$(RESET)"
@@ -70,22 +75,28 @@ all:	$(NAME)
 $(NAME):	$(OBJS) $(HEADER)
 	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
+	@printf "$(GREY)Pour lancer le server :$(RESET)\n$(PURPLE)make start$(RESET) ou $(PURPLE)./ircserv $(YELLOW)<Port> <Password>$(RESET)\n"
 
 start:
-	@make && ./$(NAME) 9999 123 | cat -e
+	@make && ./$(NAME) 9999 123
+
+bot:
+	@make -C $(BOT) && ./Bot/bot 127.0.0.1 9999 123
 
 leaks:
 	@make && Leaks -atExit -- ./$(NAME) 9999 123
 
 clean:
+	@make clean -C $(BOT)
 	@$(RM) $(OBJS)
 
 fclean: clean
+	@make fclean -C $(BOT)
 	@$(RM) $(OBJS)
 	@$(RM) $(NAME)
 	@rm -rf *.dSYM
-	@printf "$(CYAN)'$(NAME)', all .o $(RESET)has been $(RED)deleted. 🗑️\n"
+	@printf "$(CYAN)'$(NAME)', all .o $(RESET)has been $(RED)deleted. 🗑️\n$(RESET)"
 
 re : fclean all
 
-.PHONY: all clean fclean start re
+.PHONY: all clean fclean start bot leaks re

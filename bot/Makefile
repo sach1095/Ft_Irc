@@ -1,10 +1,10 @@
 # Makefile in cpp
 
 # Colors
-GREY = \033[4;34m
+GREY = \033[2:49;39m
 RED = \033[1;31m
 GREEN = \033[3;32m
-YELLOW = \033[2;49;33m
+YELLOW = \033[3;49;33m
 BLUE = \033[4;34m
 BLUEE = \033[3;34m
 PURPLE = \033[3;35m
@@ -47,7 +47,7 @@ all:	$(NAME)
 $(NAME):	$(OBJS) $(HEADER)
 	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
-	@printf "Pour lancer le BOT : ./bot <ip_Serveur> <Port> <Password>\n"
+	@printf "$(GREY)Pour lancer le BOT :$(RESET)\n$(PURPLE)make bot$(RESET) ou $(PURPLE)./Bot/bot $(YELLOW)<ip_Serveur> <Port> <Password>$(RESET)\n\n"
 
 start:
 	@make && ./$(NAME) 127.0.0.1 9999 123 | cat -e
@@ -59,7 +59,7 @@ fclean: clean
 	@$(RM) $(OBJS)
 	@$(RM) $(NAME)
 	@rm -rf *.dSYM
-	@printf "$(CYAN)'$(NAME)', all .o $(RESET)has been $(RED)deleted. 🗑️\n"
+	@printf "$(CYAN)'$(NAME)', all .o $(RESET)has been $(RED)deleted. 🗑️\n$(RESET)"
 
 re : fclean all
 

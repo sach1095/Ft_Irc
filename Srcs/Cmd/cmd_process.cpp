@@ -3,7 +3,6 @@
 static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string cmd = buf.substr(0, buf.find(' '));
-	std::cout << "cmd in parse = : " << buf << std::endl;
 	/*
 	* Le but principal du protocole IRC est de fournir une base afin que des clients puissent communiquer entre eux.
 	* PRIVMSG et NOTICE sont les seuls messages disponibles qui réalisent

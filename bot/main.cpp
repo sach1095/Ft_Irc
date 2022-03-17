@@ -27,7 +27,7 @@ void	go_connect(Bot &bot)
 
 void	parse_cmd(Bot &bot, std::string buf)
 {
-	std::cout << "buffer = : " << buf << std::endl;
+	std::cout << "buffer = " << buf << std::endl;
 
 	if (quest_1(buf))
 		rep_1(bot);

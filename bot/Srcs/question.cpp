@@ -102,7 +102,7 @@ bool	quest_8(Bot &bot, std::string buf)
 bool	quest_9(std::string buf)
 {
 	if (buf.find("non c'est trop") != std::string::npos ||
-			buf.find("trop") != std::string::npos)
+			buf.find("c'est trop") != std::string::npos)
 		return true;
 	return false;
 }
@@ -143,6 +143,9 @@ bool	quest_14(Bot &bot, std::string buf)
 		buf.find("peut cher") != std::string::npos ||
 		buf.find("ofan") != std::string::npos ||
 		buf.find("tarpin") != std::string::npos ||
+		buf.find("allez om") != std::string::npos ||
+		buf.find("allez OM") != std::string::npos ||
+		buf.find("allez marseille") != std::string::npos ||
 		buf.find("allez l'OM") != std::string::npos)
 	{
 		bot.to_ban = &cmd[0][1];
