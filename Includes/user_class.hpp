@@ -9,6 +9,7 @@ class user
 		std::string					_login;
 		std::string					_realName;
 		std::vector<std::string>	_invited;
+		bool		_identify;
 		int			_sd;
 		bool		_access;
 		struct sockaddr_in	_address;
@@ -39,5 +40,7 @@ class user
 		void		setSd(int sd);
 		void		setAccept(bool integer);
 		void		setAddr(sockaddr_in address);
+		void		setIdentfy(bool b);
+		bool		getIdentify(void);
 
 };

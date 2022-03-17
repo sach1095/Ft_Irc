@@ -1,6 +1,6 @@
 #include "../../Includes/lib.hpp"
 
-user::user(int sd, sockaddr_in address): _sd(sd), _access(false), _address(address)
+user::user(int sd, sockaddr_in address): _identify(false), _sd(sd), _access(false), _address(address)
 {
 }
 
@@ -155,4 +155,14 @@ bool		user::isInvited(std::string cli) const
 			return true;
 	}
 	return false;
+}
+
+void		user::setIdentfy(bool b)
+{
+	_identify = b;
+}
+
+bool		user::getIdentify(void)
+{
+	return (_identify);
 }
