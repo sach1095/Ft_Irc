@@ -54,7 +54,7 @@ Lancer cette commande dans un autre terminal pour démarrer le bot.
 
 --------------------------------------------------------------------------------
 
-Vous pouvez vous connecter de n'importe quelle client Irc en entrant dans le paramètre de serveur :
+Vous pouvez vous connecter de n'importe quelle client Irc en entrant dans le paramètre de server (du client) :
 
 - Server : 127.0.0.1
 - Port : 9999
@@ -72,7 +72,9 @@ Dans votre terminal vous pourrez voir s'afficher :
 
 --------------------------------------------------------------------------------
 
-Une fois connecter, je vous invite a rejoindre la channel : bot_chan pour echanger avec le Bot,
+Une fois connecter, je vous invite a rejoindre la channel : bot_chan pour echanger avec le Bot avec la commande suivante :
+
+- JOIN bot_chan
 
 Celui-ci peut tenir un echange (bonjour, comment va tu , etc),
 
