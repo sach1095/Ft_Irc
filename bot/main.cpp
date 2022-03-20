@@ -123,7 +123,7 @@ int main(int ac, char **av)
 	Bot bot;
 
 	if (ac > 4 || ac < 3)
-		return(ret_error("Errro bad number of arguments, Need <ip_Serveur> <Port> <Password>\n"));
+		return(ret_error("Error: wrong number of arguments, use: <server_ip> <port> <password>\n"));
 
 	bot.sock = 0;
 	bot._Ip = av[1];
@@ -135,13 +135,13 @@ int main(int ac, char **av)
 	bot._Pass = bot._Pass + av[3] + "\r\n";
 
 	if ((bot.sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-		return(ret_error("Socket creation error \n"));
+		return(ret_error("Socket creation error\n"));
 	bot.serv_addr.sin_family = AF_INET;
 	bot.serv_addr.sin_addr.s_addr = INADDR_ANY;
 	bot.serv_addr.sin_port = htons(bot._port);
 
 	if(inet_pton(AF_INET, bot._Ip.c_str(), &bot.serv_addr.sin_addr)<=0)
-		return(ret_error("\nInvalid address/ Address not supported \n"));
+		return(ret_error("\nInvalid address / Address not supported\n"));
 	bot.server = gethostbyname(bot._Ip.c_str());
 	if (bot.server == NULL)
 		ret_error(strerror(errno));
@@ -149,7 +149,7 @@ int main(int ac, char **av)
 	std::memcpy((char *)bot.server->h_addr, (char *)&bot.serv_addr.sin_addr.s_addr, bot.server->h_length);
 
 	if (connect(bot.sock, (struct sockaddr *)&bot.serv_addr, sizeof(bot.serv_addr)) == -1)
-		return(ret_error("\nConnection Failed \n"));
+		return(ret_error("\nConnection Failed\n"));
 
 	go_connect(bot);
 

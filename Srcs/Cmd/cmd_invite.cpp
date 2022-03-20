@@ -23,7 +23,7 @@ void	cmd_invite(data<user *> &data , user *cursor, std::string buf)
 	Channel_to_invite = getChan(data, cmd[2]);
 	if (Channel_to_invite == NULL)
 	{
-		msg = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cmd[2] + " : No such channel\r\n";
+		msg = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cmd[2] + " :No such channel\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}

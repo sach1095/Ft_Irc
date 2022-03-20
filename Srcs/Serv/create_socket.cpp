@@ -11,7 +11,7 @@ bool	create_socket(data<user *> &data)
 	if ((data.primary_socket = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 		return (ret_error("Imposible to create socket"));
 
-	//set master socket to allow multiple connections (avoid address already in use pbs)
+	//définir le socket maître pour autoriser plusieurs connexions (éviter l'adresse déjà utilisée pbs)
 	int enable = 1;
 	if (setsockopt(data.primary_socket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
 		return (ret_error("Error set multiple connections"));

@@ -8,7 +8,7 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 	Channel *chan = NULL;
 	if (cmd.size() < 2)
 	{
-		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Not enough parameters\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}
@@ -19,7 +19,7 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 	{
 		if (!chan->isMember(cursor))
 		{
-			msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " :You're not on that channel\r\n";
+			msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + ": You're not on that channel\r\n";
 			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 			return ;
 		}
@@ -31,7 +31,7 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 		}
 		else if (!chan->isOp(cursor))
 		{
-			msg = ":server " + std::string(ERR_CHANOPRIVSNEEDED) + " " + cursor->getNick() + " " + chan->getName() + " :You're not channel operator\r\n";
+			msg = ":server " + std::string(ERR_CHANOPRIVSNEEDED) + " " + cursor->getNick() + " " + chan->getName() + ": You're not channel operator\r\n";
 			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 			return;
 		}
@@ -45,7 +45,7 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 	}
 	else
 	{
-		msg = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " : No such channel\r\n";
+		msg = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + ": No such channel\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}

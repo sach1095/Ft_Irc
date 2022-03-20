@@ -33,13 +33,13 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_mode(data, cursor, buf);
 	else if(cmd == "PASS")
 	{
-		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " :You are already register\r\n";
+		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + ": You are already register\r\n";
 		send(cursor->getSd(), err.c_str(), err.length(), 0);
 		return ;
 	}
 	else if (cmd != "PONG")
 	{
-		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " :Unknown command\r\n";
+		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + ": Unknown command\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 	}
 }
@@ -47,7 +47,7 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 static void	disconnect_user(data<user *> &data, user *cursor, int sd)
 {
 	/*
-	* Close le socket et le set a 0 dans la liste.
+	* Close le socket et le set à 0 dans la liste.
 	*/
 	close(sd);
 	sd = 0;
@@ -74,7 +74,7 @@ void	cmd_process(data<user *> &data)
 			if ((ret_read = read(sd, buffer, 1024)) <= 0)
 			{
 				/*
-				* des quelqu'un ce deconnecte, recuperer ses detail et les affiche.
+				* dès que quelqu'un se deconnecte, récupérer ses details et les afficher.
 				*/
 				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&size_adress);
 				std::cout << "User " << cursor->getNick() << " disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
@@ -95,8 +95,8 @@ void	cmd_process(data<user *> &data)
 					cursor->setBuffer(cursor->getBuffer() + buffer);
 				std::cout << "buffer = " << cursor->getBuffer() << std::endl;
 				/*
-				* Si l'utilisateur est deja accepter,
-				* Nous allons commencer a traiter la commande.
+				* Si l'utilisateur est deja accepté,
+				* Nous allons commencer à traiter la commande.
 				*/
 				if (cursor->getAccept() == true)
 					parse_cmd(data, cursor, cursor->getBuffer());
@@ -105,8 +105,8 @@ void	cmd_process(data<user *> &data)
 					try
 					{
 						/*
-						* A la premier connection d'un user la commande PASS <mdp> est envoye du clien
-						* Si le mdp est correct alors user.accepte est set a true.
+						* A la première connection d'un user la commande PASS <mdp> est envoyé du clien
+						* Si le mdp est correct alors user.accepte est set à true.
 						* Par la suite le client va nous envoye :
 						* NICK <nickname>
 						* Puis USER <login> <distance server> <* <realname>>

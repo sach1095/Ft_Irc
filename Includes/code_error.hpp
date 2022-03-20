@@ -18,8 +18,8 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-/* Replies in the range from 001 to 099 are used for client-server connections
-	only and should never travel between servers. */
+/* Les réponses comprises entre 001 et 099 sont utilisées pour les connexions client-serveur
+   uniquement et ne doit jamais voyager entre les serveurs. */
 #define RPL_WELCOME "1"
 #define RPL_YOURHOST "2"
 #define RPL_CREATED "3"
@@ -27,7 +27,7 @@
 #define RPL_BOUNCE "5"
 
 
-/* Replies generated in the response to commands are found in the range from 200 to 399. */
+/* Les réponses générées dans la réponse aux commandes se trouvent dans la plage de 200 à 399. */
 #define RPL_TRACELINK "200"
 #define RPL_TRACECONNECTING "201"
 #define RPL_TRACEHANDSHAKE "202"
@@ -108,7 +108,7 @@
 #define RPL_ENDOFUSERS "394"
 #define RPL_NOUSERS "395"
 
-/* Error replies are found in the range from 400 to 599. */
+/* Les réponses d'erreur se trouvent dans la plage de 400 à 599. */
 #define ERR_NOSUCHNICK "401"
 #define ERR_NOSUCHSERVER "402"
 #define ERR_NOSUCHCHANNEL "403"

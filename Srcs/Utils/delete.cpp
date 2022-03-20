@@ -6,7 +6,7 @@ void	delete_all(data<user *> &data , user *cursor, std::string buf)
 	std::stringstream ss;
 	if (cmd.size() < 2)
 	{
-		std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Need more param for close serveur. (Password_root)\r\n";
+		std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Need more param to close the server. (Password_root)\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 		return ;
 	}
@@ -15,7 +15,7 @@ void	delete_all(data<user *> &data , user *cursor, std::string buf)
 	ss >> pass;
 	if (pass != PASS_ROOT)
 	{
-		std::string msg = ":server " + std::string(ERR_PASSWDMISMATCH) + " " + cmd[0] + " : Password root incorect.\r\n";
+		std::string msg = ":server " + std::string(ERR_PASSWDMISMATCH) + " " + cmd[0] + ": Root password is incorect.\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}

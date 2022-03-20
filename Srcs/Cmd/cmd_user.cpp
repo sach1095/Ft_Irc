@@ -25,13 +25,13 @@ void	cmd_user(data<user *> &data , user *cursor, std::string buf)
 	if (!cursor->getIdentify())
 	{
 		cursor->setIdentfy(true);
-		std::string msg = ":" + cursor->getIp() + " 001 " + cursor->getNick() + " :Welcome to hour Irc server !\r\n";
+		std::string msg = ":" + cursor->getIp() + " 001 " + cursor->getNick() + ": Welcome to hour Irc server !\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
-		msg = ":server " + std::string(RPL_MYINFO) + " " + cursor->getNick() + " :Your host is ft_ircserv by sbaranes, faherrau and atourret , running version 2.0\r\n";
+		msg = ":server " + std::string(RPL_MYINFO) + " " + cursor->getNick() + ": Your host is ft_ircserv by sbaranes, faherrau and atourret, running version 2.0\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
-		msg = ":server " + std::string(RPL_MYINFO) + " " + cursor->getNick() + " :This server was created 13/02/2022-13:05\r\n";
+		msg = ":server " + std::string(RPL_MYINFO) + " " + cursor->getNick() + ": This server was created 13/02/2022-13:05\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
-		msg = ":server " + std::string(RPL_MYINFO) + " " + cursor->getNick() + " :ircserv 2.0\r\n";
+		msg = ":server " + std::string(RPL_MYINFO) + " " + cursor->getNick() + ": ircserv 2.0\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		std::cout << "test = " << cursor->getNick() << std::endl;
 	}

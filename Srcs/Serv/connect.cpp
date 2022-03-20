@@ -35,7 +35,7 @@ bool start_online(data<user *> &data)
 	{
 		FD_ZERO(&data.readfds);
 		/*
-		* add master socket to set
+		* FD_SET, ajout du socket maître
 		*/
 		FD_SET(data.primary_socket, &data.readfds);
 		max_sd = data.primary_socket;
@@ -45,20 +45,21 @@ bool start_online(data<user *> &data)
 			user *cursor = *it;
 			sd = cursor->getSd();
 			/*
-			* if valid socket descriptor then aff to read list
+			* Si "socket descriptor" valide, ajout à la liste de lecture 
 			*/
 			if (sd > 0)
 				FD_SET(sd, &data.readfds);
 
 			/*
-			* highest file descriptor number, need it for the select function
+			* "File Descriptor" le plus élevé, 
+			* nous en avons besoin pour la fonction select()
 			*/
 			if (sd > max_sd)
 				max_sd = sd;
 		}
 		/*
-		* wait for an activity on one of the socketsm timeout is NULL
-		* so wait indefinitely
+		* Un des "socketsm timeout" est NULL
+		* Attendre indéfiniment
 		*/
 		activity = select(max_sd + 1, &data.readfds, NULL, NULL, NULL);
 
@@ -66,14 +67,14 @@ bool start_online(data<user *> &data)
 			std::cerr << "timeout select" << std::endl;
 
 		/*
-		* If something happened on the master socket ,
-		* then its an incoming connection
+		* Si le "master socket" détecte quelque chose,
+		* alors c'est une connection entrante
 		*/
 		if (FD_ISSET(data.primary_socket, &data.readfds))
 			new_connection(data);
 
 		/*
-		* else its some IO operation one some other socket
+		* Ou une opération IO sur un des autres sockets
 		*/
 		cmd_process(data);
 	}

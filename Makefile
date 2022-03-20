@@ -75,7 +75,7 @@ compil:
 $(NAME):	$(OBJS) $(HEADER)
 	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
-	@printf "$(GREY)Pour lancer le server :$(RESET)\n$(PURPLE)make start$(RESET) ou $(PURPLE)./ircserv $(YELLOW)<Port> <Password>$(RESET)\n"
+	@printf "$(GREY)Pour lancer le server :$(RESET)\n$(PURPLE)make start$(RESET) ou $(PURPLE)./ircserv $(YELLOW)<port> <password>$(RESET)\n"
 
 start:
 	@make && ./$(NAME) 9999 123

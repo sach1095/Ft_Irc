@@ -6,7 +6,7 @@
 int	main(int ac, char **av)
 {
 	if (ac != 3)
-		return (ret_error("Number of arguments incorrect.\nPlease follow the rules ./ircserv <port> <password>."));
+		return (ret_error("Number of arguments incorrect.\nPlease use: ./ircserv <port> <password>."));
 
 	data<user *> data;
 

@@ -51,7 +51,7 @@ public:
 	{
 		const char *what() const throw()
 		{
-			return ":server 464 pass :Password incorrect\r\n";
+			return ": server 464 pass: Password incorrect\r\n";
 		}
 	};
 
@@ -59,7 +59,7 @@ public:
 	{
 		const char *what() const throw()
 		{
-			return ":server 461 pass :Not enough parameters\r\n";
+			return ": server 461 pass: Not enough parameters\r\n";
 		}
 	};
 };

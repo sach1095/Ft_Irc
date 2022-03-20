@@ -6,13 +6,13 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 
 	if (cmd.size() < 3)
 	{
-		std::string str = ":server " + std::string(ERR_NOTEXTTOSEND) + " " + cmd[0] + " :No text to send\r\n";
+		std::string str = ":server " + std::string(ERR_NOTEXTTOSEND) + " " + cmd[0] + ": No text to send\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 		return ;
 	}
 	if (cmd[1][0] == '$')
 	{
-		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd[0] + " :Command non gere\r\n";
+		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd[0] + ": Command non gere\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 		return ;
 	}
@@ -21,13 +21,13 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 		Channel *chan = getChan(data, cmd[1]);
 		if (chan == NULL)
 		{
-			std::string msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + cmd[1] + " :This channel doesn't exist\r\n";
+			std::string msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + cmd[1] + ": This channel doesn't exist\r\n";
 			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 			return ;
 		}
 		if (!chan->isMember(cursor))
 		{
-			std::string msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + " :You're not on that channel\r\n";
+			std::string msg = ":server " + std::string(ERR_NOTONCHANNEL) + " " + cursor->getNick() + " " + chan->getName() + ": You're not on that channel\r\n";
 			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 			return ;
 		}
@@ -47,7 +47,7 @@ void	cmd_privmsg(data<user *> &data , user *cursor, std::string buf)
 		}
 		if (it == data.users.end())
 		{
-			std::string tmp = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[1] + " :Nick dest dont existe\r\n";
+			std::string tmp = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[1] + ": Nick dest dont existe\r\n";
 			send(cursor->getSd(), tmp.c_str(), tmp.length(), 0);
 			return ;
 		}

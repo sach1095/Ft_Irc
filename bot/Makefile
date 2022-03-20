@@ -30,7 +30,7 @@ HEADER =	$(I)bot.hpp \
 S = ./Srcs/
 
 SRCS =	$(S)bot.cpp \
-		$(S)reponce.cpp \
+		$(S)reponse.cpp \
 		$(S)question.cpp \
 		main.cpp
 
@@ -47,7 +47,7 @@ all:	$(NAME)
 $(NAME):	$(OBJS) $(HEADER)
 	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 	@printf "\033[2K\r$(BLUE)$(NAME)$(RESET)$(BLUEE): $(ICONOK)Compiled [√]$(RESET)\n"
-	@printf "$(GREY)Pour lancer le BOT :$(RESET)\n$(PURPLE)make bot$(RESET) ou $(PURPLE)./Bot/bot $(YELLOW)<ip_Serveur> <Port> <Password>$(RESET)\n\n"
+	@printf "$(GREY)Pour lancer le BOT :$(RESET)\n$(PURPLE)make bot$(RESET) ou $(PURPLE)./Bot/bot $(YELLOW)<server_ip> <port> <password>$(RESET)\n\n"
 
 start:
 	@make && ./$(NAME) 127.0.0.1 9999 123 | cat -e

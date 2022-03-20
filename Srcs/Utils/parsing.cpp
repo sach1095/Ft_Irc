@@ -17,7 +17,7 @@ bool	pars_data(data<user *> &data, char **av)
 	if (av[2])
 		data.password.assign(av[2], strlen(av[2]));
 	else
-		return (ret_error("Password cant be NULL.\nPlease try again witch another password."));
+		return (ret_error("Password cant be NULL.\nPlease try again with another password."));
 	return (SUCCESS);
 }
 
