@@ -45,13 +45,13 @@ bool start_online(data<user *> &data)
 			user *cursor = *it;
 			sd = cursor->getSd();
 			/*
-			* Si "socket descriptor" valide, ajout à la liste de lecture 
+			* Si "socket descriptor" valide, ajout à la liste de lecture
 			*/
 			if (sd > 0)
 				FD_SET(sd, &data.readfds);
 
 			/*
-			* "File Descriptor" le plus élevé, 
+			* "File Descriptor" le plus élevé,
 			* nous en avons besoin pour la fonction select()
 			*/
 			if (sd > max_sd)

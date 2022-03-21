@@ -5,7 +5,7 @@ static bool	exec_o(data<user *> &data ,Channel *chan , user *cursor, std::vector
 	user *index = getUser(cmd[3], chan);
 	if (index == NULL)
 	{
-		std::string str = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[3] + ": No such nick, User not on the channel.\r\n";
+		std::string str = ":server " + std::string(ERR_NOSUCHNICK) + " " + cmd[3] + " : No such nick, User not on the channel.\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 		return FAIL;
 	}
@@ -68,13 +68,13 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 	{
 		if (chan == NULL)
 		{
-			std::string str = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cmd[1] + ": No such channel\r\n";
+			std::string str = ":server " + std::string(ERR_NOSUCHCHANNEL) + " " + cmd[1] + " : No such channel\r\n";
 			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
 		if (!chan->isOp(cursor))
 		{
-			std::string str = ":server " + std::string(ERR_USERSDONTMATCH) + " " + cmd[1] + ": You are not operator\r\n";
+			std::string str = ":server " + std::string(ERR_USERSDONTMATCH) + " " + cmd[1] + " : You are not operator\r\n";
 			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
@@ -84,7 +84,7 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 			add_or_remove = false;
 		else
 		{
-			std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Unknown flag\r\n";
+			std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Unknown flag\r\n";
 			send(cursor->getSd(), str.c_str(), str.length(), 0);
 			return ;
 		}
@@ -95,12 +95,12 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 					return ;
 			}
 			else if (cmd[2][i] == 'o' && cmd.size() > 4){
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": to more param\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
 			else if (cmd[2][i] == 'o' && cmd.size() <= 3){
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": need more param\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : need more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
@@ -109,22 +109,22 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 					return ;
 			}
 			else if (cmd[2][i] == 'i'){
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": to more param\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
 			else if (cmd[2][i] == 'i' && cmd.size() > 3){
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": to more param\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
 			else if (cmd[2][i] == 'i' && cmd.size() <= 2){
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": need more param\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : need more param\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
 			else{
-				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Unknown flag\r\n";
+				std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Unknown flag\r\n";
 				send(cursor->getSd(), str.c_str(), str.length(), 0);
 				return ;
 			}
@@ -132,7 +132,7 @@ void	cmd_mode(data<user *> &data , user *cursor, std::string buf)
 	}
 	else
 	{
-		std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Not enough parameters\r\n";
+		std::string str = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Not enough parameters\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 		return ;
 	}

@@ -9,7 +9,7 @@ void	cmd_list(data<user *> &data , user *cursor, std::string buf)
 
 	if (cmd.size() == 1)
 	{
-		msg = ":server " + std::string(RPL_LISTSTART) + " Channel: Users Name\r\n";
+		msg = ":server " + std::string(RPL_LISTSTART) + " Channel : Users Name\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		for (std::vector<Channel *>::iterator it = data.channels.begin(); it != data.channels.end(); it++)
 		{
@@ -28,7 +28,7 @@ void	cmd_list(data<user *> &data , user *cursor, std::string buf)
 	}
 	else
 	{
-		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": to more param, we not accepte arguments.\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : to more param, we not accepte arguments.\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 	}
 }

@@ -26,13 +26,13 @@ void	cmd_nick(data<user *> &data , user *cursor, std::string buf)
 	cmd = parse_cmd(buf);
 	if (cmd.size() < 2)
 	{
-		msg = ":server " + std::string(ERR_NONICKNAMEGIVEN) + "nick: No nickname given\r\n";
+		msg = ":server " + std::string(ERR_NONICKNAMEGIVEN) + " nick: No nickname given\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}
 	if (getUser_from_list(cmd[1], data.users))
 	{
-		msg = ":server " + std::string(ERR_NICKNAMEINUSE) + "nick: Nickname in use\r\n";
+		msg = ":server " + std::string(ERR_NICKNAMEINUSE) + " nick: Nickname in use\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return ;
 	}

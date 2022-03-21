@@ -1,5 +1,18 @@
 #include "../../Includes/lib.hpp"
 
+static void	disconnect_user(data<user *> &data, user *cursor, int sd)
+{
+	/*
+	* Close le socket et le set à 0 dans la liste.
+	*/
+	close(sd);
+	sd = 0;
+	/*
+	* Supprime l'utilisateur de la liste.
+	*/
+	delete_user(data, cursor);
+}
+
 static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 {
 	std::string cmd = buf.substr(0, buf.find(' '));
@@ -33,28 +46,18 @@ static void	parse_cmd(data<user *> &data , user *cursor, std::string buf)
 		cmd_mode(data, cursor, buf);
 	else if(cmd == "PASS")
 	{
-		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + ": You are already register\r\n";
+		std::string err = ":server " + std::string(ERR_ALREADYREGISTRED) + " " + cmd + " : You are already register\r\n";
 		send(cursor->getSd(), err.c_str(), err.length(), 0);
 		return ;
 	}
+	else if (cmd == "QUIT")
+	{}
 	else if (cmd != "PONG")
 	{
-		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + ": Unknown command\r\n";
+		std::string str = ":server " + std::string(ERR_UNKNOWNCOMMAND) + " " + cmd + " : Unknown command\r\n";
 		send(cursor->getSd(), str.c_str(), str.length(), 0);
 	}
-}
 
-static void	disconnect_user(data<user *> &data, user *cursor, int sd)
-{
-	/*
-	* Close le socket et le set à 0 dans la liste.
-	*/
-	close(sd);
-	sd = 0;
-	/*
-	* Supprime l'utilisateur de la liste.
-	*/
-	delete_user(data, cursor);
 }
 
 void	cmd_process(data<user *> &data)
@@ -78,7 +81,7 @@ void	cmd_process(data<user *> &data)
 				*/
 				getpeername(sd, (struct sockaddr*)&data.address, (socklen_t*)&size_adress);
 				std::cout << "User " << cursor->getNick() << " disconnected, ip " << inet_ntoa(data.address.sin_addr) << " port " << ntohs(data.address.sin_port) << std::endl;
-				disconnect_user(data, cursor, sd);
+				disconnect_user(data, cursor, cursor->getSd());
 				return ;
 			}
 			else

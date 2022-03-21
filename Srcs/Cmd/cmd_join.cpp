@@ -44,7 +44,7 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 
 	if ((cmd.size() < 2))
 	{
-		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + ": Not enough parameters\r\n";
+		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
@@ -52,7 +52,6 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 		cmd[1] = '#' + cmd[1];
 	for (size_t i = 0; i < cmd[1].size(); i++)
 		cmd[1][i] = easytolower(cmd[1][i]);
-	std::cout << "Test = " << cmd[1] << std::endl;
 	if (chan_cmd == NULL && cmd.size() == 2)
 		data.channels.push_back(new Channel(cmd[1]));
 	else if (!getChan(data, cmd[1]))
@@ -62,14 +61,14 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 	{
 		if (!cursor->isInvited(chan_cmd->getName()))
 		{
-			msg = ":server " + std::string(ERR_INVITEONLYCHAN) + " " + cmd[1] + ": Cannot join channel, your are not invited\r\n";
+			msg = ":server " + std::string(ERR_INVITEONLYCHAN) + " " + cmd[1] + " : Cannot join channel, your are not invited\r\n";
 			send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 			return;
 		}
 	}
 	if (chan_cmd->isMember(cursor))
 	{
-		msg = ":server " + std::string(ERR_USERONCHANNEL) + " " + cursor->getNick() + " " + cursor->getNick() + ": is already on channel\r\n";
+		msg = ":server " + std::string(ERR_USERONCHANNEL) + " " + cursor->getNick() + " " + cursor->getNick() + " : is already on channel\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
 		return;
 	}
@@ -91,7 +90,7 @@ void	cmd_join(data<user *> &data , user *cursor, std::string buf)
 		{
 			msg = ":server " + std::string(RPL_NAMREPLY) + " " + (*it)->getNick() + " = " + chan_cmd->getName() + " :" + listClients(chan_cmd) + "\r\n";
 			send((*it)->getSd(), msg.c_str(), msg.length(), 0);
-			msg = ":server " + std::string(RPL_ENDOFNAMES) + " " + chan_cmd->getName() + ": End of NAMES list\r\n";
+			msg = ":server " + std::string(RPL_ENDOFNAMES) + " " + chan_cmd->getName() + " : End of NAMES list\r\n";
 			send((*it)->getSd(), msg.c_str(), msg.length(), 0);
 		}
 	}
