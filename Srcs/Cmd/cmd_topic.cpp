@@ -6,7 +6,7 @@ void	cmd_topic(data<user *> &data , user *cursor, std::string buf)
 
 	std::string msg;
 	Channel *chan = NULL;
-	if (cmd.size() < 2)
+	if (cmd.size() == 2 && cmd[1] == ":")
 	{
 		msg = ":server " + std::string(ERR_NEEDMOREPARAMS) + " " + cmd[0] + " : Not enough parameters\r\n";
 		send(cursor->getSd(), msg.c_str(), msg.length(), 0);
